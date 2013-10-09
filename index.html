@@ -1,0 +1,90 @@
+<html>
+
+	<head>
+		<script type="text/javascript" src="dygraph-combined.js"></script>
+		<script type="text/javascript" src="dygraph-extra.js"></script>
+		<script type="text/javascript" src="setup.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="efficiencyWidget.css" />
+	</head>
+
+	<body>
+		<!--Fonts//////////////////////////////////////////////////////////////-->
+		<script type="text/javascript">
+	        //load the webfonts, and block the page until they're ready or failed - otherwise lots of rendering bugs happen!
+	        WebFontConfig = { google: { families: [ 'Raleway' ] },
+		        loading: function(){
+		            //set the spinner going:
+		            //drawSpinner('spinner', 'Requesting Styles');
+	  	        },
+		        active: function() {
+		            //loadParameters();  //plugs in some defaults
+		            //loadJSONP(window.Gatekeeper, "main"); //waits to fire main() until all the JSONPs have reported up or down
+		        },
+		        inactive: function() {
+		            //loadParameters();
+		            //loadJSONP(window.Gatekeeper, "main");
+		        }
+	        };
+	        //thx paul:
+	        (function() {
+	        	var wf = document.createElement('script');
+	        	wf.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+	        	wf.type = 'text/javascript';
+		        wf.async = 'true';
+		        var s = document.getElementsByTagName('script')[0];
+	    	    s.parentNode.insertBefore(wf, s);
+	      	})();
+    	</script>
+
+    	<div id='wrapper'>
+		    <!--Branding///////////////////////////////////////////////////////////-->
+		    <div id='branding'>
+		      <img id='logo' src='triumf.gif'></img>
+		      <h1 id='title'>TRIUMF</h1>
+		    </div>
+
+		    <!--Links///////////////////////////////////////////////////////////-->
+		    <div class='linkWrapper'>
+			    <button class='standardButton'>TRIUMF</button>
+			    <button class='standardButton'>MIDAS</button>
+			    <button class='standardButton'>GRIFFIN</button>
+			    <button class='standardButton'>TIGRESS</button>
+			</div>
+
+		    <!--Graph///////////////////////////////////////////////////////////-->
+			<div id='graphDiv'></div>
+
+			<!--Widgets///////////////////////////////////////////////////////////-->
+			<div id='effWidget' class='widget'>
+				<h2 id='effWidgetTitle' class='widgetTitle'>Singles Efficiency</h2>
+				<input id='inputEnergy' class='widgetInput' type='number' value='0'></input>
+				<label id='inputEnergyLabel' class='inputLabel' for='inputEnergy'></label>
+				<div id='effWidgetResult' class='widgetResult'>0.0</div>
+				<label id='effWidgetResultLabel' class='inputLabel' for='effWidgetResult'>%</label>
+			</div>
+
+			<div id='coincEffWidget' class='widget'>
+				<h2 id='coincEffWidgetTitle' class='widgetTitle'>Coincidence Efficiency</h2>
+				<input id='coincInputEnergy1' class='widgetInput' type='number' value='0'></input>
+				<label id='coincInputEnergyLabel1' class='inputLabel' for='coincInputEnergy1'>keV +</label>
+				<input id='coincInputEnergy2' class='widgetInput' type='number' value='0'></input>
+				<label id='coincInputEnergyLabel2' class='inputLabel' for='coincInputEnergy2'></label>			
+				<div id='coincEffWidgetResult' class='widgetResult'>0.0</div>
+				<label id='coincEffWidgetResultLabel' class='inputLabel' for='coincEffWidgetResult'>%</label>
+			</div>
+
+			<!--Footer//////////////////////////////////////////////////////////-->
+			<div id='push'></div>
+
+		</div>
+
+		<div id='footer'>TRIUMF 2013</div>
+
+		<script type='text/javascript'>
+			deployGraph(efficient);
+			setup();
+		</script>
+	</body>
+
+</html>

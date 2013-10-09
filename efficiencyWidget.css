@@ -1,0 +1,204 @@
+/*CSS Reset*/
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+	height:100%;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/*Enforce more intuitive box-sizing, suppress selection*/
+* { 
+	-moz-box-sizing: border-box; 
+	-webkit-box-sizing: border-box; 
+	box-sizing: border-box; 
+	-webkit-user-select:none;
+	-moz-user-select:none;
+}
+
+body{
+	font-family: 'Raleway', sans-serif; 
+	font-size:14px; 
+	background-color:#333333; 
+	color:#FFFFFF;
+	margin-left:0px;
+}
+
+/*branding///////////////////////////////////////////////*/
+
+div#branding{ 
+	height:6em; 
+	border-color:#999999; 
+	border-left-style:solid; 
+	border-bottom-style:solid; 
+	border-left-width:5px; 
+	border-bottom-width:5px; 
+	border-bottom-left-radius:25px; 
+	background-color:#333333; 
+	margin-bottom:1em; 
+	padding-bottom:5px; 
+}
+
+img#logo{
+	opacity:0.5625; 
+	padding-left:1em; 
+	margin-bottom:5px;
+	height:5em;
+	width:5.8em;
+}
+
+h1#title{
+	position:relative; 
+	display:inline; 
+	font: 500% Raleway; 
+	top:-10px; 
+	margin-left:10px; 
+	color:#999999;
+}
+
+/*graph///////////////////////////////////////////////////////*/
+/*container div*/
+#graphDiv{
+	margin-bottom: 1em;
+	height: 30em;
+}
+
+/*axes and labels*/
+.dygraph-axis-label{
+	color: #999999;
+}
+
+/*buttons///////////////////////////////////////////////////*/
+.linkWrapper{
+	margin-bottom:1em;
+}
+
+.standardButton{
+	background: #4C4C4C; 
+	color: #FFFFFF;
+	border-color: #333333; 
+	border-radius: 5px;
+    display: inline;
+    font-family: 'Raleway', sans-serif;
+    font-size:100%;
+    padding:1em;
+}
+
+.standardButton:hover{
+	background: #777777;
+}
+
+/*widgets////////////////////////////////////////////////////*/
+div.widget{
+	/*
+	border: 5px solid #999999;
+	border-radius: 2em;
+	*/
+	text-align:center;
+	padding: 1em;
+	display: inline-block;
+}
+
+h2.widgetTitle{
+	color: #999999;
+	font-size: 200%;
+	margin-bottom: 0.5em;
+}
+
+input.widgetInput{
+	background-color: #444444;
+	border-radius: 5px;
+	color: #CCCCCC;
+	border:none;
+	font-size:200%;
+	padding: 0.5em;
+	width: 4em;
+	text-align: right;
+	font-family: 'Raleway', sans-serif;
+}
+
+/* http://stackoverflow.com/questions/3790935/can-i-hide-the-html5-number-inputs-spin-box */
+input.widgetInput::-webkit-outer-spin-button,
+input.widgetInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+label.inputLabel{
+	font-size: 200%;
+	color: #999999;
+}
+
+div.widgetResult{
+	font-size: 200%;
+	color: #FFFFFF;
+	background-color: #449944;
+	border-radius: 5px;
+	display:inline-block;
+	padding:0.5em;
+}
+
+/*Footer and footer-related styles*/
+div#footer{
+	background-color: #999999;
+	text-align: center;
+	padding:2em;
+	color:#333333;
+	border-top:1px solid #000000;
+	height:5em;
+}
+
+div#push{
+	height:5em;
+}
+
+div#wrapper{
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -5em;
+	padding-left:1em;
+	padding-right: 1em;	
+}
