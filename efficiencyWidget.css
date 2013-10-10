@@ -110,6 +110,7 @@ h1#title{
 	margin-bottom: 1em;
 	height: 30em;
 	width: 70%;
+	display:inline-block;
 }
 
 /*axes and labels*/
@@ -187,7 +188,47 @@ div.widgetResult{
 	padding:0.5em;
 }
 
-/*Footer and footer-related styles*/
+/*Control Panel/////////////////////////////////////////////////////*/
+div#controlPanel{
+	float:right;
+}
+
+div.detectorSwitch{
+	display:inline-block;
+	padding:1em;
+	height:3em;
+	border-radius: 5px;
+	background-color: #444444;
+	cursor: pointer;
+	-webkit-transition: background-color 0.3s;
+    -moz-transition: background-color 0.3s;
+}
+
+select{
+	background-color: #444444;
+	border-radius: 5px;
+	color: #CCCCCC;
+	border:none;
+	font-size:200%;
+	padding: 0.5em;
+	text-align: center;
+	font-family: 'Raleway', sans-serif;
+	cursor: pointer;
+	margin:0px;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+}
+
+select#HPGeDistanceSwitch{
+	width:2.7em;
+}
+
+select#nHPGeSwitch{
+	width:2em;
+}
+
+/*Footer and footer-related styles////////////////////////////////////////////////////*/
 div#footer{
 	background-color: #999999;
 	text-align: center;

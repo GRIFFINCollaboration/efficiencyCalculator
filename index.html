@@ -40,8 +40,8 @@
     	<div id='wrapper'>
 		    <!--Branding///////////////////////////////////////////////////////////-->
 		    <div id='branding'>
-		      <img id='logo' src='triumf.gif'></img>
-		      <h1 id='title'>TRIUMF</h1>
+		      <img id='logo' src='logo.gif'></img>
+		      <h1 id='title'>GRIFFIN</h1>
 		    </div>
 
 		    <!--Links///////////////////////////////////////////////////////////-->
@@ -54,6 +54,51 @@
 
 		    <!--Graph///////////////////////////////////////////////////////////-->
 			<div id='graphDiv'></div>
+
+			<!--Control Panel///////////////////////////////////////////////////-->
+			<div id='controlPanel'>
+				<h2 id='controlTitle' class='widgetTitle'>Plot Options</h2>
+
+				<div id='enableHPGe' class='detectorSwitch'>HPGe</div>
+				<div id='enableDANTE' class='detectorSwitch'>DANTE</div>
+				<div id='enableLEPS' class='detectorSwitch'>LEPS</div>
+
+				<br><br>
+				<input id='xMin' class='widgetInput' type='number' value='0'></input>
+				<label id='xMinLabel' class='inputLabel' for='xMin'>< E <</label>
+				<input id='xMax' class='widgetInput' type='number' value='1000'></input>
+				<label id='xMaxLabel' class='inputLabel' for='xMax'>keV</label>
+
+				<br><br>
+				<input id='yMin' class='widgetInput' type='number' value='0'></input>
+				<label id='yMinLabel' class='inputLabel' for='yMin'>< effic. <</label>
+				<input id='yMax' class='widgetInput' type='number' value='100'></input>
+				<label id='yMaxLabel' class='inputLabel' for='yMax'>%</label>
+
+				<br><br>
+				<label id='HPGeDistanceSwitchLabel', class='inputLabel', for='HPGeDistanceSwitch'>HPGe Distance</label>
+				<select id='HPGeDistanceSwitch'>
+					<option value='11.5'>11.5</option>
+					<option value='14.0'>14.0</option>
+				</select>
+				<label id='HPGeDistanceSwitchLabel', class='inputLabel', for='HPGeDistanceSwitch'>cm</label>
+
+				<br><br>
+				<label id='nHPGeSwitchLabel', class='inputLabel', for='nHPGeSwitch'>No. HPGe</label>
+				<select id='nHPGeSwitch'>
+					<option value='8'>8</option>
+					<option value='12'>12</option>
+					<option value='16'>16</option>
+				</select>
+
+				<br><br>
+				<select id='delrinSwitch'>
+					<option value='0'>No Delrin</option>
+					<option value='10'>10 mm Delrin</option>
+					<option value='20'>20 mm Delrin</option>
+				</select>
+
+			</div>
 
 			<!--Widgets///////////////////////////////////////////////////////////-->
 			<div id='effWidget' class='widget'>
@@ -79,7 +124,7 @@
 
 		</div>
 
-		<div id='footer'>TRIUMF 2013 - Powered by <a href="http://dygraphs.com/">Dygraphs.js</a></div>
+		<div id='footer'>GRIFFIN 2013 - Powered by <a href="http://dygraphs.com/">Dygraphs.js</a></div>
 
 		<script type='text/javascript'>
 			deployGraph(efficient);

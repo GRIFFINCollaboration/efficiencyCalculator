@@ -1,21 +1,63 @@
 function setup(){
-	var singlesInput = document.getElementById('inputEnergy'),
+	var HPGeSwitch = document.getElementById('enableHPGe'),
+		DANTESwitch = document.getElementById('enableDANTE'),
+		LEPSSwitch = document.getElementById('enableLEPS'),
+		singlesInput = document.getElementById('inputEnergy'),
 		coincInput1 = document.getElementById('coincInputEnergy1'),
 		coincInput2 = document.getElementById('coincInputEnergy2');
 
+	//set up control panel//////////////////////////////////////
+	HPGeSwitch.enabled = 0;
+	HPGeSwitch.onclick = function(event){
+		if (this.enabled){
+			this.style.backgroundColor = '#444444';
+			this.enabled = 0;
+		} else{
+			this.style.backgroundColor = '#449944';
+			this.enabled = 1;
+		}
+
+	}
+	//default HPGe to on:
+	HPGeSwitch.onclick();
+	DANTESwitch.enabled = 0;
+	DANTESwitch.onclick = function(event){
+		if (this.enabled){
+			this.style.backgroundColor = '#444444';
+			this.enabled = 0;
+		} else{
+			this.style.backgroundColor = '#e67e22';
+			this.enabled = 1;
+		}
+
+	}
+	LEPSSwitch.enabled = 0;
+	LEPSSwitch.onclick = function(event){
+		if (this.enabled){
+			this.style.backgroundColor = '#444444';
+			this.enabled = 0;
+		} else{
+			this.style.backgroundColor = '#2980b9';
+			this.enabled = 1;
+		}
+
+	}
+
 	//set up singles efficiency widget//////////////////////////
 	document.getElementById('inputEnergyLabel').innerHTML = 'keV '+String.fromCharCode(0x2192);
-	singlesInput.onchange = function(event){
-		var result = efficient(parseFloat(this.value));
-		result = result.toFixed(2);
-		document.getElementById('effWidgetResult').innerHTML = result;
-	}
+	singlesInput.onchange = computeSinglesEfficiency.bind(null);
 
 	//set up coincidence efficiency widget//////////////////////////
 	document.getElementById('coincInputEnergyLabel2').innerHTML = 'keV '+String.fromCharCode(0x2192);
 	coincInput1.onchange = computeCoincEfficiency.bind(null, 16);
 	coincInput2.onchange = computeCoincEfficiency.bind(null, 16);
 	
+}
+
+function computeSinglesEfficiency(){
+	var result = efficient(parseFloat(document.getElementById('inputEnergy').value));
+	result = result.toFixed(2);
+	document.getElementById('effWidgetResult').innerHTML = result;
 }
 
 function computeCoincEfficiency(nDetectors){
@@ -44,6 +86,7 @@ function deployGraph(func){
 	});
 }
 
+//functions//////////////////////////////////////////////////////////////////////////////////
 function efficient(x){
 	var f = Math.exp(-(x-2)*(x-2)/4);
 	return f;
