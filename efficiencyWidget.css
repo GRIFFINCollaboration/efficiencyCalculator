@@ -32,6 +32,7 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
 	height:100%;
+	width:100%;
 }
 ol, ul {
 	list-style: none;
@@ -49,13 +50,14 @@ table {
 	border-spacing: 0;
 }
 
-/*Enforce more intuitive box-sizing, suppress selection*/
+/*Enforce more intuitive box-sizing, suppress selection, demand default cursor*/
 * { 
 	-moz-box-sizing: border-box; 
 	-webkit-box-sizing: border-box; 
 	box-sizing: border-box; 
 	-webkit-user-select:none;
 	-moz-user-select:none;
+	cursor:default;
 }
 
 body{
@@ -66,6 +68,10 @@ body{
 	margin-left:0px;
 }
 
+/*links//////////////////////////////////////////////////*/
+a{
+	cursor:pointer;
+}
 /*branding///////////////////////////////////////////////*/
 
 div#branding{ 
@@ -103,6 +109,7 @@ h1#title{
 #graphDiv{
 	margin-bottom: 1em;
 	height: 30em;
+	width: 70%;
 }
 
 /*axes and labels*/
@@ -124,6 +131,7 @@ h1#title{
     font-family: 'Raleway', sans-serif;
     font-size:100%;
     padding:1em;
+    cursor: pointer;
 }
 
 .standardButton:hover{
@@ -132,13 +140,11 @@ h1#title{
 
 /*widgets////////////////////////////////////////////////////*/
 div.widget{
-	/*
-	border: 5px solid #999999;
-	border-radius: 2em;
-	*/
 	text-align:center;
 	padding: 1em;
 	display: inline-block;
+	min-width:-webkit-max-content;
+	min-width:-moz-max-content;
 }
 
 h2.widgetTitle{
@@ -157,6 +163,7 @@ input.widgetInput{
 	width: 4em;
 	text-align: right;
 	font-family: 'Raleway', sans-serif;
+	cursor: pointer;
 }
 
 /* http://stackoverflow.com/questions/3790935/can-i-hide-the-html5-number-inputs-spin-box */

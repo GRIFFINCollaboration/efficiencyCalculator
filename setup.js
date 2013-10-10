@@ -40,7 +40,7 @@ function deployGraph(func){
 	g = new Dygraph(document.getElementById('graphDiv'), data, {
 		title: 'Gamma Efficiency v. Energy',
 		xlabel: '',
-		ylabel: ''
+		ylabel: '',
 	});
 }
 
