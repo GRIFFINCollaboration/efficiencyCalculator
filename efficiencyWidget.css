@@ -123,10 +123,12 @@ h1#title{
 }
 
 .dygraph-legend{
-	background-color:#333333 !important;
+	/*background-color:#333333 !important;*/
+	background: transparent !important;
 	font-size:200% !important;
-	width: -webkit-max-content !important;
-	width: -moz-max-content !important;
+	width: 12em !important;
+	left: auto !important;
+	right: 0px !important;
 }
 
 /*buttons///////////////////////////////////////////////////*/

@@ -18,8 +18,6 @@ function setup(){
 		}
 
 	}
-	//default HPGe to on:
-	HPGeSwitch.onclick();
 	DANTESwitch.enabled = 0;
 	DANTESwitch.onclick = function(event){
 		if (this.enabled){
@@ -42,6 +40,10 @@ function setup(){
 		}
 
 	}
+	//default to on for demo:
+	HPGeSwitch.onclick();
+	DANTESwitch.onclick();
+	LEPSSwitch.onclick();
 
 	//set up singles efficiency widget//////////////////////////
 	document.getElementById('inputEnergyLabel').innerHTML = 'keV '+String.fromCharCode(0x2192);
@@ -67,16 +69,26 @@ function computeCoincEfficiency(nDetectors){
 	document.getElementById('coincEffWidgetResult').innerHTML = (efficient(e1)*efficient(e2)*(nDetectors-1)/nDetectors).toFixed(2);
 } 
 
-function deployGraph(func){
-	var i, x,
-		data = 'Energy[keV], Efficiency\n',
+function deployGraph(func, titles){
+	var i, j, x,
+		data = 'Energy[keV]',
 		nPoints = 10000,
 		min = 0, 
 		max = 8;
 
+
+	for(i=0; i<titles.length; i++){
+		data += ', '+titles[i]+' Efficiency';
+	}
+	data += '\n';
+
 	for(i=0; i<nPoints; i++){
-		x = parseFloat(((max-min)/nPoints*i).toFixed(2));
-		data += x +','+func.bind(null, x)()+'\n';
+			x = parseFloat(((max-min)/nPoints*i).toFixed(2));
+			data += x;
+			for(j=0; j<func.length; j++){
+				data += ','+func[j].bind(null, x)();
+			}
+			data += '\n';
 	}
 
 	g = new Dygraph(document.getElementById('graphDiv'), data, {
@@ -87,8 +99,10 @@ function deployGraph(func){
 		sigFigs: 2,
 		strokeWidth: 4,
 		colors: ['#449944', '#e67e22', '#2980b9'],
-		highlightCircleSize: 6
+		highlightCircleSize: 6,
+		labelsSeparateLines : true
 	});
+
 }
 
 //functions//////////////////////////////////////////////////////////////////////////////////
@@ -103,7 +117,7 @@ function dummy(x){
 }
 
 function fake(x){
-	var f = Math.exp(-(x-6)*(x-6)/16);
+	var f = Math.exp(-(x-6)*(x-6)/1);
 	return f;
 }
 
