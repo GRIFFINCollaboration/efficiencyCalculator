@@ -69,26 +69,41 @@ function computeCoincEfficiency(nDetectors){
 
 function deployGraph(func){
 	var i, x,
-		data = 'x, f(x)\n',
+		data = 'Energy[keV], Efficiency\n',
 		nPoints = 10000,
 		min = 0, 
 		max = 8;
 
 	for(i=0; i<nPoints; i++){
-		x = (max-min)/nPoints*i;
+		x = parseFloat(((max-min)/nPoints*i).toFixed(2));
 		data += x +','+func.bind(null, x)()+'\n';
 	}
 
 	g = new Dygraph(document.getElementById('graphDiv'), data, {
+		//labels: ['X', 'HPGe'],
 		title: 'Gamma Efficiency v. Energy',
 		xlabel: '',
 		ylabel: '',
+		sigFigs: 2,
+		strokeWidth: 4,
+		colors: ['#449944', '#e67e22', '#2980b9'],
+		highlightCircleSize: 6
 	});
 }
 
 //functions//////////////////////////////////////////////////////////////////////////////////
 function efficient(x){
 	var f = Math.exp(-(x-2)*(x-2)/4);
+	return f;
+}
+
+function dummy(x){
+	var f = Math.exp(-(x-3)*(x-3)/9);
+	return f;
+}
+
+function fake(x){
+	var f = Math.exp(-(x-6)*(x-6)/16);
 	return f;
 }
 

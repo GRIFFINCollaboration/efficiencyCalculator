@@ -60,6 +60,10 @@ table {
 	cursor:default;
 }
 
+input, select{
+	outline:none;
+}
+
 body{
 	font-family: 'Raleway', sans-serif; 
 	font-size:14px; 
@@ -108,7 +112,7 @@ h1#title{
 /*container div*/
 #graphDiv{
 	margin-bottom: 1em;
-	height: 30em;
+	height: 33em;
 	width: 70%;
 	display:inline-block;
 }
@@ -116,6 +120,13 @@ h1#title{
 /*axes and labels*/
 .dygraph-axis-label{
 	color: #999999;
+}
+
+.dygraph-legend{
+	background-color:#333333 !important;
+	font-size:200% !important;
+	width: -webkit-max-content !important;
+	width: -moz-max-content !important;
 }
 
 /*buttons///////////////////////////////////////////////////*/
@@ -191,6 +202,9 @@ div.widgetResult{
 /*Control Panel/////////////////////////////////////////////////////*/
 div#controlPanel{
 	float:right;
+	width:28%;
+	min-width:-webkit-max-content;
+	min-width:-moz-max-content;
 }
 
 div.detectorSwitch{
