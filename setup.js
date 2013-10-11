@@ -1,6 +1,6 @@
 function setup(){
 	var HPGeSwitch = document.getElementById('enableHPGe'),
-		DANTESwitch = document.getElementById('enableDANTE'),
+		LaBr3Switch = document.getElementById('enableLaBr3'),
 		LEPSSwitch = document.getElementById('enableLEPS'),
 		singlesInput = document.getElementById('inputEnergy'),
 		coincInput1 = document.getElementById('coincInputEnergy1'),
@@ -18,8 +18,8 @@ function setup(){
 		}
 		chooseGraphs();
 	}
-	DANTESwitch.enabled = 0;
-	DANTESwitch.onclick = function(event){
+	LaBr3Switch.enabled = 0;
+	LaBr3Switch.onclick = function(event){
 		if (this.enabled){
 			this.style.backgroundColor = '#444444';
 			this.enabled = 0;
@@ -42,8 +42,14 @@ function setup(){
 	}
 	//default to on for demo:
 	HPGeSwitch.onclick();
-	DANTESwitch.onclick();
+	LaBr3Switch.onclick();
 	LEPSSwitch.onclick();
+
+	//make sure the file name for image saving gets passed around:
+	document.getElementById('filename').onchange = function(){
+		//set the filename to whatever the user has requested:
+		document.getElementById('savePlot').download = this.value;
+	}
 
 	//set up singles efficiency widget//////////////////////////
 	document.getElementById('inputEnergyLabel').innerHTML = 'keV '+String.fromCharCode(0x2192);
@@ -53,6 +59,7 @@ function setup(){
 	document.getElementById('coincInputEnergyLabel2').innerHTML = 'keV '+String.fromCharCode(0x2192);
 	coincInput1.onchange = computeCoincEfficiency.bind(null, 16);
 	coincInput2.onchange = computeCoincEfficiency.bind(null, 16);
+	document.getElementById('coincEffWidget').whichInput = 0;
 	
 }
 
@@ -80,9 +87,9 @@ function chooseGraphs(){
 		titles[titles.length] = 'HPGe';
 		colors[colors.length] = '#449944';
 	}
-	if(document.getElementById('enableDANTE').enabled){
+	if(document.getElementById('enableLaBr3').enabled){
 		funcs[funcs.length] = dummy;
-		titles[titles.length] = 'DANTE';
+		titles[titles.length] = 'LaBr3';
 		colors[colors.length] = '#e67e22';
 	}
 	if(document.getElementById('enableLEPS').enabled){
@@ -127,6 +134,7 @@ function deployGraph(func, titles, colors){
 		colors: colors,
 		highlightCircleSize: 6,
 		labelsSeparateLines : true,
+		clickCallback : passClickToWidget
 	});
 
 	g.updateOptions({
@@ -161,6 +169,29 @@ function prepImageSave(dygraph){
 
 	Dygraph.Export.asPNG(dygraph, document.getElementById('pngDump'), options);
 	document.getElementById('savePlot').href = getBase64Image(document.getElementById('pngDump'));	
+}
+
+//when the plot is clicked, pass the corresponding energy to the widgets
+function passClickToWidget(event, energy){
+	var singlesInput = document.getElementById('inputEnergy'),
+		coincWidget = document.getElementById('coincEffWidget'),
+		coincInput1 = document.getElementById('coincInputEnergy1'),
+		coincInput2 = document.getElementById('coincInputEnergy2');
+
+	//singles efficiency
+	singlesInput.value = energy;
+	singlesInput.onchange();
+
+	//coinc efficiency
+	if(coincWidget.whichInput==0){
+		coincInput1.value = energy;
+		coincInput1.onchange();
+		coincWidget.whichInput = 1;
+	} else{
+		coincInput2.value = energy;
+		coincInput2.onchange();
+		coincWidget.whichInput = 0;
+	}
 }
 
 // http://stackoverflow.com/a/934925/298479 + hax

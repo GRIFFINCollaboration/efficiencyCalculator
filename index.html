@@ -60,9 +60,8 @@
 				<h2 id='controlTitle' class='widgetTitle'>Plot Options</h2>
 
 				<div id='enableHPGe' class='detectorSwitch'>HPGe</div>
-				<div id='enableDANTE' class='detectorSwitch'>DANTE</div>
+				<div id='enableLaBr3' class='detectorSwitch'>LaBr3</div>
 				<div id='enableLEPS' class='detectorSwitch'>LEPS</div>
-				<a id='savePlot' download='efficiencyPlot.png' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=='>Save Plot</a>
 
 				<br><br>
 				<input id='xMin' class='widgetInput' type='number' value='0'></input>
@@ -99,6 +98,10 @@
 					<option value='20'>20 mm Delrin</option>
 				</select>
 
+				<br><br>
+				<a id='savePlot' download='efficiencyPlot.png'>Save Plot</a>
+				<input id='filename', type='text' value='efficiencyPlot.png'></input>
+
 			</div>
 
 			<!--Widgets///////////////////////////////////////////////////////////-->
@@ -130,7 +133,7 @@
 		<img id='pngDump'></img>
 
 		<script type='text/javascript'>
-			deployGraph([efficient, dummy, fake], ['HPGe', 'DANTE', 'LEPS']);
+			deployGraph([efficient, dummy, fake], ['HPGe', 'LaBr3', 'LEPS']);
 			setup();
 		</script>
 	</body>

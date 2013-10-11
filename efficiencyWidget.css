@@ -167,7 +167,7 @@ h2.widgetTitle{
 	margin-bottom: 0.5em;
 }
 
-input.widgetInput{
+input.widgetInput, input#filename{
 	background-color: #444444;
 	border-radius: 5px;
 	color: #CCCCCC;
@@ -223,6 +223,17 @@ div.detectorSwitch, a#savePlot{
 a#savePlot{
 	color:#FFFFFF;
 	text-decoration: none;
+	font-size: 100%;
+	padding:1em;
+}
+
+input#filename{
+	width:15em;
+	text-align: left;
+	font-size: 100%;
+	padding:1em;
+	margin:0px;
+	height:3em;
 }
 
 select{
