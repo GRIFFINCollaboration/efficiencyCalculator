@@ -91,10 +91,7 @@ function chooseGraphs(){
 		colors[colors.length] = '#2980b9';
 	}
 
-	//if(funcs.length==0)
-	//	return
-	//else
-		deployGraph(funcs, titles, colors)
+	deployGraph(funcs, titles, colors)
 }
 
 //deploy graphs of [func]tions with [titles]
@@ -129,9 +126,60 @@ function deployGraph(func, titles, colors){
 		strokeWidth: 4,
 		colors: colors,
 		highlightCircleSize: 6,
-		labelsSeparateLines : true
+		labelsSeparateLines : true,
 	});
 
+	g.updateOptions({
+		drawCallback: prepImageSave
+	});
+
+	prepImageSave(g);
+
+}
+
+//generate a hidden image and send its data uri to the appropriate place for saving:
+function prepImageSave(dygraph){
+	var options = {
+	    //Texts displayed below the chart's x-axis and to the left of the y-axis 
+	    titleFont: "bold 18px sans-serif",
+	    titleFontColor: "black",
+
+	    //Texts displayed below the chart's x-axis and to the left of the y-axis 
+	    axisLabelFont: "bold 14px sans-serif",
+	    axisLabelFontColor: "black",
+
+	    // Texts for the axis ticks
+	    labelFont: "normal 12px sans-serif",
+	    labelFontColor: "black",
+
+	    // Text for the chart legend
+	    legendFont: "bold 12px sans-serif",
+	    legendFontColor: "black",
+
+	    legendHeight: 0    // Height of the legend area
+	};
+
+	Dygraph.Export.asPNG(dygraph, document.getElementById('pngDump'), options);
+	document.getElementById('savePlot').href = getBase64Image(document.getElementById('pngDump'));	
+}
+
+// http://stackoverflow.com/a/934925/298479 + hax
+function getBase64Image(img) {
+    // Create an empty canvas element
+    var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    // Copy the image contents to the canvas
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+
+    // Get the data-URL formatted image
+    // Firefox supports PNG and JPEG. You could check img.src to guess the
+    // original format, but be aware the using "image/jpg" will re-encode the image.
+    var dataURL = canvas.toDataURL("image/png");
+
+    return dataURL;
 }
 
 //functions//////////////////////////////////////////////////////////////////////////////////

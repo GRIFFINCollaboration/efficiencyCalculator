@@ -60,7 +60,7 @@ table {
 	cursor:default;
 }
 
-input, select{
+input, select, button{
 	outline:none;
 }
 
@@ -209,7 +209,7 @@ div#controlPanel{
 	min-width:-moz-max-content;
 }
 
-div.detectorSwitch{
+div.detectorSwitch, a#savePlot{
 	display:inline-block;
 	padding:1em;
 	height:3em;
@@ -218,6 +218,11 @@ div.detectorSwitch{
 	cursor: pointer;
 	-webkit-transition: background-color 0.3s;
     -moz-transition: background-color 0.3s;
+}
+
+a#savePlot{
+	color:#FFFFFF;
+	text-decoration: none;
 }
 
 select{
@@ -242,6 +247,11 @@ select#HPGeDistanceSwitch{
 
 select#nHPGeSwitch{
 	width:2em;
+}
+
+/*img holder for savable data///////////////////////////////////////*/
+img#pngDump{
+	display:none;
 }
 
 /*Footer and footer-related styles////////////////////////////////////////////////////*/

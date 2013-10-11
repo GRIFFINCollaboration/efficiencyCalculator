@@ -62,6 +62,7 @@
 				<div id='enableHPGe' class='detectorSwitch'>HPGe</div>
 				<div id='enableDANTE' class='detectorSwitch'>DANTE</div>
 				<div id='enableLEPS' class='detectorSwitch'>LEPS</div>
+				<a id='savePlot' download='efficiencyPlot.png' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=='>Save Plot</a>
 
 				<br><br>
 				<input id='xMin' class='widgetInput' type='number' value='0'></input>
@@ -125,6 +126,8 @@
 		</div>
 
 		<div id='footer'>GRIFFIN 2013 - Powered by <a href="http://dygraphs.com/">Dygraphs.js</a></div>
+
+		<img id='pngDump'></img>
 
 		<script type='text/javascript'>
 			deployGraph([efficient, dummy, fake], ['HPGe', 'DANTE', 'LEPS']);
