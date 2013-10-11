@@ -51,6 +51,12 @@ function setup(){
 		document.getElementById('savePlot').download = this.value;
 	}
 
+	//plot range control//////////////////////////////////////
+	document.getElementById('xMin').onchange = updateXrange;
+	document.getElementById('xMax').onchange = updateXrange;
+	document.getElementById('yMin').onchange = updateYrange;
+	document.getElementById('yMax').onchange = updateYrange;
+
 	//set up singles efficiency widget//////////////////////////
 	document.getElementById('inputEnergyLabel').innerHTML = 'keV '+String.fromCharCode(0x2192);
 	singlesInput.onchange = computeSinglesEfficiency.bind(null);
@@ -61,6 +67,18 @@ function setup(){
 	coincInput2.onchange = computeCoincEfficiency.bind(null, 16);
 	document.getElementById('coincEffWidget').whichInput = 0;
 	
+}
+
+function updateXrange(){
+		g.updateOptions({
+			dateWindow : [parseFloat(document.getElementById('xMin').value), parseFloat(document.getElementById('xMax').value)]	
+		});	
+}
+
+function updateYrange(){
+		g.updateOptions({
+			valueRange : [parseFloat(document.getElementById('yMin').value), parseFloat(document.getElementById('yMax').value)]	
+		});	
 }
 
 function computeSinglesEfficiency(){
@@ -138,10 +156,26 @@ function deployGraph(func, titles, colors){
 	});
 
 	g.updateOptions({
-		drawCallback: prepImageSave
+		drawCallback: repaint//prepImageSave
 	});
 
-	prepImageSave(g);
+	repaint(g);//prepImageSave(g);
+
+}
+
+//callback to run every time the function repaints
+function repaint(dygraph){
+	var xMin = document.getElementById('xMin'),
+		xMax = document.getElementById('xMax'),
+		yMin = document.getElementById('yMin'),
+		yMax = document.getElementById('yMax');
+
+	prepImageSave(dygraph);
+
+	xMin.value = parseFloat(g.xAxisRange()[0].toFixed(2));
+	xMax.value = parseFloat(g.xAxisRange()[1].toFixed(2));
+	yMin.value = parseFloat(g.yAxisRange()[0].toFixed(2));
+	yMax.value = parseFloat(g.yAxisRange()[1].toFixed(2));
 
 }
 
