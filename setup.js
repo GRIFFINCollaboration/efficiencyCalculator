@@ -16,7 +16,7 @@ function setup(){
 			this.style.backgroundColor = '#449944';
 			this.enabled = 1;
 		}
-
+		chooseGraphs();
 	}
 	DANTESwitch.enabled = 0;
 	DANTESwitch.onclick = function(event){
@@ -27,7 +27,7 @@ function setup(){
 			this.style.backgroundColor = '#e67e22';
 			this.enabled = 1;
 		}
-
+		chooseGraphs();
 	}
 	LEPSSwitch.enabled = 0;
 	LEPSSwitch.onclick = function(event){
@@ -38,7 +38,7 @@ function setup(){
 			this.style.backgroundColor = '#2980b9';
 			this.enabled = 1;
 		}
-
+		chooseGraphs();
 	}
 	//default to on for demo:
 	HPGeSwitch.onclick();
@@ -69,7 +69,36 @@ function computeCoincEfficiency(nDetectors){
 	document.getElementById('coincEffWidgetResult').innerHTML = (efficient(e1)*efficient(e2)*(nDetectors-1)/nDetectors).toFixed(2);
 } 
 
-function deployGraph(func, titles){
+//decide which plots to send to a call to deployGraph
+function chooseGraphs(){
+	var funcs = [],
+		titles = [],
+		colors = [];
+
+	if(document.getElementById('enableHPGe').enabled){
+		funcs[funcs.length] = efficient;
+		titles[titles.length] = 'HPGe';
+		colors[colors.length] = '#449944';
+	}
+	if(document.getElementById('enableDANTE').enabled){
+		funcs[funcs.length] = dummy;
+		titles[titles.length] = 'DANTE';
+		colors[colors.length] = '#e67e22';
+	}
+	if(document.getElementById('enableLEPS').enabled){
+		funcs[funcs.length] = fake;
+		titles[titles.length] = 'LEPS';
+		colors[colors.length] = '#2980b9';
+	}
+
+	//if(funcs.length==0)
+	//	return
+	//else
+		deployGraph(funcs, titles, colors)
+}
+
+//deploy graphs of [func]tions with [titles]
+function deployGraph(func, titles, colors){
 	var i, j, x,
 		data = 'Energy[keV]',
 		nPoints = 10000,
@@ -98,7 +127,7 @@ function deployGraph(func, titles){
 		ylabel: '',
 		sigFigs: 2,
 		strokeWidth: 4,
-		colors: ['#449944', '#e67e22', '#2980b9'],
+		colors: colors,
 		highlightCircleSize: 6,
 		labelsSeparateLines : true
 	});
