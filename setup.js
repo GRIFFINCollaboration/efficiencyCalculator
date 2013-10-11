@@ -129,7 +129,7 @@ function deployGraph(func, titles, colors){
 
 
 	for(i=0; i<titles.length; i++){
-		data += ', '+titles[i]+' Efficiency';
+		data += ', '+titles[i];
 	}
 	data += '\n';
 
@@ -143,23 +143,23 @@ function deployGraph(func, titles, colors){
 	}
 
 	g = new Dygraph(document.getElementById('graphDiv'), data, {
-		//labels: ['X', 'HPGe'],
 		title: 'Gamma Efficiency v. Energy',
-		xlabel: '',
-		ylabel: '',
+		xlabel: 'Energy [keV]',
+		ylabel: 'Efficiency',
 		sigFigs: 2,
 		strokeWidth: 4,
 		colors: colors,
 		highlightCircleSize: 6,
 		labelsSeparateLines : true,
-		clickCallback : passClickToWidget
+		clickCallback : passClickToWidget,
+		legend: 'always'
 	});
 
 	g.updateOptions({
-		drawCallback: repaint//prepImageSave
+		drawCallback: repaint
 	});
 
-	repaint(g);//prepImageSave(g);
+	repaint(g);
 
 }
 
@@ -191,14 +191,14 @@ function prepImageSave(dygraph){
 	    axisLabelFontColor: "black",
 
 	    // Texts for the axis ticks
-	    labelFont: "normal 12px sans-serif",
+	    labelFont: "normal 14px sans-serif",
 	    labelFontColor: "black",
 
 	    // Text for the chart legend
-	    legendFont: "bold 12px sans-serif",
+	    legendFont: "bold 14px sans-serif",
 	    legendFontColor: "black",
 
-	    legendHeight: 0    // Height of the legend area
+	    legendHeight: 40    // Height of the legend area
 	};
 
 	Dygraph.Export.asPNG(dygraph, document.getElementById('pngDump'), options);

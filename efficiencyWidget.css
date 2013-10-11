@@ -112,7 +112,7 @@ h1#title{
 /*container div*/
 #graphDiv{
 	margin-bottom: 1em;
-	height: 33em;
+	height: 37em;
 	width: 70%;
 	display:inline-block;
 }
@@ -126,9 +126,13 @@ h1#title{
 	/*background-color:#333333 !important;*/
 	background: transparent !important;
 	font-size:200% !important;
-	width: 12em !important;
+	width: 6.5em !important;
 	left: auto !important;
 	right: 0px !important;
+}
+
+.dygraph-xlabel{
+	margin-top:5px;
 }
 
 /*buttons///////////////////////////////////////////////////*/

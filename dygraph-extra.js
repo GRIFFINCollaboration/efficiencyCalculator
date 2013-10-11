@@ -238,7 +238,7 @@ Dygraph.Export.putVerticalLabelY1 = function (ctx, divLabel, options, font, colo
     ctx.fillStyle = color;
     ctx.font = font;
     ctx.textAlign = textAlign;
-    ctx.fillText(text, top, left);
+    ctx.fillText(text, top, left-10);  //-10 is a fudge from yours truly, BM of GRIFFIN
     
     ctx.restore();
 };
