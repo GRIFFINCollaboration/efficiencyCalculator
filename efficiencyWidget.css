@@ -199,10 +199,35 @@ label.inputLabel{
 div.widgetResult{
 	font-size: 200%;
 	color: #FFFFFF;
-	background-color: #449944;
 	border-radius: 5px;
 	display:inline-block;
 	padding:0.5em;
+	-webkit-transition: width 0.3s, padding 0.3s, opacity 0.3s; 
+    -moz-transition: width 0.3s, padding 0.3s, opacity 0.3s;
+}
+
+div#effWidgetResultHPGe{
+	background-color: #449944;
+}
+
+div#effWidgetResultLaBr3{
+	background-color: #e67e22;
+}
+
+div#effWidgetResultLEPS{
+	background-color: #2980b9;
+}
+
+div#coincEffWidgetResultHPGe{
+	background-color: #449944;	
+}
+
+div#coincEffWidgetResultLaBr3{
+	background-color: #e67e22;
+}
+
+div#coincEffWidgetResultLEPS{
+	background-color: #2980b9;
 }
 
 /*Control Panel/////////////////////////////////////////////////////*/
@@ -262,6 +287,12 @@ select#HPGeDistanceSwitch{
 
 select#nHPGeSwitch{
 	width:2em;
+}
+
+div#HPGeControl{
+	overflow:hidden;
+	-webkit-transition: height 0.5s ease;
+    -moz-transition: height 0.5s ease;
 }
 
 /*img holder for savable data///////////////////////////////////////*/

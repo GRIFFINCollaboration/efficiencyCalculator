@@ -76,28 +76,30 @@
 				<label id='yMaxLabel' class='inputLabel' for='yMax'>%</label>
 
 				<br><br>
-				<label id='HPGeDistanceSwitchLabel', class='inputLabel', for='HPGeDistanceSwitch'>HPGe Distance</label>
-				<select id='HPGeDistanceSwitch'>
-					<option value='11.0'>11.0</option>
-					<option value='14.5'>14.5</option>
-				</select>
-				<label id='HPGeDistanceSwitchLabel', class='inputLabel', for='HPGeDistanceSwitch'>cm</label>
+				<div id='HPGeControl'>
+					<label id='HPGeDistanceSwitchLabel', class='inputLabel', for='HPGeDistanceSwitch'>HPGe Distance</label>
+					<select id='HPGeDistanceSwitch'>
+						<option value='11.0'>11.0</option>
+						<option value='14.5'>14.5</option>
+					</select>
+					<label id='HPGeDistanceSwitchLabel', class='inputLabel', for='HPGeDistanceSwitch'>cm</label>
 
-				<br><br>
-				<label id='nHPGeSwitchLabel', class='inputLabel', for='nHPGeSwitch'>No. HPGe</label>
-				<select id='nHPGeSwitch'>
-					<option value='8'>8</option>
-					<option value='12'>12</option>
-					<option value='16'>16</option>
-				</select>
+					<br><br>
+					<label id='nHPGeSwitchLabel', class='inputLabel', for='nHPGeSwitch'>No. HPGe</label>
+					<select id='nHPGeSwitch'>
+						<option value='8'>8</option>
+						<option value='12'>12</option>
+						<option value='16'>16</option>
+					</select>
 
-				<br><br>
-				<label id='delrinLabel' class='inputLabel' for='delrinSwitch'>Delrin Absorbers: </label>
-				<select id='delrinSwitch'>
-					<option value='0'>None</option>
-					<option value='10'>10 mm</option>
-					<option value='20'>20 mm</option>
-				</select>
+					<br><br>
+					<label id='delrinLabel' class='inputLabel' for='delrinSwitch'>Delrin Absorbers: </label>
+					<select id='delrinSwitch'>
+						<option value='0'>None</option>
+						<option value='10'>10 mm</option>
+						<option value='20'>20 mm</option>
+					</select>
+				</div>
 
 				<br><br>
 				<a id='savePlot' download='efficiencyPlot.png'>Save Plot</a>
@@ -110,7 +112,9 @@
 				<h2 id='effWidgetTitle' class='widgetTitle'>Singles Efficiency</h2>
 				<input id='inputEnergy' class='widgetInput' type='number' value='0'></input>
 				<label id='inputEnergyLabel' class='inputLabel' for='inputEnergy'></label>
-				<div id='effWidgetResult' class='widgetResult'>0.0</div>
+				<div id='effWidgetResultHPGe' class='widgetResult'>0.0</div>
+				<div id='effWidgetResultLaBr3' class='widgetResult'>0.0</div>
+				<div id='effWidgetResultLEPS' class='widgetResult'>0.0</div>
 				<label id='effWidgetResultLabel' class='inputLabel' for='effWidgetResult'>%</label>
 			</div>
 
@@ -120,7 +124,9 @@
 				<label id='coincInputEnergyLabel1' class='inputLabel' for='coincInputEnergy1'>keV +</label>
 				<input id='coincInputEnergy2' class='widgetInput' type='number' value='0'></input>
 				<label id='coincInputEnergyLabel2' class='inputLabel' for='coincInputEnergy2'></label>			
-				<div id='coincEffWidgetResult' class='widgetResult'>0.0</div>
+				<div id='coincEffWidgetResultHPGe' class='widgetResult'>0.0</div>
+				<div id='coincEffWidgetResultLaBr3' class='widgetResult'>0.0</div>
+				<div id='coincEffWidgetResultLEPS' class='widgetResult'>0.0</div>
 				<label id='coincEffWidgetResultLabel' class='inputLabel' for='coincEffWidgetResult'>%</label>
 			</div>
 

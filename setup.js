@@ -12,10 +12,15 @@ function setup(){
 		if (this.enabled){
 			this.style.backgroundColor = '#444444';
 			this.enabled = 0;
+			toggleOutput('effWidgetResultHPGe', 0);
+			toggleOutput('coincEffWidgetResultHPGe', 0);
 		} else{
 			this.style.backgroundColor = '#449944';
 			this.enabled = 1;
+			toggleOutput('effWidgetResultHPGe', 1);
+			toggleOutput('coincEffWidgetResultHPGe', 1);
 		}
+		toggleHPGeControls();
 		chooseGraphs();
 	}
 	LaBr3Switch.enabled = 0;
@@ -23,9 +28,13 @@ function setup(){
 		if (this.enabled){
 			this.style.backgroundColor = '#444444';
 			this.enabled = 0;
+			toggleOutput('effWidgetResultLaBr3', 0);
+			toggleOutput('coincEffWidgetResultLaBr3', 0);
 		} else{
 			this.style.backgroundColor = '#e67e22';
 			this.enabled = 1;
+			toggleOutput('effWidgetResultLaBr3', 1);
+			toggleOutput('coincEffWidgetResultLaBr3', 1);
 		}
 		chooseGraphs();
 	}
@@ -34,9 +43,13 @@ function setup(){
 		if (this.enabled){
 			this.style.backgroundColor = '#444444';
 			this.enabled = 0;
+			toggleOutput('effWidgetResultLEPS', 0);
+			toggleOutput('coincEffWidgetResultLEPS', 0);
 		} else{
 			this.style.backgroundColor = '#2980b9';
 			this.enabled = 1;
+			toggleOutput('effWidgetResultLEPS', 1);
+			toggleOutput('coincEffWidgetResultLEPS', 1);
 		}
 		chooseGraphs();
 	}
@@ -81,18 +94,39 @@ function updateYrange(){
 		});	
 }
 
+function toggleOutput(id, state){
+		if(state == 0){
+			document.getElementById(id).style.width = 0;
+			document.getElementById(id).style.padding = 0;
+			document.getElementById(id).style.opacity = 0;
+		} else if(state == 1){
+			document.getElementById(id).style.width = 'auto';
+			document.getElementById(id).style.padding = '0.5em';
+			document.getElementById(id).style.opacity = 1;
+		}
+}
+
 function computeSinglesEfficiency(){
-	var result = efficient(parseFloat(document.getElementById('inputEnergy').value));
-	result = result.toFixed(2);
-	document.getElementById('effWidgetResult').innerHTML = result;
+	document.getElementById('effWidgetResultHPGe').innerHTML = efficient(parseFloat(document.getElementById('inputEnergy').value)).toFixed(2);
+	document.getElementById('effWidgetResultLaBr3').innerHTML = dummy(parseFloat(document.getElementById('inputEnergy').value)).toFixed(2);
+	document.getElementById('effWidgetResultLEPS').innerHTML = fake(parseFloat(document.getElementById('inputEnergy').value)).toFixed(2);
 }
 
 function computeCoincEfficiency(nDetectors){
 	var e1 = parseFloat(document.getElementById('coincInputEnergy1').value),
 		e2 = parseFloat(document.getElementById('coincInputEnergy2').value);
-
-	document.getElementById('coincEffWidgetResult').innerHTML = (efficient(e1)*efficient(e2)*(nDetectors-1)/nDetectors).toFixed(2);
+	document.getElementById('coincEffWidgetResultHPGe').innerHTML = (efficient(e1)*efficient(e2)*(nDetectors-1)/nDetectors).toFixed(2);
+	document.getElementById('coincEffWidgetResultLaBr3').innerHTML = (dummy(e1)*dummy(e2)*(nDetectors-1)/nDetectors).toFixed(2);
+	document.getElementById('coincEffWidgetResultLEPS').innerHTML = (fake(e1)*fake(e2)*(nDetectors-1)/nDetectors).toFixed(2);
 } 
+
+function toggleHPGeControls(){
+	if(document.getElementById('enableHPGe').enabled){
+		document.getElementById('HPGeControl').style.height = '15em';
+	} else{
+		document.getElementById('HPGeControl').style.height = 0;
+	}
+}
 
 //decide which plots to send to a call to deployGraph
 function chooseGraphs(){
