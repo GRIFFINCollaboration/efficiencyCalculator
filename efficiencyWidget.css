@@ -64,6 +64,8 @@ input, select, button{
 	outline:none;
 }
 
+sup {font-size:small; vertical-align:super;}
+
 body{
 	font-family: 'Raleway', sans-serif; 
 	font-size:14px; 
@@ -112,7 +114,7 @@ h1#title{
 /*container div*/
 #graphDiv{
 	margin-bottom: 1em;
-	height: 37em;
+	height: 38em;
 	width: 70%;
 	display:inline-block;
 }
@@ -206,27 +208,15 @@ div.widgetResult{
     -moz-transition: width 0.3s, padding 0.3s, opacity 0.3s;
 }
 
-div#effWidgetResultHPGe{
+div#effWidgetResultHPGe, div#coincEffWidgetResultHPGe, div#rateWidgetResultHPGe, div#coincRateWidgetResultHPGe{
 	background-color: #449944;
 }
 
-div#effWidgetResultLaBr3{
+div#effWidgetResultLaBr3, div#coincEffWidgetResultLaBr3, div#rateWidgetResultLaBr3, div#coincRateWidgetResultLaBr3{
 	background-color: #e67e22;
 }
 
-div#effWidgetResultLEPS{
-	background-color: #2980b9;
-}
-
-div#coincEffWidgetResultHPGe{
-	background-color: #449944;	
-}
-
-div#coincEffWidgetResultLaBr3{
-	background-color: #e67e22;
-}
-
-div#coincEffWidgetResultLEPS{
+div#effWidgetResultLEPS, div#coincEffWidgetResultLEPS, div#rateWidgetResultLEPS, div#coincRateWidgetResultLEPS{
 	background-color: #2980b9;
 }
 

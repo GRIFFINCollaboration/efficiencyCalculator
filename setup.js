@@ -14,11 +14,13 @@ function setup(){
 			this.enabled = 0;
 			toggleOutput('effWidgetResultHPGe', 0);
 			toggleOutput('coincEffWidgetResultHPGe', 0);
+			toggleOutput('rateWidgetResultHPGe', 0);
 		} else{
 			this.style.backgroundColor = '#449944';
 			this.enabled = 1;
 			toggleOutput('effWidgetResultHPGe', 1);
 			toggleOutput('coincEffWidgetResultHPGe', 1);
+			toggleOutput('rateWidgetResultHPGe', 1);
 		}
 		toggleHPGeControls();
 		chooseGraphs();
@@ -30,11 +32,13 @@ function setup(){
 			this.enabled = 0;
 			toggleOutput('effWidgetResultLaBr3', 0);
 			toggleOutput('coincEffWidgetResultLaBr3', 0);
+			toggleOutput('rateWidgetResultLaBr3', 0);
 		} else{
 			this.style.backgroundColor = '#e67e22';
 			this.enabled = 1;
 			toggleOutput('effWidgetResultLaBr3', 1);
 			toggleOutput('coincEffWidgetResultLaBr3', 1);
+			toggleOutput('rateWidgetResultLaBr3', 1);
 		}
 		chooseGraphs();
 	}
@@ -45,11 +49,13 @@ function setup(){
 			this.enabled = 0;
 			toggleOutput('effWidgetResultLEPS', 0);
 			toggleOutput('coincEffWidgetResultLEPS', 0);
+			toggleOutput('rateWidgetResultLEPS', 0);
 		} else{
 			this.style.backgroundColor = '#2980b9';
 			this.enabled = 1;
 			toggleOutput('effWidgetResultLEPS', 1);
 			toggleOutput('coincEffWidgetResultLEPS', 1);
+			toggleOutput('rateWidgetResultLEPS', 1);
 		}
 		chooseGraphs();
 	}
@@ -79,31 +85,44 @@ function setup(){
 	coincInput1.onchange = computeCoincEfficiency.bind(null, 16);
 	coincInput2.onchange = computeCoincEfficiency.bind(null, 16);
 	document.getElementById('coincEffWidget').whichInput = 0;
+
+	//set up singles rate widget////////////////////////////////////
+	document.getElementById('singlesRateEnergy').onchange = computeSinglesRate.bind(null);
+	document.getElementById('singlesRateBR').onchange = computeSinglesRate.bind(null);
+	document.getElementById('singlesRateIntensity').onchange = computeSinglesRate.bind(null);
+	document.getElementById('ratePeriod').onchange = computeSinglesRate.bind(null);
 	
+	//set up coinc rate widget////////////////////////////////////////////
+	document.getElementById('coincRateEnergy1').onchange = computeCoincRate.bind(null);
+	document.getElementById('coincRateEnergy2').onchange = computeCoincRate.bind(null);
+	document.getElementById('coincRateBR').onchange = computeCoincRate.bind(null);
+	document.getElementById('coincRateIntensity').onchange = computeCoincRate.bind(null);
+	document.getElementById('coincRatePeriod').onchange = computeCoincRate.bind(null);
+
 }
 
 function updateXrange(){
-		g.updateOptions({
-			dateWindow : [parseFloat(document.getElementById('xMin').value), parseFloat(document.getElementById('xMax').value)]	
-		});	
+	g.updateOptions({
+		dateWindow : [parseFloat(document.getElementById('xMin').value), parseFloat(document.getElementById('xMax').value)]	
+	});	
 }
 
 function updateYrange(){
-		g.updateOptions({
-			valueRange : [parseFloat(document.getElementById('yMin').value), parseFloat(document.getElementById('yMax').value)]	
-		});	
+	g.updateOptions({
+		valueRange : [parseFloat(document.getElementById('yMin').value), parseFloat(document.getElementById('yMax').value)]	
+	});	
 }
 
 function toggleOutput(id, state){
-		if(state == 0){
-			document.getElementById(id).style.width = 0;
-			document.getElementById(id).style.padding = 0;
-			document.getElementById(id).style.opacity = 0;
-		} else if(state == 1){
-			document.getElementById(id).style.width = 'auto';
-			document.getElementById(id).style.padding = '0.5em';
-			document.getElementById(id).style.opacity = 1;
-		}
+	if(state == 0){
+		document.getElementById(id).style.width = 0;
+		document.getElementById(id).style.padding = 0;
+		document.getElementById(id).style.opacity = 0;
+	} else if(state == 1){
+		document.getElementById(id).style.width = 'auto';
+		document.getElementById(id).style.padding = '0.5em';
+		document.getElementById(id).style.opacity = 1;
+	}
 }
 
 function computeSinglesEfficiency(){
@@ -244,22 +263,33 @@ function passClickToWidget(event, energy){
 	var singlesInput = document.getElementById('inputEnergy'),
 		coincWidget = document.getElementById('coincEffWidget'),
 		coincInput1 = document.getElementById('coincInputEnergy1'),
-		coincInput2 = document.getElementById('coincInputEnergy2');
+		coincInput2 = document.getElementById('coincInputEnergy2'),
+		rateInput1 = document.getElementById('coincRateEnergy1'),
+		rateInput2 = document.getElementById('coincRateEnergy2'),
+		rateInput = document.getElementById('singlesRateEnergy');
 
 	//singles efficiency
 	singlesInput.value = energy;
 	singlesInput.onchange();
 
-	//coinc efficiency
+	//coinc efficiency & rate
 	if(coincWidget.whichInput==0){
 		coincInput1.value = energy;
 		coincInput1.onchange();
+		rateInput1.value = energy;
+		rateInput1.onchange();
 		coincWidget.whichInput = 1;
 	} else{
 		coincInput2.value = energy;
 		coincInput2.onchange();
+		rateInput2.value = energy;
+		rateInput2.onchange();
 		coincWidget.whichInput = 0;
 	}
+
+	//singles rate
+	rateInput.value = energy;
+	rateInput.onchange();
 }
 
 // http://stackoverflow.com/a/934925/298479 + hax
@@ -279,6 +309,37 @@ function getBase64Image(img) {
     var dataURL = canvas.toDataURL("image/png");
 
     return dataURL;
+}
+
+function computeSinglesRate(){
+	var energy = parseFloat(document.getElementById('singlesRateEnergy').value),
+		BR = parseFloat(document.getElementById('singlesRateBR').value),
+		intensity = parseFloat(document.getElementById('singlesRateIntensity').value),
+		HPGeEff = efficient(energy),
+		LaBr3Eff = dummy(energy),
+		LEPSEff = fake(energy),
+		periodSelect = document.getElementById("ratePeriod"),
+		period = parseFloat(periodSelect.options[periodSelect.selectedIndex].value);
+
+	document.getElementById('rateWidgetResultHPGe').innerHTML = (intensity*BR*HPGeEff*period).toFixed();
+	document.getElementById('rateWidgetResultLaBr3').innerHTML = (intensity*BR*LaBr3Eff*period).toFixed();
+	document.getElementById('rateWidgetResultLEPS').innerHTML = (intensity*BR*LEPSEff*period).toFixed();
+}
+
+function computeCoincRate(){
+	var energy1 = parseFloat(document.getElementById('coincRateEnergy1').value),
+		energy2 = parseFloat(document.getElementById('coincRateEnergy2').value),
+		BR = parseFloat(document.getElementById('coincRateBR').value),
+		intensity = parseFloat(document.getElementById('coincRateIntensity').value),
+		HPGeEff = efficient(energy1)*efficient(energy2)*(15/16),
+		LaBr3Eff = dummy(energy1)*dummy(energy2)*(15/16),
+		LEPSEff = fake(energy1)*fake(energy2)*(15/16),
+		periodSelect = document.getElementById("coincRatePeriod"),
+		period = parseFloat(periodSelect.options[periodSelect.selectedIndex].value);
+
+	document.getElementById('coincRateWidgetResultHPGe').innerHTML = (intensity*BR*HPGeEff*period).toFixed();
+	document.getElementById('coincRateWidgetResultLaBr3').innerHTML = (intensity*BR*LaBr3Eff*period).toFixed();
+	document.getElementById('coincRateWidgetResultLEPS').innerHTML = (intensity*BR*LEPSEff*period).toFixed();	
 }
 
 //functions//////////////////////////////////////////////////////////////////////////////////

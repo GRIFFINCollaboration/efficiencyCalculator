@@ -130,6 +130,46 @@
 				<label id='coincEffWidgetResultLabel' class='inputLabel' for='coincEffWidgetResult'>%</label>
 			</div>
 
+			<div id='rateWidget' class='widget'>
+				<h2 id='rateWidgetTitle' class='widgetTitle'>Singles Rate</h2>
+				<input id='singlesRateEnergy' class='widgetInput' type='number' value='0'></input>
+				<label id='singlesRateEnergyLabel' class='inputLabel' for='singlesRateEnergy'>keV, </label>
+				<input id='singlesRateBR' class='widgetInput' type='number' value='0'></input>
+				<label id='singlesRateBRLabel' class='inputLabel' for='singlesRateBR'>BR, </label>
+				<input id='singlesRateIntensity' class='widgetInput' type='number' value='0'></input>
+				<label id='singlesRateIntensityLabel' class='inputLabel' for='singlesRateIntensity'>s<sup>-1</sup>cm<sup>-2</sup></label>
+				<br>
+				<div id='rateWidgetResultHPGe' class='widgetResult'>0</div>
+				<div id='rateWidgetResultLaBr3' class='widgetResult'>0</div>
+				<div id='rateWidgetResultLEPS' class='widgetResult'>0</div>
+				<select id='ratePeriod'>
+					<option value='1'>per second</option>
+					<option value='3600'>per hour</option>
+					<option value='43200'>per 12 hours</option>
+				</select>
+			</div>
+
+			<div id='coincidentRateWidget' class='widget'>
+				<h2 id='coincRateWidgetTitle' class='widgetTitle'>Coincidence Rate</h2>
+				<input id='coincRateEnergy1' class='widgetInput' type='number' value='0'></input>
+				<label id='coincRateEnergyLabel1' class='inputLabel' for='coincRateEnergy1'>keV + </label>
+				<input id='coincRateEnergy2' class='widgetInput' type='number' value='0'></input>
+				<label id='coincRateEnergyLabel2' class='inputLabel' for='coincRateEnergy2'>keV, </label>
+				<input id='coincRateBR' class='widgetInput' type='number' value='0'></input>
+				<label id='coincRateBRLabel' class='inputLabel' for='coincRateBR'>BR, </label>
+				<input id='coincRateIntensity' class='widgetInput' type='number' value='0'></input>
+				<label id='coincRateIntensityLabel' class='inputLabel' for='coincRateIntensity'>s<sup>-1</sup>cm<sup>-2</sup></label>
+				<br>
+				<div id='coincRateWidgetResultHPGe' class='widgetResult'>0</div>
+				<div id='coincRateWidgetResultLaBr3' class='widgetResult'>0</div>
+				<div id='coincRateWidgetResultLEPS' class='widgetResult'>0</div>
+				<select id='coincRatePeriod'>
+					<option value='1'>per second</option>
+					<option value='3600'>per hour</option>
+					<option value='43200'>per 12 hours</option>
+				</select>
+			</div>
+
 			<!--Footer//////////////////////////////////////////////////////////-->
 			<div id='push'></div>
 
