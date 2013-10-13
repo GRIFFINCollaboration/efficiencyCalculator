@@ -1,7 +1,11 @@
 efficiencyTracker
 =================
 
-A widget to calculate gamma efficiencies for GRIFFIN.  efficiencyTracker uses the dygraphs library:
+A widget to calculate gamma efficiencies for GRIFFIN.  
+
+Please see the help page at https://www.triumf.info/wiki/tigwiki/index.php/GRIFFIN_User%27s_Web_Toolkit
+
+efficiencyTracker uses the dygraphs library:
 http://dygraphs.com/
 
 and an add on for image saving:
