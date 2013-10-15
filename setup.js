@@ -15,12 +15,14 @@ function setup(){
 			toggleOutput('effWidgetResultHPGe', 0);
 			toggleOutput('coincEffWidgetResultHPGe', 0);
 			toggleOutput('rateWidgetResultHPGe', 0);
+			toggleOutput('coincRateWidgetResultHPGe', 0);
 		} else{
 			this.style.backgroundColor = '#449944';
 			this.enabled = 1;
 			toggleOutput('effWidgetResultHPGe', 1);
 			toggleOutput('coincEffWidgetResultHPGe', 1);
 			toggleOutput('rateWidgetResultHPGe', 1);
+			toggleOutput('coincRateWidgetResultHPGe', 1);
 		}
 		toggleHPGeControls();
 		chooseGraphs();
@@ -33,15 +35,18 @@ function setup(){
 			toggleOutput('effWidgetResultLaBr3', 0);
 			toggleOutput('coincEffWidgetResultLaBr3', 0);
 			toggleOutput('rateWidgetResultLaBr3', 0);
+			toggleOutput('coincRateWidgetResultLaBr3', 0);
 		} else{
 			this.style.backgroundColor = '#e67e22';
 			this.enabled = 1;
 			toggleOutput('effWidgetResultLaBr3', 1);
 			toggleOutput('coincEffWidgetResultLaBr3', 1);
 			toggleOutput('rateWidgetResultLaBr3', 1);
+			toggleOutput('coincRateWidgetResultLaBr3', 1);
 		}
 		chooseGraphs();
 	}
+	/*
 	LEPSSwitch.enabled = 0;
 	LEPSSwitch.onclick = function(event){
 		if (this.enabled){
@@ -50,19 +55,22 @@ function setup(){
 			toggleOutput('effWidgetResultLEPS', 0);
 			toggleOutput('coincEffWidgetResultLEPS', 0);
 			toggleOutput('rateWidgetResultLEPS', 0);
+			toggleOutput('coincRateWidgetResultLEPS', 0);
 		} else{
 			this.style.backgroundColor = '#2980b9';
 			this.enabled = 1;
 			toggleOutput('effWidgetResultLEPS', 1);
 			toggleOutput('coincEffWidgetResultLEPS', 1);
 			toggleOutput('rateWidgetResultLEPS', 1);
+			toggleOutput('coincRateWidgetResultLEPS', 1);
 		}
 		chooseGraphs();
 	}
+	*/
 	//default to on for demo:
 	HPGeSwitch.onclick();
 	LaBr3Switch.onclick();
-	LEPSSwitch.onclick();
+	//LEPSSwitch.onclick();
 
 	//make sure the file name for image saving gets passed around:
 	document.getElementById('filename').onchange = function(){
@@ -76,6 +84,17 @@ function setup(){
 	document.getElementById('yMin').onchange = updateYrange;
 	document.getElementById('yMax').onchange = updateYrange;
 
+	//default No. HPGe to 12:
+	document.getElementById('nHPGeSwitch').value = 12;
+
+	//default summing to per clover:
+	document.getElementById('summingScheme').value = 'clover';
+
+	//button setup//////////////////////////////////////////////
+    document.getElementById('wikiLink').onclick = function(){
+        window.location = 'https://www.triumf.info/wiki/tigwiki/index.php/GRIFFIN_User%27s_Web_Toolkit';
+    };
+
 	//set up singles efficiency widget//////////////////////////
 	document.getElementById('inputEnergyLabel').innerHTML = 'keV '+String.fromCharCode(0x2192);
 	singlesInput.onchange = computeSinglesEfficiency.bind(null);
@@ -85,6 +104,9 @@ function setup(){
 	coincInput1.onchange = computeCoincEfficiency.bind(null, 16);
 	coincInput2.onchange = computeCoincEfficiency.bind(null, 16);
 	document.getElementById('coincEffWidget').whichInput = 0;
+
+	//set up triples efficiency widget//////////////////////////////
+	document.getElementById('tripleInputEnergyLabel3').innerHTML = 'keV '+String.fromCharCode(0x2192);
 
 	//set up singles rate widget////////////////////////////////////
 	document.getElementById('singlesRateEnergy').onchange = computeSinglesRate.bind(null);
@@ -128,7 +150,7 @@ function toggleOutput(id, state){
 function computeSinglesEfficiency(){
 	document.getElementById('effWidgetResultHPGe').innerHTML = efficient(parseFloat(document.getElementById('inputEnergy').value)).toFixed(2);
 	document.getElementById('effWidgetResultLaBr3').innerHTML = dummy(parseFloat(document.getElementById('inputEnergy').value)).toFixed(2);
-	document.getElementById('effWidgetResultLEPS').innerHTML = fake(parseFloat(document.getElementById('inputEnergy').value)).toFixed(2);
+	//document.getElementById('effWidgetResultLEPS').innerHTML = fake(parseFloat(document.getElementById('inputEnergy').value)).toFixed(2);
 }
 
 function computeCoincEfficiency(nDetectors){
@@ -136,12 +158,12 @@ function computeCoincEfficiency(nDetectors){
 		e2 = parseFloat(document.getElementById('coincInputEnergy2').value);
 	document.getElementById('coincEffWidgetResultHPGe').innerHTML = (efficient(e1)*efficient(e2)*(nDetectors-1)/nDetectors).toFixed(2);
 	document.getElementById('coincEffWidgetResultLaBr3').innerHTML = (dummy(e1)*dummy(e2)*(nDetectors-1)/nDetectors).toFixed(2);
-	document.getElementById('coincEffWidgetResultLEPS').innerHTML = (fake(e1)*fake(e2)*(nDetectors-1)/nDetectors).toFixed(2);
+	//document.getElementById('coincEffWidgetResultLEPS').innerHTML = (fake(e1)*fake(e2)*(nDetectors-1)/nDetectors).toFixed(2);
 } 
 
 function toggleHPGeControls(){
 	if(document.getElementById('enableHPGe').enabled){
-		document.getElementById('HPGeControl').style.height = '15em';
+		document.getElementById('HPGeControl').style.height = '21em';
 	} else{
 		document.getElementById('HPGeControl').style.height = 0;
 	}
@@ -163,12 +185,13 @@ function chooseGraphs(){
 		titles[titles.length] = 'LaBr3';
 		colors[colors.length] = '#e67e22';
 	}
+	/*
 	if(document.getElementById('enableLEPS').enabled){
 		funcs[funcs.length] = fake;
 		titles[titles.length] = 'LEPS';
 		colors[colors.length] = '#2980b9';
 	}
-
+	*/
 	deployGraph(funcs, titles, colors)
 }
 
@@ -317,13 +340,13 @@ function computeSinglesRate(){
 		intensity = parseFloat(document.getElementById('singlesRateIntensity').value),
 		HPGeEff = efficient(energy),
 		LaBr3Eff = dummy(energy),
-		LEPSEff = fake(energy),
+		//LEPSEff = fake(energy),
 		periodSelect = document.getElementById("ratePeriod"),
 		period = parseFloat(periodSelect.options[periodSelect.selectedIndex].value);
 
-	document.getElementById('rateWidgetResultHPGe').innerHTML = (intensity*BR*HPGeEff*period).toFixed();
-	document.getElementById('rateWidgetResultLaBr3').innerHTML = (intensity*BR*LaBr3Eff*period).toFixed();
-	document.getElementById('rateWidgetResultLEPS').innerHTML = (intensity*BR*LEPSEff*period).toFixed();
+	document.getElementById('rateWidgetResultHPGe').innerHTML = sciNot(intensity*BR*HPGeEff*period, 2);
+	document.getElementById('rateWidgetResultLaBr3').innerHTML = sciNot(intensity*BR*LaBr3Eff*period, 2);
+	//document.getElementById('rateWidgetResultLEPS').innerHTML = (intensity*BR*LEPSEff*period).toFixed();
 }
 
 function computeCoincRate(){
@@ -333,13 +356,24 @@ function computeCoincRate(){
 		intensity = parseFloat(document.getElementById('coincRateIntensity').value),
 		HPGeEff = efficient(energy1)*efficient(energy2)*(15/16),
 		LaBr3Eff = dummy(energy1)*dummy(energy2)*(15/16),
-		LEPSEff = fake(energy1)*fake(energy2)*(15/16),
+		//LEPSEff = fake(energy1)*fake(energy2)*(15/16),
 		periodSelect = document.getElementById("coincRatePeriod"),
 		period = parseFloat(periodSelect.options[periodSelect.selectedIndex].value);
 
-	document.getElementById('coincRateWidgetResultHPGe').innerHTML = (intensity*BR*HPGeEff*period).toFixed();
-	document.getElementById('coincRateWidgetResultLaBr3').innerHTML = (intensity*BR*LaBr3Eff*period).toFixed();
-	document.getElementById('coincRateWidgetResultLEPS').innerHTML = (intensity*BR*LEPSEff*period).toFixed();	
+	document.getElementById('coincRateWidgetResultHPGe').innerHTML = sciNot(intensity*BR*HPGeEff*period, 2);
+	document.getElementById('coincRateWidgetResultLaBr3').innerHTML = sciNot(intensity*BR*LaBr3Eff*period, 2);
+	//document.getElementById('coincRateWidgetResultLEPS').innerHTML = (intensity*BR*LEPSEff*period).toFixed();	
+}
+
+function sciNot(val, sig){
+	if(val>10 || val<1){
+		var string = val.toExponential(sig),
+			out = parseFloat(string.slice(0, string.indexOf('e')))+' ' + String.fromCharCode(0x2A2F) + '10<sup>',
+			exp = ((string.indexOf('+') != -1) ? string.slice(string.indexOf('e')+2, string.length) : string.slice(string.indexOf('e')+1, string.length));
+		return out+exp+'</sup>'
+	} else{
+		return val.toFixed(sig);
+	}
 }
 
 //functions//////////////////////////////////////////////////////////////////////////////////

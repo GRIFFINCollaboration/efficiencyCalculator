@@ -46,10 +46,7 @@
 
 		    <!--Links///////////////////////////////////////////////////////////-->
 		    <div class='linkWrapper'>
-			    <button class='standardButton'>TRIUMF</button>
-			    <button class='standardButton'>MIDAS</button>
-			    <button class='standardButton'>GRIFFIN</button>
-			    <button class='standardButton'>TIGRESS</button>
+			    <button id='wikiLink' class='standardButton'>Wiki Help</button>
 			</div>
 
 		    <!--Graph///////////////////////////////////////////////////////////-->
@@ -61,7 +58,7 @@
 
 				<div id='enableHPGe' class='detectorSwitch'>HPGe</div>
 				<div id='enableLaBr3' class='detectorSwitch'>LaBr3</div>
-				<div id='enableLEPS' class='detectorSwitch'>LEPS</div>
+				<!--div id='enableLEPS' class='detectorSwitch'>LEPS</div-->
 
 				<br><br>
 				<input id='xMin' class='widgetInput' type='number' value='0'></input>
@@ -99,6 +96,14 @@
 						<option value='10'>10 mm</option>
 						<option value='20'>20 mm</option>
 					</select>
+
+					<br><br>
+					<label id='summingSchemeLabel' class='inputLabel' for='summingScheme'>Summing: </label>
+					<select id='summingScheme'>
+						<option value='crystal'>Per Crystal</option>
+						<option value='clover'>Per Clover</option>
+						<option value='array'>Full Array</option>
+					</select>
 				</div>
 
 				<br><br>
@@ -114,7 +119,7 @@
 				<label id='inputEnergyLabel' class='inputLabel' for='inputEnergy'></label>
 				<div id='effWidgetResultHPGe' class='widgetResult'>0.0</div>
 				<div id='effWidgetResultLaBr3' class='widgetResult'>0.0</div>
-				<div id='effWidgetResultLEPS' class='widgetResult'>0.0</div>
+				<!--div id='effWidgetResultLEPS' class='widgetResult'>0.0</div-->
 				<label id='effWidgetResultLabel' class='inputLabel' for='effWidgetResult'>%</label>
 			</div>
 
@@ -126,22 +131,35 @@
 				<label id='coincInputEnergyLabel2' class='inputLabel' for='coincInputEnergy2'></label>			
 				<div id='coincEffWidgetResultHPGe' class='widgetResult'>0.0</div>
 				<div id='coincEffWidgetResultLaBr3' class='widgetResult'>0.0</div>
-				<div id='coincEffWidgetResultLEPS' class='widgetResult'>0.0</div>
+				<!--div id='coincEffWidgetResultLEPS' class='widgetResult'>0.0</div-->
 				<label id='coincEffWidgetResultLabel' class='inputLabel' for='coincEffWidgetResult'>%</label>
 			</div>
 
+			<div id='tripleEffWidget' class='widget'>
+				<h2 id='tripleEffWidgetTitle' class='widgetTitle'>Triples Efficiency</h2>
+				<input id='tripleInputEnergy1' class='widgetInput' type='number' value='0'></input>
+				<label id='tripleInputEnergyLabel1' class='inputLabel' for='tripleInputEnergy1'>keV +</label>
+				<input id='tripleInputEnergy2' class='widgetInput' type='number' value='0'></input>
+				<label id='tripleInputEnergyLabel2' class='inputLabel' for='tripleInputEnergy2'>keV +</label>
+				<input id='tripleInputEnergy3' class='widgetInput' type='number' value='0'></input>
+				<label id='tripleInputEnergyLabel3' class='inputLabel' for='tripleInputEnergy3'></label>
+				<div id='tripleEffWidgetResult' class='widgetResult'>0.0</div>
+				<label id='tripleEffWidgetResultLabel' class='inputLabel' for='tripleEffWidgetResult'>%</label>
+			</div>
+
+			<br>
 			<div id='rateWidget' class='widget'>
 				<h2 id='rateWidgetTitle' class='widgetTitle'>Singles Rate</h2>
 				<input id='singlesRateEnergy' class='widgetInput' type='number' value='0'></input>
 				<label id='singlesRateEnergyLabel' class='inputLabel' for='singlesRateEnergy'>keV, </label>
-				<input id='singlesRateBR' class='widgetInput' type='number' value='0'></input>
+				<input id='singlesRateBR' class='widgetInput' type='number' value='1'></input>
 				<label id='singlesRateBRLabel' class='inputLabel' for='singlesRateBR'>BR, </label>
-				<input id='singlesRateIntensity' class='widgetInput' type='number' value='0'></input>
-				<label id='singlesRateIntensityLabel' class='inputLabel' for='singlesRateIntensity'>s<sup>-1</sup>cm<sup>-2</sup></label>
+				<input id='singlesRateIntensity' class='widgetInput' type='number' value='1E6'></input>
+				<label id='singlesRateIntensityLabel' class='inputLabel' for='singlesRateIntensity'>pps</label>
 				<br>
 				<div id='rateWidgetResultHPGe' class='widgetResult'>0</div>
 				<div id='rateWidgetResultLaBr3' class='widgetResult'>0</div>
-				<div id='rateWidgetResultLEPS' class='widgetResult'>0</div>
+				<!--div id='rateWidgetResultLEPS' class='widgetResult'>0</div-->
 				<select id='ratePeriod'>
 					<option value='1'>per second</option>
 					<option value='3600'>per hour</option>
@@ -155,14 +173,14 @@
 				<label id='coincRateEnergyLabel1' class='inputLabel' for='coincRateEnergy1'>keV + </label>
 				<input id='coincRateEnergy2' class='widgetInput' type='number' value='0'></input>
 				<label id='coincRateEnergyLabel2' class='inputLabel' for='coincRateEnergy2'>keV, </label>
-				<input id='coincRateBR' class='widgetInput' type='number' value='0'></input>
+				<input id='coincRateBR' class='widgetInput' type='number' value='1'></input>
 				<label id='coincRateBRLabel' class='inputLabel' for='coincRateBR'>BR, </label>
-				<input id='coincRateIntensity' class='widgetInput' type='number' value='0'></input>
-				<label id='coincRateIntensityLabel' class='inputLabel' for='coincRateIntensity'>s<sup>-1</sup>cm<sup>-2</sup></label>
+				<input id='coincRateIntensity' class='widgetInput' type='number' value='1E6'></input>
+				<label id='coincRateIntensityLabel' class='inputLabel' for='coincRateIntensity'>pps</label>
 				<br>
 				<div id='coincRateWidgetResultHPGe' class='widgetResult'>0</div>
 				<div id='coincRateWidgetResultLaBr3' class='widgetResult'>0</div>
-				<div id='coincRateWidgetResultLEPS' class='widgetResult'>0</div>
+				<!--div id='coincRateWidgetResultLEPS' class='widgetResult'>0</div-->
 				<select id='coincRatePeriod'>
 					<option value='1'>per second</option>
 					<option value='3600'>per hour</option>
@@ -175,7 +193,7 @@
 
 		</div>
 
-		<div id='footer'>GRIFFIN 2013 - Powered by <a href="http://dygraphs.com/">Dygraphs.js</a></div>
+		<div id='footer'>GRIFFIN 2013 - Powered by <a href="http://dygraphs.com/">Dygraphs.js</a> - Project Lead: Adam Garnsworthy (garns@triumf.ca) - GEANT4 Simulations: Evan Rand - UI/UX Design & Web Development: Bill Mills</div>
 
 		<img id='pngDump'></img>
 
