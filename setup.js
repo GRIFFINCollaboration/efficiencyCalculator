@@ -67,10 +67,6 @@ function setup(){
 		chooseGraphs();
 	}
 	*/
-	//default to on for demo:
-	HPGeSwitch.onclick();
-	LaBr3Switch.onclick();
-	//LEPSSwitch.onclick();
 
 	//make sure the file name for image saving gets passed around:
 	document.getElementById('filename').onchange = function(){
@@ -121,12 +117,17 @@ function setup(){
 	document.getElementById('coincRateIntensity').onchange = computeCoincRate.bind(null);
 	document.getElementById('coincRatePeriod').onchange = computeCoincRate.bind(null);
 
+	//default to on for demo:
+	HPGeSwitch.onclick();
+	LaBr3Switch.onclick();
+	//LEPSSwitch.onclick();
 }
 
 function updateXrange(){
-	g.updateOptions({
-		dateWindow : [parseFloat(document.getElementById('xMin').value), parseFloat(document.getElementById('xMax').value)]	
-	});	
+	//g.updateOptions({
+	//	dateWindow : [parseFloat(document.getElementById('xMin').value), parseFloat(document.getElementById('xMax').value)]	
+	//});
+	chooseGraphs();	
 }
 
 function updateYrange(){
@@ -173,7 +174,9 @@ function toggleHPGeControls(){
 function chooseGraphs(){
 	var funcs = [],
 		titles = [],
-		colors = [];
+		colors = [],
+		min = parseFloat(document.getElementById('xMin').value),
+		max = parseFloat(document.getElementById('xMax').value);
 
 	if(document.getElementById('enableHPGe').enabled){
 		funcs[funcs.length] = efficient;
@@ -192,16 +195,14 @@ function chooseGraphs(){
 		colors[colors.length] = '#2980b9';
 	}
 	*/
-	deployGraph(funcs, titles, colors)
+	deployGraph(funcs, titles, colors, min, max);
 }
 
 //deploy graphs of [func]tions with [titles]
-function deployGraph(func, titles, colors){
+function deployGraph(func, titles, colors, min, max){
 	var i, j, x,
 		data = 'Energy[keV]',
-		nPoints = 10000,
-		min = 0, 
-		max = 8;
+		nPoints = 10000;
 
 
 	for(i=0; i<titles.length; i++){
@@ -219,7 +220,7 @@ function deployGraph(func, titles, colors){
 	}
 
 	g = new Dygraph(document.getElementById('graphDiv'), data, {
-		title: 'Gamma Efficiency v. Energy',
+		title: 'Simulated Gamma Efficiency v. Energy',
 		xlabel: 'Energy [keV]',
 		ylabel: 'Efficiency',
 		sigFigs: 2,
