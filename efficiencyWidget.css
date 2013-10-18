@@ -300,18 +300,19 @@ div#footer{
 	padding:2em;
 	color:#333333;
 	border-top:1px solid #000000;
-	height:5em;
+	height:6em;
+	line-height: 1.2;
 }
 
 div#push{
-	height:5em;
+	height:6em;
 }
 
 div#wrapper{
     min-height: 100%;
     height: auto !important;
     height: 100%;
-    margin: 0 auto -5em;
+    margin: 0 auto -6em;
 	padding-left:1em;
 	padding-right: 1em;	
 }
