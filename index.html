@@ -5,6 +5,7 @@
 		<script type="text/javascript" src="dygraph-extra.js"></script>
 		<script type="text/javascript" src="setup.js"></script>
 		<script type="text/javascript" src="fitParams.js"></script>
+		<script type="text/javascript" src="fitParamsLaBr.js"></script>
 
 		<link rel="stylesheet" type="text/css" href="efficiencyWidget.css" />
 	</head>
@@ -104,10 +105,19 @@
 						</select>
 
 						<br><br>
-						<label id='summingSchemeLabel' class='inputLabel' for='summingScheme'>Summing: </label>
+						<label id='summingSchemeLabel' class='inputLabel' for='summingScheme'>HPGe Summing: </label>
 						<select id='summingScheme'>
 							<option value='crystal'>Per Crystal</option>
 							<option value='clover'>Per Clover</option>
+							<option value='array'>Full Array</option>
+						</select>
+					</div>
+
+					<br>
+					<div id='LaBr3Control'>
+						<label id='LaBrSummingSchemeLabel' class='inputLabel' for='LaBrSummingScheme'>LaBr3 Summing: </label>
+						<select id='LaBrSummingScheme'>
+							<option value='detector'>Per Detector</option>
 							<option value='array'>Full Array</option>
 						</select>
 					</div>

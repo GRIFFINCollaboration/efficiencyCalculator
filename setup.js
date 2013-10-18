@@ -8,6 +8,7 @@ function setup(){
 
 	//call the parameter dump
 	loadParameters();
+	loadLaBrParameters();
 
 	//set up control panel//////////////////////////////////////
 	HPGeSwitch.enabled = 0;
@@ -47,6 +48,7 @@ function setup(){
 			toggleOutput('rateWidgetResultLaBr3', 1);
 			toggleOutput('coincRateWidgetResultLaBr3', 1);
 		}
+		toggleLaBrControls();
 		chooseGraphs();
 	}
 	/*
@@ -98,10 +100,12 @@ function setup(){
 
 	//button setup//////////////////////////////////////////////
     document.getElementById('wikiLink').onclick = function(){
-        window.location = 'https://www.triumf.info/wiki/tigwiki/index.php/GRIFFIN_User%27s_Web_Toolkit';
+        //window.location = 'https://www.triumf.info/wiki/tigwiki/index.php/GRIFFIN_User%27s_Web_Toolkit';
+        window.open('https://www.triumf.info/wiki/tigwiki/index.php/GRIFFIN_User%27s_Web_Toolkit','wikiTab');
     };
     document.getElementById('yieldDB').onclick = function(){
-        window.location = 'http://mis.triumf.ca/science/planning/yield/beam';
+        //window.location = 'http://mis.triumf.ca/science/planning/yield/beam';
+        window.open('http://mis.triumf.ca/science/planning/yield/beam', 'yieldTab');
     };
 
 	//set up singles efficiency widget//////////////////////////
@@ -132,7 +136,7 @@ function setup(){
 
 	//default to on for demo:
 	HPGeSwitch.onclick();
-	//LaBr3Switch.onclick();
+	LaBr3Switch.onclick();
 	//LEPSSwitch.onclick();
 }
 
@@ -162,8 +166,14 @@ function toggleOutput(id, state){
 }
 
 function computeSinglesEfficiency(){
-	document.getElementById('effWidgetResultHPGe').innerHTML = efficient(parseFloat(document.getElementById('inputEnergy').value)).toFixed(2);
-	document.getElementById('effWidgetResultLaBr3').innerHTML = dummy(parseFloat(document.getElementById('inputEnergy').value)).toFixed(2);
+	var HPGeEff = window.HPGeFunc(parseFloat(document.getElementById('inputEnergy').value)),
+		LaBrEff = window.LaBrFunc(parseFloat(document.getElementById('inputEnergy').value)),
+
+	HPGeEff = parseFloat(HPGeEff.slice(HPGeEff.indexOf(';')+1, HPGeEff.lastIndexOf(';') ));
+	LaBrEff = parseFloat(LaBrEff.slice(LaBrEff.indexOf(';')+1, LaBrEff.lastIndexOf(';') ));
+
+	document.getElementById('effWidgetResultHPGe').innerHTML = HPGeEff.toFixed(2);
+	document.getElementById('effWidgetResultLaBr3').innerHTML = LaBrEff.toFixed(2);
 	//document.getElementById('effWidgetResultLEPS').innerHTML = fake(parseFloat(document.getElementById('inputEnergy').value)).toFixed(2);
 }
 
@@ -183,6 +193,14 @@ function toggleHPGeControls(){
 	}
 }
 
+function toggleLaBrControls(){
+	if(document.getElementById('enableLaBr3').enabled){
+		document.getElementById('LaBr3Control').style.height = '5em';
+	} else{
+		document.getElementById('LaBr3Control').style.height = 0;
+	}
+}
+
 //decide which plots to send to a call to deployGraph
 function chooseGraphs(){
 	var funcs = [],
@@ -192,19 +210,23 @@ function chooseGraphs(){
 		max = parseFloat(document.getElementById('xMax').value),
 		HPGeMinCoef = {},
 		HPGeMaxCoef = {},
-		requestString, i;
+		requestString, LaBrString, i;
 
 	HPGeMinCoef['dummy'] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 	HPGeMaxCoef['dummy'] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 	if(document.getElementById('enableHPGe').enabled){
-		requestString = constructPlotKey(); //'clover811.00';
-		funcs[funcs.length] = HPGeEfficiency.bind(null, HPGeCoef[requestString], HPGeMinCoef['dummy'], HPGeMaxCoef['dummy']);
+		requestString = constructPlotKey();
+		window.HPGeFunc = HPGeEfficiency.bind(null, HPGeCoef[requestString], HPGeMinCoef['dummy'], HPGeMaxCoef['dummy']);
+		funcs[funcs.length] = window.HPGeFunc;
 		titles[titles.length] = 'HPGe';
 		colors[colors.length] = '#449944';
 	}
 	if(document.getElementById('enableLaBr3').enabled){
-		funcs[funcs.length] = dummy;
+		LaBrString = constructLaBrPlotKey();
+		//LaBr3 uses same 8th order polynomial as HPGe, just with different coefficients stuck in:
+		window.LaBrFunc = HPGeEfficiency.bind(null, LaBrCoef[LaBrString], HPGeMinCoef['dummy'], HPGeMaxCoef['dummy']);
+		funcs[funcs.length] = window.LaBrFunc;
 		titles[titles.length] = 'LaBr3';
 		colors[colors.length] = '#e67e22';
 	}
@@ -310,6 +332,14 @@ function constructPlotKey(){
 		return plotKey;
 }
 
+//LaBr's only option is summing per detector or over the whole array:
+function constructLaBrPlotKey(){
+	var LaBrSummingSelect = document.getElementById('LaBrSummingScheme'),
+		summing = LaBrSummingSelect.options[LaBrSummingSelect.selectedIndex].value;
+
+		return summing;
+}
+
 //callback to run every time the function repaints
 function repaint(dygraph){
 	var xMin = document.getElementById('xMin'),
@@ -367,29 +397,32 @@ function passClickToWidget(event, energy){
 		coincInput2 = document.getElementById('coincInputEnergy2'),
 		rateInput1 = document.getElementById('coincRateEnergy1'),
 		rateInput2 = document.getElementById('coincRateEnergy2'),
-		rateInput = document.getElementById('singlesRateEnergy');
+		rateInput = document.getElementById('singlesRateEnergy'),
+		scaleSelect = document.getElementById("xScale"),
+	    scale = scaleSelect.options[scaleSelect.selectedIndex].value,
+	    reportEnergy = (scale=='lin') ? energy.toFixed() : Math.exp(energy).toFixed();
 
 	//singles efficiency
-	singlesInput.value = energy;
+	singlesInput.value = reportEnergy;
 	singlesInput.onchange();
 
 	//coinc efficiency & rate
 	if(coincWidget.whichInput==0){
-		coincInput1.value = energy;
+		coincInput1.value = reportEnergy;
 		coincInput1.onchange();
-		rateInput1.value = energy;
+		rateInput1.value = reportEnergy;
 		rateInput1.onchange();
 		coincWidget.whichInput = 1;
 	} else{
-		coincInput2.value = energy;
+		coincInput2.value = reportEnergy;
 		coincInput2.onchange();
-		rateInput2.value = energy;
+		rateInput2.value = reportEnergy;
 		rateInput2.onchange();
 		coincWidget.whichInput = 0;
 	}
 
 	//singles rate
-	rateInput.value = energy;
+	rateInput.value = reportEnergy;
 	rateInput.onchange();
 }
 
@@ -476,26 +509,6 @@ function HPGeEfficiency(param, loParam, hiParam, logE){
 
 	eff = Math.exp(logEff);
 	return (eff - eff*loDelta) + ';' + eff + ';' + (eff + eff*hiDelta);
-}
-
-function efficient(x){
-	var f = Math.exp(-(x-2)*(x-2)/4);
-	return f;
-}
-
-function dummy(x){
-	var f = Math.exp(-(x-3)*(x-3)/9);
-	return f;
-}
-
-function fake(x){
-	var f = Math.exp(-(x-6)*(x-6)/1);
-	return f;
-}
-
-function exponent(x){
-	var f = Math.pow(2, -x);
-	return f
 }
 
 /////Dygraph hax/////////////////////////////////////////////////////////////
