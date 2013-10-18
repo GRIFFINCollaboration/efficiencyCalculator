@@ -244,8 +244,8 @@ function computeTriplesEfficiency(){
 		validateDESCANTinput();
 		e1 = Math.log(parseFloat(document.getElementById('tripleInputEnergy1').value));
 		auxEff = DESCANTefficiency(e1);
-	} else if(auxDetector == 'SCEPTAR'){
-		//PROFIT?
+	} else{
+		auxEff = SCEPTARefficiency(e1);
 	}
 
 	LaBrEff1 = parseFloat(LaBrEff1.slice(LaBrEff1.indexOf(';')+1, LaBrEff1.lastIndexOf(';') ));
@@ -717,6 +717,20 @@ function DESCANTefficiency(logE){
 	} else{
 		return 0.27;  //100% efficient * 27% geometric acceptance
 	}
+}
+
+function SCEPTARefficiency(logE){
+	var auxDetectorSelect = document.getElementById('tripleAux'),
+	auxDetector = auxDetectorSelect.options[auxDetectorSelect.selectedIndex].value;
+
+	if(auxDetector == 'SCEPTAR')
+		return 0.8;
+	else if(auxDetector == 'SCEPTARZDS')
+		return 0.65;
+	else if(auxDetector == 'SCEPTARPACES')
+		return 0.4;
+	else if(auxDetector == 'PACESZDS')
+		return 0.25;
 }
 
 /////Dygraph hax/////////////////////////////////////////////////////////////

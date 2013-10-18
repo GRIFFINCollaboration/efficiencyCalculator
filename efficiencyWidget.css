@@ -219,8 +219,12 @@ div#effWidgetResultLaBr3, div#coincEffWidgetResultLaBr3, div#rateWidgetResultLaB
 	background-color: #e67e22;
 }
 
-div#effWidgetResultLEPS, div#coincEffWidgetResultLEPS, div#rateWidgetResultLEPS, div#coincRateWidgetResultLEPS, div#tripleEffWidgetResult{
+div#effWidgetResultLEPS, div#coincEffWidgetResultLEPS, div#rateWidgetResultLEPS, div#coincRateWidgetResultLEPS{
 	background-color: #2980b9;
+}
+
+div#tripleEffWidgetResult{
+	background-color: #9b59b6;
 }
 
 /*Control Panel/////////////////////////////////////////////////////*/
