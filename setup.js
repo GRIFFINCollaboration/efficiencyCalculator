@@ -232,13 +232,13 @@ function deployGraph(func, titles, colors, min, max){
 	}
 	data += '\n';
 
-	for(i=0; i<nPoints; i++){
+	for(i=0; i<nPoints+1; i++){
 			if(scale=='lin'){
-				logx = parseFloat( ( (max-min)/nPoints*i+min ).toFixed(2) );
+				logx = (max-min)/nPoints*i+min;
 				data += logx;
 				logx = Math.log(logx);
 			} else{
-				logx = parseFloat( ( (Math.log(max)-Math.log(min))/nPoints*i+Math.log(min) ).toFixed(2) );
+				logx = (Math.log(max)-Math.log(min))/nPoints*i+Math.log(min);
 				data += logx;
 			}
 			for(j=0; j<func.length; j++){
@@ -263,6 +263,12 @@ function deployGraph(func, titles, colors, min, max){
 		customBars: true,
 		axes:{
 			x: {
+				valueFormatter: function(number, opts, dygraph){
+					if(scale=='log')
+						return Math.exp(number).toFixed() + ' keV';
+					else
+						return number.toFixed() + ' keV';
+				},
 				axisLabelFormatter: function(number, gran, opts, dygraph){
 					var val = Math.round(Math.exp(number));
 					if(scale=='lin')
@@ -316,14 +322,14 @@ function repaint(dygraph){
 	prepImageSave(dygraph);
 
 	if(scale=='lin'){
-		xMin.value = parseFloat(g.xAxisRange()[0].toFixed(2));
-		xMax.value = parseFloat(g.xAxisRange()[1].toFixed(2));
+		xMin.value = g.xAxisRange()[0].toFixed();
+		xMax.value = g.xAxisRange()[1].toFixed();
 	}else{
-		xMin.value = Math.exp(parseFloat(g.xAxisRange()[0].toFixed(2)));
-		xMax.value = Math.exp(parseFloat(g.xAxisRange()[1].toFixed(2)));
+		xMin.value = Math.exp(g.xAxisRange()[0]).toFixed();
+		xMax.value = Math.exp(g.xAxisRange()[1]).toFixed();
 	}
-	yMin.value = parseFloat(g.yAxisRange()[0].toFixed(2));
-	yMax.value = parseFloat(g.yAxisRange()[1].toFixed(2));
+	yMin.value = g.yAxisRange()[0].toFixed();
+	yMax.value = g.yAxisRange()[1].toFixed();
 
 }
 
