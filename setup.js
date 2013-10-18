@@ -4,7 +4,10 @@ function setup(){
 		LEPSSwitch = document.getElementById('enableLEPS'),
 		singlesInput = document.getElementById('inputEnergy'),
 		coincInput1 = document.getElementById('coincInputEnergy1'),
-		coincInput2 = document.getElementById('coincInputEnergy2');
+		coincInput2 = document.getElementById('coincInputEnergy2'),
+		triplesInput1 = document.getElementById('tripleInputEnergy1'),
+		triplesInput2 = document.getElementById('tripleInputEnergy2'),
+		triplesInput3 = document.getElementById('tripleInputEnergy3');
 
 	//call the parameter dump
 	loadParameters();
@@ -100,12 +103,15 @@ function setup(){
 
 	//button setup//////////////////////////////////////////////
     document.getElementById('wikiLink').onclick = function(){
-        //window.location = 'https://www.triumf.info/wiki/tigwiki/index.php/GRIFFIN_User%27s_Web_Toolkit';
         window.open('https://www.triumf.info/wiki/tigwiki/index.php/GRIFFIN_User%27s_Web_Toolkit','wikiTab');
     };
+
     document.getElementById('yieldDB').onclick = function(){
-        //window.location = 'http://mis.triumf.ca/science/planning/yield/beam';
         window.open('http://mis.triumf.ca/science/planning/yield/beam', 'yieldTab');
+    };
+
+    document.getElementById('ENSDF').onclick = function(){
+        window.open('http://www.nndc.bnl.gov/ensdf/', 'ENSDFtab');
     };
 
 	//set up singles efficiency widget//////////////////////////
@@ -120,6 +126,10 @@ function setup(){
 
 	//set up triples efficiency widget//////////////////////////////
 	document.getElementById('tripleInputEnergyLabel3').innerHTML = 'keV '+String.fromCharCode(0x2192);
+	triplesInput1.onchange = computeTriplesEfficiency.bind(null);
+	triplesInput2.onchange = computeTriplesEfficiency.bind(null);
+	triplesInput3.onchange = computeTriplesEfficiency.bind(null);
+	document.getElementById('tripleEffWidget').whichInput = 0;
 
 	//set up singles rate widget////////////////////////////////////
 	document.getElementById('singlesRateEnergy').onchange = computeSinglesRate.bind(null);
@@ -198,6 +208,25 @@ function computeCoincEfficiency(){
 	document.getElementById('coincEffWidgetResultHPGe').innerHTML = (HPGeEff > 0.1) ? HPGeEff.toFixed(2) : sciNot(HPGeEff, 1);
 	document.getElementById('coincEffWidgetResultLaBr3').innerHTML = (LaBrEff > 0.1) ? LaBrEff.toFixed(2) : sciNot(LaBrEff, 1);
 } 
+
+function computeTriplesEfficiency(){
+	var e1 = Math.log(parseFloat(document.getElementById('tripleInputEnergy1').value)),
+		e2 = Math.log(parseFloat(document.getElementById('tripleInputEnergy2').value)),
+		e3 = Math.log(parseFloat(document.getElementById('tripleInputEnergy3').value)),
+		HPGeEff = window.HPGeFunc(e1),
+		LaBrEff1 = window.LaBrFunc(e2),
+		LaBrEff2 = window.LaBrFunc(e3),
+		LaBrEff, tripleEff;
+
+	HPGeEff = parseFloat(HPGeEff.slice(HPGeEff.indexOf(';')+1, HPGeEff.lastIndexOf(';') ));
+	LaBrEff1 = parseFloat(LaBrEff1.slice(LaBrEff1.indexOf(';')+1, LaBrEff1.lastIndexOf(';') ));
+	LaBrEff2 = parseFloat(LaBrEff2.slice(LaBrEff2.indexOf(';')+1, LaBrEff2.lastIndexOf(';') ));
+
+	LaBrEff = (LaBrEff1*LaBrEff2*7/8);
+	tripleEff = HPGeEff*LaBrEff;
+
+	document.getElementById('tripleEffWidgetResult').innerHTML = (tripleEff > 0.1) ? tripleEff.toFixed(2) : sciNot(tripleEff, 1);
+}
 
 function toggleHPGeControls(){
 	if(document.getElementById('enableHPGe').enabled){
@@ -412,6 +441,10 @@ function passClickToWidget(event, energy){
 		rateInput1 = document.getElementById('coincRateEnergy1'),
 		rateInput2 = document.getElementById('coincRateEnergy2'),
 		rateInput = document.getElementById('singlesRateEnergy'),
+		triplesWidget = document.getElementById('tripleEffWidget'),
+		triplesInput1 = document.getElementById('tripleInputEnergy1'),
+		triplesInput2 = document.getElementById('tripleInputEnergy2'),
+		triplesInput3 = document.getElementById('tripleInputEnergy3'),
 		scaleSelect = document.getElementById("xScale"),
 	    scale = scaleSelect.options[scaleSelect.selectedIndex].value,
 	    reportEnergy = (scale=='lin') ? energy.toFixed() : Math.exp(energy).toFixed();
@@ -434,6 +467,22 @@ function passClickToWidget(event, energy){
 		rateInput2.onchange();
 		coincWidget.whichInput = 0;
 	}
+
+	//triple efficiency
+	if(triplesWidget.whichInput==0){
+		triplesInput1.value = reportEnergy;
+		triplesInput1.onchange();
+		triplesWidget.whichInput=1;
+	} else if(triplesWidget.whichInput==1){
+		triplesInput2.value = reportEnergy;
+		triplesInput2.onchange();
+		triplesWidget.whichInput=2;
+	} else if(triplesWidget.whichInput==2){
+		triplesInput3.value = reportEnergy;
+		triplesInput3.onchange();
+		triplesWidget.whichInput=0;
+	}
+
 
 	//singles rate
 	rateInput.value = reportEnergy;
