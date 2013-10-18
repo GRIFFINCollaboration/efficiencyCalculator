@@ -93,6 +93,9 @@ function setup(){
 	document.getElementById('xScale').value = 'log';
 	document.getElementById('xScale').onchange = chooseGraphs.bind(null);
 
+	//repaint the plot when anything in the form changes:
+	document.getElementById('plotOptions').onchange = chooseGraphs.bind(null);
+
 	//button setup//////////////////////////////////////////////
     document.getElementById('wikiLink').onclick = function(){
         window.location = 'https://www.triumf.info/wiki/tigwiki/index.php/GRIFFIN_User%27s_Web_Toolkit';
@@ -191,18 +194,11 @@ function chooseGraphs(){
 		HPGeMaxCoef = {},
 		requestString, i;
 
-	//HPGeCoef holds the coefficients for all HPGe fits in a key value store
-	//where the key is the string concatenation of all the control panel values in 
-	//the order:
-	//summing scheme + nDetectors + HPGe Distance + Delrin thickness
-	//so 'clover1214.520' is 12 detectors at 14.5cm with 20mm delrin and per-clover summing.
-	//HPGeCoef['clover811.00'] = [-8.0309801002962706e+02, 1.1187177193972436e+03, -6.7413427087340233e+02, 2.2869743662093572e+02, -4.7716717011091916e+01, 6.2669769394841666e+00, -5.0603869584892447e-01, 2.2979902406689505e-02, -4.4966824986778788e-04];
-	//HPGeMinCoef and HPGeMaxCoef are packed the same way as HPGeCoef, but hold the 1-sigma extrema for the coefficients:
 	HPGeMinCoef['dummy'] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 	HPGeMaxCoef['dummy'] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 	if(document.getElementById('enableHPGe').enabled){
-		requestString = 'clover811.00';
+		requestString = constructPlotKey(); //'clover811.00';
 		funcs[funcs.length] = HPGeEfficiency.bind(null, HPGeCoef[requestString], HPGeMinCoef['dummy'], HPGeMaxCoef['dummy']);
 		titles[titles.length] = 'HPGe';
 		colors[colors.length] = '#449944';
@@ -284,6 +280,28 @@ function deployGraph(func, titles, colors, min, max){
 
 	repaint(g);
 
+}
+
+//construct the correct plot key based on whatever is selected in the plot options
+//HPGeCoef holds the coefficients for all HPGe fits in a key value store
+//where the key is the string concatenation of all the control panel values in 
+//the order:
+//summing scheme + nDetectors + HPGe Distance + Delrin thickness
+//so 'clover1214.520' is 12 detectors at 14.5cm with 20mm delrin and per-clover summing.
+//HPGeCoef['clover811.00'] = [-8.0309801002962706e+02, 1.1187177193972436e+03, -6.7413427087340233e+02, 2.2869743662093572e+02, -4.7716717011091916e+01, 6.2669769394841666e+00, -5.0603869584892447e-01, 2.2979902406689505e-02, -4.4966824986778788e-04];
+//HPGeMinCoef and HPGeMaxCoef are packed the same way as HPGeCoef, but hold the 1-sigma extrema for the coefficients:
+function constructPlotKey(){
+	var summingOptions = document.getElementById('summingScheme'),
+		summing = summingOptions.options[summingOptions.selectedIndex].value,
+		nHPGeOptions = document.getElementById('nHPGeSwitch'),
+		nHPGe = nHPGeOptions.options[nHPGeOptions.selectedIndex].value,
+		HPGeDistanceOptions = document.getElementById('HPGeDistanceSwitch'),
+		HPGeDistance = HPGeDistanceOptions.options[HPGeDistanceOptions.selectedIndex].value,
+		absorberOptions = document.getElementById('delrinSwitch'),
+		absorber = absorberOptions.options[absorberOptions.selectedIndex].value,
+		plotKey = summing + nHPGe + HPGeDistance + absorber;
+
+		return plotKey;
 }
 
 //callback to run every time the function repaints

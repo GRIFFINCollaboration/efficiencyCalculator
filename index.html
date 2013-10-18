@@ -56,65 +56,66 @@
 
 			<!--Control Panel///////////////////////////////////////////////////-->
 			<div id='controlPanel'>
-				<h2 id='controlTitle' class='widgetTitle'>Plot Options</h2>
+				<form id='plotOptions'>
+					<h2 id='controlTitle' class='widgetTitle'>Plot Options</h2>
 
-				<div id='enableHPGe' class='detectorSwitch'>HPGe</div>
-				<div id='enableLaBr3' class='detectorSwitch'>LaBr3</div>
-				<!--div id='enableLEPS' class='detectorSwitch'>LEPS</div-->
-
-				<br><br>
-				<input id='xMin' class='widgetInput' type='number' value='1'></input>
-				<label id='xMinLabel' class='inputLabel' for='xMin'>< E <</label>
-				<input id='xMax' class='widgetInput' type='number' value='1000'></input>
-				<label id='xMaxLabel' class='inputLabel' for='xMax'>keV</label>
-				<select id='xScale'>
-					<option value='lin'>Linear</option>
-					<option value='log'>Log</option>
-				</select>				
-
-				<br><br>
-				<input id='yMin' class='widgetInput' type='number' value='0'></input>
-				<label id='yMinLabel' class='inputLabel' for='yMin'>< effic. <</label>
-				<input id='yMax' class='widgetInput' type='number' value='100'></input>
-
-				<br><br>
-				<div id='HPGeControl'>
-					<label id='HPGeDistanceSwitchLabel', class='inputLabel', for='HPGeDistanceSwitch'>HPGe Distance</label>
-					<select id='HPGeDistanceSwitch'>
-						<option value='11.0'>11.0</option>
-						<option value='14.5'>14.5</option>
-					</select>
-					<label id='HPGeDistanceSwitchLabel', class='inputLabel', for='HPGeDistanceSwitch'>cm</label>
+					<div id='enableHPGe' class='detectorSwitch'>HPGe</div>
+					<div id='enableLaBr3' class='detectorSwitch'>LaBr3</div>
+					<!--div id='enableLEPS' class='detectorSwitch'>LEPS</div-->
 
 					<br><br>
-					<label id='nHPGeSwitchLabel', class='inputLabel', for='nHPGeSwitch'>No. HPGe</label>
-					<select id='nHPGeSwitch'>
-						<option value='8'>8</option>
-						<option value='12'>12</option>
-						<option value='16'>16</option>
-					</select>
+					<input id='xMin' class='widgetInput' type='number' value='1'></input>
+					<label id='xMinLabel' class='inputLabel' for='xMin'>< E <</label>
+					<input id='xMax' class='widgetInput' type='number' value='1000'></input>
+					<label id='xMaxLabel' class='inputLabel' for='xMax'>keV</label>
+					<select id='xScale'>
+						<option value='lin'>Linear</option>
+						<option value='log'>Log</option>
+					</select>				
 
 					<br><br>
-					<label id='delrinLabel' class='inputLabel' for='delrinSwitch'>Delrin Absorbers: </label>
-					<select id='delrinSwitch'>
-						<option value='0'>None</option>
-						<option value='10'>10 mm</option>
-						<option value='20'>20 mm</option>
-					</select>
+					<input id='yMin' class='widgetInput' type='number' value='0'></input>
+					<label id='yMinLabel' class='inputLabel' for='yMin'>< effic. <</label>
+					<input id='yMax' class='widgetInput' type='number' value='100'></input>
 
 					<br><br>
-					<label id='summingSchemeLabel' class='inputLabel' for='summingScheme'>Summing: </label>
-					<select id='summingScheme'>
-						<option value='crystal'>Per Crystal</option>
-						<option value='clover'>Per Clover</option>
-						<option value='array'>Full Array</option>
-					</select>
-				</div>
+					<div id='HPGeControl'>
+						<label id='HPGeDistanceSwitchLabel', class='inputLabel', for='HPGeDistanceSwitch'>HPGe Distance</label>
+						<select id='HPGeDistanceSwitch'>
+							<option value='11.0'>11.0</option>
+							<option value='14.5'>14.5</option>
+						</select>
+						<label id='HPGeDistanceSwitchLabel', class='inputLabel', for='HPGeDistanceSwitch'>cm</label>
 
-				<br><br>
-				<a id='savePlot' download='efficiencyPlot.png'>Save Plot</a>
-				<input id='filename', type='text' value='efficiencyPlot.png'></input>
+						<br><br>
+						<label id='nHPGeSwitchLabel', class='inputLabel', for='nHPGeSwitch'>No. HPGe</label>
+						<select id='nHPGeSwitch'>
+							<option value='8'>8</option>
+							<option value='12'>12</option>
+							<option value='16'>16</option>
+						</select>
 
+						<br><br>
+						<label id='delrinLabel' class='inputLabel' for='delrinSwitch'>Delrin Absorbers: </label>
+						<select id='delrinSwitch'>
+							<option value='0'>None</option>
+							<option value='10'>10 mm</option>
+							<option value='20'>20 mm</option>
+						</select>
+
+						<br><br>
+						<label id='summingSchemeLabel' class='inputLabel' for='summingScheme'>Summing: </label>
+						<select id='summingScheme'>
+							<option value='crystal'>Per Crystal</option>
+							<option value='clover'>Per Clover</option>
+							<option value='array'>Full Array</option>
+						</select>
+					</div>
+
+					<br><br>
+					<a id='savePlot' download='efficiencyPlot.png'>Save Plot</a>
+					<input id='filename', type='text' value='efficiencyPlot.png'></input>
+				</form>
 			</div>
 
 			<!--Widgets///////////////////////////////////////////////////////////-->
