@@ -142,6 +142,7 @@ function setup(){
 	document.getElementById('singlesRateBR').onchange = computeSinglesRate.bind(null);
 	document.getElementById('singlesRateIntensity').onchange = computeSinglesRate.bind(null);
 	document.getElementById('ratePeriod').onchange = computeSinglesRate.bind(null);
+	document.getElementById('nSingles').onchange = computeSinglesRate.bind(null);
 	
 	//set up coinc rate widget////////////////////////////////////////////
 	document.getElementById('coincRateEnergy1').onchange = computeCoincRate.bind(null);
@@ -543,15 +544,44 @@ function computeSinglesRate(){
 		HPGeEff = window.HPGeFunc(energy),
 		LaBrEff = window.LaBrFunc(energy),
 		periodSelect = document.getElementById("ratePeriod"),
-		period = parseFloat(periodSelect.options[periodSelect.selectedIndex].value);
+		period = parseFloat(periodSelect.options[periodSelect.selectedIndex].value),
+		nCounts = parseFloat(document.getElementById('nSingles').value),
+		HPGeSeconds, LaBrSeconds, HPGeUnit, LaBrUnit;
 
 	HPGeEff = parseFloat(HPGeEff.slice(HPGeEff.indexOf(';')+1, HPGeEff.lastIndexOf(';') ));
 	LaBrEff = parseFloat(LaBrEff.slice(LaBrEff.indexOf(';')+1, LaBrEff.lastIndexOf(';') ));
 
+	//rate
 	document.getElementById('rateWidgetResultHPGe').innerHTML = sciNot(intensity*BR*HPGeEff*period, 2);
 	document.getElementById('rateWidgetResultLaBr3').innerHTML = sciNot(intensity*BR*LaBrEff*period, 2);
-	//document.getElementById('rateWidgetResultLEPS').innerHTML = (intensity*BR*LEPSEff*period).toFixed();
+
+	//time to accrue:
+	HPGeSeconds = nCounts/(intensity*BR*HPGeEff);
+	HPGeUnit = chooseTimeUnit(HPGeSeconds);
+	document.getElementById('nSinglesHPGe').innerHTML = sciNot(HPGeSeconds/HPGeUnit[0], 2)+' '+HPGeUnit[1];
 	
+	LaBrSeconds = nCounts/(intensity*BR*LaBrEff);
+	LaBrUnit = chooseTimeUnit(LaBrSeconds);
+	document.getElementById('nSinglesLaBr3').innerHTML = sciNot(LaBrSeconds/LaBrUnit[0], 2)+' '+LaBrUnit[1];
+}
+
+function chooseTimeUnit(nSeconds){
+	var unit = 's',
+		factor = 1;
+
+	if(nSeconds>60){
+		unit = 'min';
+		factor = 60;
+	} 
+	if(nSeconds>3600){
+		unit = 'h';
+		factor = 3600;
+	}
+	if(nSeconds>86400){
+		unit = 'days';
+		factor = 86400;
+	}
+	return [factor, unit];
 }
 
 function computeCoincRate(){
