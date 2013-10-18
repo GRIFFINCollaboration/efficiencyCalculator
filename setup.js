@@ -6,6 +6,9 @@ function setup(){
 		coincInput1 = document.getElementById('coincInputEnergy1'),
 		coincInput2 = document.getElementById('coincInputEnergy2');
 
+	//call the parameter dump
+	loadParameters();
+
 	//set up control panel//////////////////////////////////////
 	HPGeSwitch.enabled = 0;
 	HPGeSwitch.onclick = function(event){
@@ -184,7 +187,6 @@ function chooseGraphs(){
 		colors = [],
 		min = parseFloat(document.getElementById('xMin').value),
 		max = parseFloat(document.getElementById('xMax').value),
-		HPGeCoef = {},
 		HPGeMinCoef = {},
 		HPGeMaxCoef = {},
 		requestString, i;
@@ -194,7 +196,7 @@ function chooseGraphs(){
 	//the order:
 	//summing scheme + nDetectors + HPGe Distance + Delrin thickness
 	//so 'clover1214.520' is 12 detectors at 14.5cm with 20mm delrin and per-clover summing.
-	HPGeCoef['clover811.00'] = [-8.0309801002962706e+02, 1.1187177193972436e+03, -6.7413427087340233e+02, 2.2869743662093572e+02, -4.7716717011091916e+01, 6.2669769394841666e+00, -5.0603869584892447e-01, 2.2979902406689505e-02, -4.4966824986778788e-04];
+	//HPGeCoef['clover811.00'] = [-8.0309801002962706e+02, 1.1187177193972436e+03, -6.7413427087340233e+02, 2.2869743662093572e+02, -4.7716717011091916e+01, 6.2669769394841666e+00, -5.0603869584892447e-01, 2.2979902406689505e-02, -4.4966824986778788e-04];
 	//HPGeMinCoef and HPGeMaxCoef are packed the same way as HPGeCoef, but hold the 1-sigma extrema for the coefficients:
 	HPGeMinCoef['dummy'] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 	HPGeMaxCoef['dummy'] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
