@@ -165,7 +165,9 @@ div.widget{
 	display: inline-block;
 	min-width:-webkit-max-content;
 	min-width:-moz-max-content;
-	margin-right: 3em;
+	margin: 1em;
+	background-color: #222222;
+	border-radius: 1em;
 }
 
 h2.widgetTitle{
@@ -233,6 +235,9 @@ div#controlPanel{
 	width:28%;
 	min-width:-webkit-max-content;
 	min-width:-moz-max-content;
+	background-color: #222222;
+	border-radius: 1em;
+	padding: 1em;
 }
 
 div.detectorSwitch, a#savePlot{

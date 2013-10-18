@@ -24,6 +24,8 @@ function setup(){
 			toggleOutput('coincEffWidgetResultHPGe', 0);
 			toggleOutput('rateWidgetResultHPGe', 0);
 			toggleOutput('coincRateWidgetResultHPGe', 0);
+			toggleOutput('nSinglesHPGe', 0);
+			toggleOutput('nCoincHPGe', 0);
 		} else{
 			this.style.backgroundColor = '#449944';
 			this.enabled = 1;
@@ -31,6 +33,8 @@ function setup(){
 			toggleOutput('coincEffWidgetResultHPGe', 1);
 			toggleOutput('rateWidgetResultHPGe', 1);
 			toggleOutput('coincRateWidgetResultHPGe', 1);
+			toggleOutput('nSinglesHPGe', 1);
+			toggleOutput('nCoincHPGe', 1);
 		}
 		toggleHPGeControls();
 		chooseGraphs();
@@ -44,6 +48,8 @@ function setup(){
 			toggleOutput('coincEffWidgetResultLaBr3', 0);
 			toggleOutput('rateWidgetResultLaBr3', 0);
 			toggleOutput('coincRateWidgetResultLaBr3', 0);
+			toggleOutput('nSinglesLaBr3', 0);
+			toggleOutput('nCoincLaBr3', 0);
 		} else{
 			this.style.backgroundColor = '#e67e22';
 			this.enabled = 1;
@@ -51,6 +57,8 @@ function setup(){
 			toggleOutput('coincEffWidgetResultLaBr3', 1);
 			toggleOutput('rateWidgetResultLaBr3', 1);
 			toggleOutput('coincRateWidgetResultLaBr3', 1);
+			toggleOutput('nSinglesLaBr3', 1);
+			toggleOutput('nCoincLaBr3', 1);
 		}
 		toggleLaBrControls();
 		chooseGraphs();
