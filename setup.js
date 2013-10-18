@@ -55,27 +55,6 @@ function setup(){
 		toggleLaBrControls();
 		chooseGraphs();
 	}
-	/*
-	LEPSSwitch.enabled = 0;
-	LEPSSwitch.onclick = function(event){
-		if (this.enabled){
-			this.style.backgroundColor = '#444444';
-			this.enabled = 0;
-			toggleOutput('effWidgetResultLEPS', 0);
-			toggleOutput('coincEffWidgetResultLEPS', 0);
-			toggleOutput('rateWidgetResultLEPS', 0);
-			toggleOutput('coincRateWidgetResultLEPS', 0);
-		} else{
-			this.style.backgroundColor = '#2980b9';
-			this.enabled = 1;
-			toggleOutput('effWidgetResultLEPS', 1);
-			toggleOutput('coincEffWidgetResultLEPS', 1);
-			toggleOutput('rateWidgetResultLEPS', 1);
-			toggleOutput('coincRateWidgetResultLEPS', 1);
-		}
-		chooseGraphs();
-	}
-	*/
 
 	//make sure the file name for image saving gets passed around:
 	document.getElementById('filename').onchange = function(){
@@ -150,6 +129,7 @@ function setup(){
 	document.getElementById('coincRateBR').onchange = computeCoincRate.bind(null);
 	document.getElementById('coincRateIntensity').onchange = computeCoincRate.bind(null);
 	document.getElementById('coincRatePeriod').onchange = computeCoincRate.bind(null);
+	document.getElementById('nCoinc').onchange = computeCoincRate.bind(null);
 
 	//default to on for demo:
 	HPGeSwitch.onclick();
@@ -558,11 +538,17 @@ function computeSinglesRate(){
 	//time to accrue:
 	HPGeSeconds = nCounts/(intensity*BR*HPGeEff);
 	HPGeUnit = chooseTimeUnit(HPGeSeconds);
-	document.getElementById('nSinglesHPGe').innerHTML = sciNot(HPGeSeconds/HPGeUnit[0], 2)+' '+HPGeUnit[1];
+	if(intensity*BR*HPGeEff != 0)
+		document.getElementById('nSinglesHPGe').innerHTML = sciNot(HPGeSeconds/HPGeUnit[0], 2)+' '+HPGeUnit[1];
+	else 
+		document.getElementById('nSinglesHPGe').innerHTML = String.fromCharCode(0x221E);
 	
 	LaBrSeconds = nCounts/(intensity*BR*LaBrEff);
 	LaBrUnit = chooseTimeUnit(LaBrSeconds);
-	document.getElementById('nSinglesLaBr3').innerHTML = sciNot(LaBrSeconds/LaBrUnit[0], 2)+' '+LaBrUnit[1];
+	if(intensity*BR*LaBrEff != 0)
+		document.getElementById('nSinglesLaBr3').innerHTML = sciNot(LaBrSeconds/LaBrUnit[0], 2)+' '+LaBrUnit[1];
+	else 
+		document.getElementById('nSinglesLaBr3').innerHTML = String.fromCharCode(0x221E);
 }
 
 function chooseTimeUnit(nSeconds){
@@ -597,7 +583,8 @@ function computeCoincRate(){
 		LaBrEff2 = window.LaBrFunc(e2),	
 		periodSelect = document.getElementById("coincRatePeriod"),
 		period = parseFloat(periodSelect.options[periodSelect.selectedIndex].value),
-		HPGeEff, LaBrEff;
+		nCounts = parseFloat(document.getElementById('nCoinc').value),
+		HPGeEff, LaBrEff, HPGeSeconds, LaBrSeconds, HPGeUnit, LaBrUnit;
 
 	HPGeEff1 = parseFloat(HPGeEff1.slice(HPGeEff1.indexOf(';')+1, HPGeEff1.lastIndexOf(';') ));
 	HPGeEff2 = parseFloat(HPGeEff2.slice(HPGeEff2.indexOf(';')+1, HPGeEff2.lastIndexOf(';') ));
@@ -608,7 +595,22 @@ function computeCoincRate(){
 	LaBrEff = (LaBrEff1*LaBrEff2*7/8);
 
 	document.getElementById('coincRateWidgetResultHPGe').innerHTML = sciNot(intensity*BR*HPGeEff*period, 2);
-	document.getElementById('coincRateWidgetResultLaBr3').innerHTML = sciNot(intensity*BR*LaBrEff*period, 2);	
+	document.getElementById('coincRateWidgetResultLaBr3').innerHTML = sciNot(intensity*BR*LaBrEff*period, 2);
+
+	//time to accrue:
+	HPGeSeconds = nCounts/(intensity*BR*HPGeEff);
+	HPGeUnit = chooseTimeUnit(HPGeSeconds);
+	if(intensity*BR*HPGeEff != 0)
+		document.getElementById('nCoincHPGe').innerHTML = sciNot(HPGeSeconds/HPGeUnit[0], 2)+' '+HPGeUnit[1];
+	else
+		document.getElementById('nCoincHPGe').innerHTML = String.fromCharCode(0x221E);
+	
+	LaBrSeconds = nCounts/(intensity*BR*LaBrEff);
+	LaBrUnit = chooseTimeUnit(LaBrSeconds);
+	if(intensity*BR*LaBrEff != 0)
+		document.getElementById('nCoincLaBr3').innerHTML = sciNot(LaBrSeconds/LaBrUnit[0], 2)+' '+LaBrUnit[1];
+	else
+		document.getElementById('nCoincLaBr3').innerHTML = String.fromCharCode(0x221E);
 }
 
 function sciNot(val, sig){
