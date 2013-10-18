@@ -8,6 +8,7 @@ function setup(){
 		triplesInput1 = document.getElementById('tripleInputEnergy1'),
 		triplesInput2 = document.getElementById('tripleInputEnergy2'),
 		triplesInput3 = document.getElementById('tripleInputEnergy3');
+		triplesAuxDet = document.getElementById('tripleAux');
 
 	//call the parameter dump
 	loadParameters();
@@ -125,10 +126,15 @@ function setup(){
 	document.getElementById('coincEffWidget').whichInput = 0;
 
 	//set up triples efficiency widget//////////////////////////////
-	document.getElementById('tripleInputEnergyLabel3').innerHTML = 'keV '+String.fromCharCode(0x2192);
-	triplesInput1.onchange = computeTriplesEfficiency.bind(null);
+	document.getElementById('tripleResultLabel').innerHTML = String.fromCharCode(0x2192);
+	triplesInput1.onchange = function(){
+		validateDESCANTinput();
+		computeTriplesEfficiency.bind(null)();
+	}
 	triplesInput2.onchange = computeTriplesEfficiency.bind(null);
 	triplesInput3.onchange = computeTriplesEfficiency.bind(null);
+	triplesAuxDet.onchange = computeTriplesEfficiency.bind(null);
+
 	document.getElementById('tripleEffWidget').whichInput = 0;
 
 	//set up singles rate widget////////////////////////////////////
@@ -161,6 +167,17 @@ function updateYrange(){
 	g.updateOptions({
 		valueRange : [parseFloat(document.getElementById('yMin').value), parseFloat(document.getElementById('yMax').value)]	
 	});	
+}
+
+function validateDESCANTinput(){
+	var auxDetectorSelect = document.getElementById('tripleAux'),
+		auxDetector = auxDetectorSelect.options[auxDetectorSelect.selectedIndex].value,
+		input = document.getElementById('tripleInputEnergy1');
+
+	if(auxDetector == 'DESCANT' && (parseFloat(input.value)<1000 || parseFloat(input.value)>5000)){
+		confirm('DESCANT Energy Out of Range', 'DESCANT neutron efficiencies are not reported below 1 MeV or above 5 MeV at this time.');
+		input.value = 1000;
+	}
 }
 
 function toggleOutput(id, state){
@@ -213,17 +230,29 @@ function computeTriplesEfficiency(){
 	var e1 = Math.log(parseFloat(document.getElementById('tripleInputEnergy1').value)),
 		e2 = Math.log(parseFloat(document.getElementById('tripleInputEnergy2').value)),
 		e3 = Math.log(parseFloat(document.getElementById('tripleInputEnergy3').value)),
-		HPGeEff = window.HPGeFunc(e1),
+		auxDetectorSelect = document.getElementById('tripleAux'),
+		auxDetector = auxDetectorSelect.options[auxDetectorSelect.selectedIndex].value,
+		//auxEff = window.HPGeFunc(e1),
 		LaBrEff1 = window.LaBrFunc(e2),
 		LaBrEff2 = window.LaBrFunc(e3),
-		LaBrEff, tripleEff;
+		LaBrEff, tripleEff, auxEff;
 
-	HPGeEff = parseFloat(HPGeEff.slice(HPGeEff.indexOf(';')+1, HPGeEff.lastIndexOf(';') ));
+	if(auxDetector == 'HPGe'){
+		auxEff = window.HPGeFunc(e1);
+		auxEff = parseFloat(auxEff.slice(auxEff.indexOf(';')+1, auxEff.lastIndexOf(';') ));
+	} else if(auxDetector == 'DESCANT'){
+		validateDESCANTinput();
+		e1 = Math.log(parseFloat(document.getElementById('tripleInputEnergy1').value));
+		auxEff = DESCANTefficiency(e1);
+	} else if(auxDetector == 'SCEPTAR'){
+		//PROFIT?
+	}
+
 	LaBrEff1 = parseFloat(LaBrEff1.slice(LaBrEff1.indexOf(';')+1, LaBrEff1.lastIndexOf(';') ));
 	LaBrEff2 = parseFloat(LaBrEff2.slice(LaBrEff2.indexOf(';')+1, LaBrEff2.lastIndexOf(';') ));
 
 	LaBrEff = (LaBrEff1*LaBrEff2*7/8);
-	tripleEff = HPGeEff*LaBrEff;
+	tripleEff = auxEff*LaBrEff;
 
 	document.getElementById('tripleEffWidgetResult').innerHTML = (tripleEff > 0.1) ? tripleEff.toFixed(2) : sciNot(tripleEff, 1);
 }
@@ -267,8 +296,7 @@ function chooseGraphs(){
 	}
 	if(document.getElementById('enableLaBr3').enabled){
 		LaBrString = constructLaBrPlotKey();
-		//LaBr3 uses same 8th order polynomial as HPGe, just with different coefficients stuck in:
-		window.LaBrFunc = HPGeEfficiency.bind(null, LaBrCoef[LaBrString], HPGeMinCoef['dummy'], HPGeMaxCoef['dummy']);
+		window.LaBrFunc = LaBrEfficiency.bind(null, LaBrCoef[LaBrString], HPGeMinCoef['dummy'], HPGeMaxCoef['dummy']);
 		funcs[funcs.length] = window.LaBrFunc;
 		titles[titles.length] = 'LaBr3';
 		colors[colors.length] = '#e67e22';
@@ -564,6 +592,78 @@ function sciNot(val, sig){
 	}
 }
 
+//more flexible DOM injector; <properties> is an object containing property.value pairs for all properties to be set: 
+function injectDOM(element, id, wrapperID, properties){
+    var key, elt,
+        newElement = document.createElement(element);
+    //explicit ID
+    newElement.setAttribute('id', id);
+    //append to document:
+    if(wrapperID == 'body')
+        document.body.appendChild(newElement)
+    else
+        document.getElementById(wrapperID).appendChild(newElement);
+    elt = document.getElementById(id);
+
+    //some things need to be set specially:
+    if(properties['innerHTML']){
+        elt.innerHTML = properties['innerHTML'];
+        delete properties['innerHTML'];
+    }
+    if(properties['onclick']){
+        elt.onclick = properties['onclick'];
+        delete properties['onclick'];
+    }
+    //send in the clowns:
+    for(key in properties){
+        elt.setAttribute(key, properties[key]);
+    }
+
+}
+
+//generic confirmation dialog
+function confirm(headline, detailText){
+    var i, j, ODBpath;
+
+    //insert div and title
+    injectDOM('div', 'tempDiv', 'body', {'class':'tempDialog'});
+    var dialogue = document.getElementById('tempDiv');
+    injectDOM('h2', 'dialogHeader', 'tempDiv', {
+        'style' : 'position:relative; font:24px Raleway; top:10px; margin-bottom:6%; margin-left:auto; margin-right:auto;',
+        'innerHTML' : headline
+    })
+
+    //fix dimensions
+    var width = 0.35*window.innerWidth;
+    document.getElementById('dialogHeader').setAttribute('width', width);
+
+    //center dialogue
+    document.getElementById('tempDiv').style.left = document.body.offsetWidth/2 - width/2;
+
+    //warning text
+    injectDOM('p', 'warning', 'tempDiv', {'style':'padding: 1em; font-size:120%;', 'innerHTML':detailText});
+
+    //insert submit & abort button
+    injectDOM('input', 'abortChoice', 'tempDiv', {
+        'class' : 'standardButton',
+        'style' : 'width:auto; height:auto; padding:0.5em; margin-bottom:1em',
+        'type' : 'button',
+        'value' : 'Abort'
+    });
+
+    document.getElementById('abortChoice').onclick = function(event){
+        document.getElementById('tempDiv').style.opacity = 0;
+        setTimeout(function(){
+            var element = document.getElementById('tempDiv');
+            element.parentNode.removeChild(element);            
+        }, 500);
+    }
+
+    //fade the div in:
+    dialogue.style.opacity = 1
+}
+
+
 //functions//////////////////////////////////////////////////////////////////////////////////
 
 //an eighth order polynomial for logEff in logE with coef. param = [0th order, 1st order, ..., 8th order].
@@ -586,6 +686,37 @@ function HPGeEfficiency(param, loParam, hiParam, logE){
 
 	eff = Math.exp(logEff);
 	return (eff - eff*loDelta) + ';' + eff + ';' + (eff + eff*hiDelta);
+}
+
+function LaBrEfficiency(param, loParam, hiParam, logE){
+	var i,
+		logEff = 0,
+		loDelta = 0,
+		hiDelta = 0,
+		eff;
+
+	if(logE < Math.log(40)) return '0;0;0';
+
+	for(i=0; i<9; i++){
+		logEff += param[i]*Math.pow(logE,i);
+		//loDelta += Math.pow((param[i] - loParam[i])*Math.pow(logE,i), 2);
+		//hiDelta += Math.pow((hiParam[i] - param[i])*Math.pow(logE,i), 2);
+	}
+	//loDelta = Math.sqrt(loDelta);  //leave these errors out until we have a better grasp of what they should be.
+	//hiDelta = Math.sqrt(hiDelta);
+
+	eff = Math.exp(logEff);
+	return (eff - eff*loDelta) + ';' + eff + ';' + (eff + eff*hiDelta);
+}
+
+function DESCANTefficiency(logE){
+	if(logE < Math.log(1000)){
+		return 0;
+	} else if(logE > Math.log(5000)){
+		return 0;
+	} else{
+		return 0.27;  //100% efficient * 27% geometric acceptance
+	}
 }
 
 /////Dygraph hax/////////////////////////////////////////////////////////////

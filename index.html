@@ -137,34 +137,39 @@
 				<div id='effWidgetResultHPGe' class='widgetResult'>0.0</div>
 				<div id='effWidgetResultLaBr3' class='widgetResult'>0.0</div>
 				<!--div id='effWidgetResultLEPS' class='widgetResult'>0.0</div-->
-				<label id='effWidgetResultLabel' class='inputLabel' for='effWidgetResult'>%</label>
 			</div>
 
 			<div id='coincEffWidget' class='widget'>
 				<h2 id='coincEffWidgetTitle' class='widgetTitle'>Coincidence Efficiency</h2>
 				<input id='coincInputEnergy1' class='widgetInput' type='number' value='0'></input>
-				<label id='coincInputEnergyLabel1' class='inputLabel' for='coincInputEnergy1'>keV +</label>
+				<label id='coincInputEnergyLabel1' class='inputLabel' for='coincInputEnergy1'>keV &</label>
 				<input id='coincInputEnergy2' class='widgetInput' type='number' value='0'></input>
 				<label id='coincInputEnergyLabel2' class='inputLabel' for='coincInputEnergy2'></label>			
 				<div id='coincEffWidgetResultHPGe' class='widgetResult'>0.0</div>
 				<div id='coincEffWidgetResultLaBr3' class='widgetResult'>0.0</div>
-				<!--div id='coincEffWidgetResultLEPS' class='widgetResult'>0.0</div-->
-				<label id='coincEffWidgetResultLabel' class='inputLabel' for='coincEffWidgetResult'>%</label>
-			</div>
-
-			<div id='tripleEffWidget' class='widget'>
-				<h2 id='tripleEffWidgetTitle' class='widgetTitle'>Triples Efficiency</h2>
-				<input id='tripleInputEnergy1' class='widgetInput' type='number' value='0'></input>
-				<label id='tripleInputEnergyLabel1' class='inputLabel' for='tripleInputEnergy1'>keV +</label>
-				<input id='tripleInputEnergy2' class='widgetInput' type='number' value='0'></input>
-				<label id='tripleInputEnergyLabel2' class='inputLabel' for='tripleInputEnergy2'>keV +</label>
-				<input id='tripleInputEnergy3' class='widgetInput' type='number' value='0'></input>
-				<label id='tripleInputEnergyLabel3' class='inputLabel' for='tripleInputEnergy3'></label>
-				<div id='tripleEffWidgetResult' class='widgetResult'>0.0</div>
-				<label id='tripleEffWidgetResultLabel' class='inputLabel' for='tripleEffWidgetResult'>%</label>
 			</div>
 
 			<br>
+			<div id='tripleEffWidget' class='widget'>
+				<h2 id='tripleEffWidgetTitle' class='widgetTitle'>Triples Efficiency</h2>
+				<select id='tripleAux'>
+					<option value='HPGe'>HPGe</option>
+					<option value='DESCANT'>DESCANT</option>
+					<option value='SCEPTAR'>SCEPTAR</option>
+				</select>
+				<label id='tripleInputEnergyLabel1a' class='inputLabel' for='tripleInputEnergy1'>at</label>
+				<input id='tripleInputEnergy1' class='widgetInput' type='number' value='0'></input>
+				<label id='tripleInputEnergyLabel1b' class='inputLabel' for='tripleInputEnergy1'>keV</label>
+				<label id='tripleInputEnergyLabel2a' class='inputLabel' for='tripleInputEnergy2'>+ LaBr3 at</label>
+				<input id='tripleInputEnergy2' class='widgetInput' type='number' value='0'></input>
+				<label id='tripleInputEnergyLabel2b' class='inputLabel' for='tripleInputEnergy2'>keV &</label>
+				<input id='tripleInputEnergy3' class='widgetInput' type='number' value='0'></input>
+				<label id='tripleInputEnergyLabel3' class='inputLabel' for='tripleInputEnergy3'>keV</label>
+				<br>
+				<label id='tripleResultLabel' class='inputLabel' for='tripleEffWidgetResult'></label>
+				<div id='tripleEffWidgetResult' class='widgetResult'>0.0</div>
+			</div>
+
 			<div id='rateWidget' class='widget'>
 				<h2 id='rateWidgetTitle' class='widgetTitle'>Singles Detection Rate</h2>
 				<input id='singlesRateEnergy' class='widgetInput' type='number' value='0'></input>

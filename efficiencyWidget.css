@@ -293,6 +293,23 @@ img#pngDump{
 	display:none;
 }
 
+/*popup window////////////////////////////////////////////////*/
+.tempDialog{
+	font-family: 'Raleway', sans-serif; 
+	z-index:10; 
+	position:fixed; 
+	text-align:center; 
+	opacity:0; 
+	transition:opacity 0.5s; 
+	-moz-transition:opacity 0.5s; 
+	-webkit-transition:opacity 0.5s; 
+	background:rgba(0,0,0,0.8); 
+	border: 5px solid; 
+	border-radius:10px;
+	top:200px;
+	padding:2em;
+}
+
 /*Footer and footer-related styles////////////////////////////////////////////////////*/
 div#footer{
 	background-color: #999999;
