@@ -114,8 +114,8 @@ function setup(){
 
 	//set up coincidence efficiency widget//////////////////////////
 	document.getElementById('coincInputEnergyLabel2').innerHTML = 'keV '+String.fromCharCode(0x2192);
-	coincInput1.onchange = computeCoincEfficiency.bind(null, 16);
-	coincInput2.onchange = computeCoincEfficiency.bind(null, 16);
+	coincInput1.onchange = computeCoincEfficiency.bind(null);
+	coincInput2.onchange = computeCoincEfficiency.bind(null);
 	document.getElementById('coincEffWidget').whichInput = 0;
 
 	//set up triples efficiency widget//////////////////////////////
@@ -166,23 +166,37 @@ function toggleOutput(id, state){
 }
 
 function computeSinglesEfficiency(){
-	var HPGeEff = window.HPGeFunc(parseFloat(document.getElementById('inputEnergy').value)),
-		LaBrEff = window.LaBrFunc(parseFloat(document.getElementById('inputEnergy').value)),
+	var energy = Math.log(parseFloat(document.getElementById('inputEnergy').value)),
+		HPGeEff = window.HPGeFunc(energy),
+		LaBrEff = window.LaBrFunc(energy);
 
 	HPGeEff = parseFloat(HPGeEff.slice(HPGeEff.indexOf(';')+1, HPGeEff.lastIndexOf(';') ));
 	LaBrEff = parseFloat(LaBrEff.slice(LaBrEff.indexOf(';')+1, LaBrEff.lastIndexOf(';') ));
 
-	document.getElementById('effWidgetResultHPGe').innerHTML = HPGeEff.toFixed(2);
-	document.getElementById('effWidgetResultLaBr3').innerHTML = LaBrEff.toFixed(2);
-	//document.getElementById('effWidgetResultLEPS').innerHTML = fake(parseFloat(document.getElementById('inputEnergy').value)).toFixed(2);
+	document.getElementById('effWidgetResultHPGe').innerHTML = (HPGeEff > 0.1) ? HPGeEff.toFixed(2) : sciNot(HPGeEff, 1);
+	document.getElementById('effWidgetResultLaBr3').innerHTML = (LaBrEff > 0.1) ? LaBrEff.toFixed(2) : sciNot(LaBrEff, 1);
 }
 
-function computeCoincEfficiency(nDetectors){
-	var e1 = parseFloat(document.getElementById('coincInputEnergy1').value),
-		e2 = parseFloat(document.getElementById('coincInputEnergy2').value);
-	document.getElementById('coincEffWidgetResultHPGe').innerHTML = (efficient(e1)*efficient(e2)*(nDetectors-1)/nDetectors).toFixed(2);
-	document.getElementById('coincEffWidgetResultLaBr3').innerHTML = (dummy(e1)*dummy(e2)*(nDetectors-1)/nDetectors).toFixed(2);
-	//document.getElementById('coincEffWidgetResultLEPS').innerHTML = (fake(e1)*fake(e2)*(nDetectors-1)/nDetectors).toFixed(2);
+function computeCoincEfficiency(){
+	var e1 = Math.log(parseFloat(document.getElementById('coincInputEnergy1').value)),
+		e2 = Math.log(parseFloat(document.getElementById('coincInputEnergy2').value)),
+		HPGeEff1 = window.HPGeFunc(e1),
+		HPGeEff2 = window.HPGeFunc(e2),
+		LaBrEff1 = window.LaBrFunc(e1),
+		LaBrEff2 = window.LaBrFunc(e2),
+		nHPGeSelect = document.getElementById('nHPGeSwitch'),
+		nHPGe = parseFloat(nHPGeSelect.options[nHPGeSelect.selectedIndex].value),
+		HPGeEff, LaBrEff;
+
+	HPGeEff1 = parseFloat(HPGeEff1.slice(HPGeEff1.indexOf(';')+1, HPGeEff1.lastIndexOf(';') ));
+	HPGeEff2 = parseFloat(HPGeEff2.slice(HPGeEff2.indexOf(';')+1, HPGeEff2.lastIndexOf(';') ));
+	LaBrEff1 = parseFloat(LaBrEff1.slice(LaBrEff1.indexOf(';')+1, LaBrEff1.lastIndexOf(';') ));
+	LaBrEff2 = parseFloat(LaBrEff2.slice(LaBrEff2.indexOf(';')+1, LaBrEff2.lastIndexOf(';') ));
+
+	HPGeEff = (HPGeEff1*HPGeEff2*(nHPGe-1)/nHPGe);
+	LaBrEff = (LaBrEff1*LaBrEff2*7/8);
+	document.getElementById('coincEffWidgetResultHPGe').innerHTML = (HPGeEff > 0.1) ? HPGeEff.toFixed(2) : sciNot(HPGeEff, 1);
+	document.getElementById('coincEffWidgetResultLaBr3').innerHTML = (LaBrEff > 0.1) ? LaBrEff.toFixed(2) : sciNot(LaBrEff, 1);
 } 
 
 function toggleHPGeControls(){
@@ -446,34 +460,48 @@ function getBase64Image(img) {
 }
 
 function computeSinglesRate(){
-	var energy = parseFloat(document.getElementById('singlesRateEnergy').value),
+	var energy = Math.log(parseFloat(document.getElementById('singlesRateEnergy').value)),
 		BR = parseFloat(document.getElementById('singlesRateBR').value),
 		intensity = parseFloat(document.getElementById('singlesRateIntensity').value),
-		HPGeEff = efficient(energy),
-		LaBr3Eff = dummy(energy),
-		//LEPSEff = fake(energy),
+		HPGeEff = window.HPGeFunc(energy),
+		LaBrEff = window.LaBrFunc(energy),
 		periodSelect = document.getElementById("ratePeriod"),
 		period = parseFloat(periodSelect.options[periodSelect.selectedIndex].value);
 
+	HPGeEff = parseFloat(HPGeEff.slice(HPGeEff.indexOf(';')+1, HPGeEff.lastIndexOf(';') ));
+	LaBrEff = parseFloat(LaBrEff.slice(LaBrEff.indexOf(';')+1, LaBrEff.lastIndexOf(';') ));
+
 	document.getElementById('rateWidgetResultHPGe').innerHTML = sciNot(intensity*BR*HPGeEff*period, 2);
-	document.getElementById('rateWidgetResultLaBr3').innerHTML = sciNot(intensity*BR*LaBr3Eff*period, 2);
+	document.getElementById('rateWidgetResultLaBr3').innerHTML = sciNot(intensity*BR*LaBrEff*period, 2);
 	//document.getElementById('rateWidgetResultLEPS').innerHTML = (intensity*BR*LEPSEff*period).toFixed();
+	
 }
 
 function computeCoincRate(){
-	var energy1 = parseFloat(document.getElementById('coincRateEnergy1').value),
-		energy2 = parseFloat(document.getElementById('coincRateEnergy2').value),
+	var e1 = Math.log(parseFloat(document.getElementById('coincRateEnergy1').value)),
+		e2 = Math.log(parseFloat(document.getElementById('coincRateEnergy2').value)),
 		BR = parseFloat(document.getElementById('coincRateBR').value),
 		intensity = parseFloat(document.getElementById('coincRateIntensity').value),
-		HPGeEff = efficient(energy1)*efficient(energy2)*(15/16),
-		LaBr3Eff = dummy(energy1)*dummy(energy2)*(15/16),
-		//LEPSEff = fake(energy1)*fake(energy2)*(15/16),
+		nHPGeSelect = document.getElementById('nHPGeSwitch'),
+		nHPGe = parseFloat(nHPGeSelect.options[nHPGeSelect.selectedIndex].value),	
+		HPGeEff1 = window.HPGeFunc(e1),
+		HPGeEff2 = window.HPGeFunc(e2),
+		LaBrEff1 = window.LaBrFunc(e1),
+		LaBrEff2 = window.LaBrFunc(e2),	
 		periodSelect = document.getElementById("coincRatePeriod"),
-		period = parseFloat(periodSelect.options[periodSelect.selectedIndex].value);
+		period = parseFloat(periodSelect.options[periodSelect.selectedIndex].value),
+		HPGeEff, LaBrEff;
+
+	HPGeEff1 = parseFloat(HPGeEff1.slice(HPGeEff1.indexOf(';')+1, HPGeEff1.lastIndexOf(';') ));
+	HPGeEff2 = parseFloat(HPGeEff2.slice(HPGeEff2.indexOf(';')+1, HPGeEff2.lastIndexOf(';') ));
+	LaBrEff1 = parseFloat(LaBrEff1.slice(LaBrEff1.indexOf(';')+1, LaBrEff1.lastIndexOf(';') ));
+	LaBrEff2 = parseFloat(LaBrEff2.slice(LaBrEff2.indexOf(';')+1, LaBrEff2.lastIndexOf(';') ));
+
+	HPGeEff = (HPGeEff1*HPGeEff2*(nHPGe-1)/nHPGe);
+	LaBrEff = (LaBrEff1*LaBrEff2*7/8);
 
 	document.getElementById('coincRateWidgetResultHPGe').innerHTML = sciNot(intensity*BR*HPGeEff*period, 2);
-	document.getElementById('coincRateWidgetResultLaBr3').innerHTML = sciNot(intensity*BR*LaBr3Eff*period, 2);
-	//document.getElementById('coincRateWidgetResultLEPS').innerHTML = (intensity*BR*LEPSEff*period).toFixed();	
+	document.getElementById('coincRateWidgetResultLaBr3').innerHTML = sciNot(intensity*BR*LaBrEff*period, 2);	
 }
 
 function sciNot(val, sig){
