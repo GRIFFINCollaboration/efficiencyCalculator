@@ -8,7 +8,8 @@ function setup(){
 		triplesInput1 = document.getElementById('tripleInputEnergy1'),
 		triplesInput2 = document.getElementById('tripleInputEnergy2'),
 		triplesInput3 = document.getElementById('tripleInputEnergy3');
-		triplesAuxDet = document.getElementById('tripleAux');
+		triplesAuxDet = document.getElementById('tripleAux'),
+		detailMessage = 'HPGe Simulation: 8th order polynomial fit.<br>LaBr3 Simulation: 8th order polynomial fit above 40 keV.<br>DESCANT: 27% efficient between 1 and 5 MeV, currently 0 elsewhere.<br>SCEPTAR: 80% efficient.<br>SCEPTAR + ZDS: 65% efficient.<br>SCEPTAR + PACES: 40% efficient.<br>PACES + ZDS: 25% efficient.';
 
 	//call the parameter dump
 	loadParameters();
@@ -101,6 +102,10 @@ function setup(){
     document.getElementById('ENSDF').onclick = function(){
         window.open('http://www.nndc.bnl.gov/ensdf/', 'ENSDFtab');
     };
+
+    document.getElementById('details').onclick = function(){
+        confirm('GRIFFIN Simulated Efficiency Calculator', detailMessage)
+    };    
 
     //make sure the plot area is a sane size:
     document.getElementById('graphDiv').style.width = (window.innerWidth - document.getElementById('controlPanel').offsetWidth)*0.95;
@@ -685,14 +690,14 @@ function confirm(headline, detailText){
     document.getElementById('tempDiv').style.left = document.body.offsetWidth/2 - width/2;
 
     //warning text
-    injectDOM('p', 'warning', 'tempDiv', {'style':'padding: 1em; font-size:120%;', 'innerHTML':detailText});
+    injectDOM('p', 'warning', 'tempDiv', {'style':'padding: 1em; font-size:120%; line-height:1.5; text-align:left', 'innerHTML':detailText});
 
     //insert submit & abort button
     injectDOM('input', 'abortChoice', 'tempDiv', {
         'class' : 'standardButton',
         'style' : 'width:auto; height:auto; padding:0.5em; margin-bottom:1em',
         'type' : 'button',
-        'value' : 'Abort'
+        'value' : 'Dismiss'
     });
 
     document.getElementById('abortChoice').onclick = function(event){
