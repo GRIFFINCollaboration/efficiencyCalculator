@@ -229,6 +229,10 @@ div#tripleEffWidgetResult{
 	background-color: #9b59b6;
 }
 
+#singlesRateEnergy, #coincRateEnergy1, #rateWidgetResultHPGe, #coincRateWidgetResultHPGe{
+	margin-bottom:0.25em;
+}
+
 /*Control Panel/////////////////////////////////////////////////////*/
 div#controlPanel{
 	float:right;
@@ -280,6 +284,8 @@ select{
 	margin:0px;
     -webkit-appearance:none;
     -moz-appearance:none;
+ 	text-indent: 0.01px;
+    text-overflow: '';
     appearance:none;
 }
 

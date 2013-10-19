@@ -102,6 +102,10 @@ function setup(){
         window.open('http://www.nndc.bnl.gov/ensdf/', 'ENSDFtab');
     };
 
+    //make sure the plot area is a sane size:
+    document.getElementById('graphDiv').style.width = (window.innerWidth - document.getElementById('controlPanel').offsetWidth)*0.95;
+    document.getElementById('graphDiv').style.height = document.getElementById('controlPanel').offsetHeight*1.05;
+
 	//set up singles efficiency widget//////////////////////////
 	document.getElementById('inputEnergyLabel').innerHTML = 'keV '+String.fromCharCode(0x2192);
 	singlesInput.onchange = computeSinglesEfficiency.bind(null);
