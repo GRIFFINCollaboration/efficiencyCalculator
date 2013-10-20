@@ -76,6 +76,7 @@ function setup(){
 	document.getElementById('xMax').onchange = updateXrange;
 	document.getElementById('yMin').onchange = updateYrange;
 	document.getElementById('yMax').onchange = updateYrange;
+	document.getElementById('yScale').onchange = switchYscale;
 
 	//default No. HPGe to 12:
 	document.getElementById('nHPGeSwitch').value = 12;
@@ -162,9 +163,28 @@ function updateXrange(){
 }
 
 function updateYrange(){
-	g.updateOptions({
-		valueRange : [parseFloat(document.getElementById('yMin').value), parseFloat(document.getElementById('yMax').value)]	
-	});	
+	//g.updateOptions({
+	//	valueRange : [parseFloat(document.getElementById('yMin').value), parseFloat(document.getElementById('yMax').value)]	
+	//});
+	chooseGraphs();
+}
+
+function switchYscale(){
+	/*
+	var yScaleSwitch = document.getElementById('yScale'),
+		yScale = parseFloat(yScaleSwitch.options[yScaleSwitch.selectedIndex].value);
+
+	if(yScale == 'lin'){
+		g.updateOptions({
+			logscale: false
+		});
+	} else{
+		g.updateOptions({
+			logscale: true
+		});
+	}
+	*/
+	chooseGraphs();
 }
 
 function validateDESCANTinput(){
@@ -316,7 +336,13 @@ function deployGraph(func, titles, colors, min, max){
 		nPoints = 1000,
 		scaleSelect = document.getElementById("xScale"),
 	    scale = scaleSelect.options[scaleSelect.selectedIndex].value;
-
+		yScaleSelect = document.getElementById("yScale"),
+	    yScale = yScaleSelect.options[yScaleSelect.selectedIndex].value;
+	    if(yScale=='true') yScale = true;
+	    else yScale = false;
+	    //don't let the user switch to log scale with a 0 min
+	    if(yScale && parseFloat(document.getElementById('yMin').value)==0 )
+	    	document.getElementById('yMin').value = 0.001;
 
 	for(i=0; i<titles.length; i++){
 		data += ', '+titles[i];
@@ -352,6 +378,8 @@ function deployGraph(func, titles, colors, min, max){
 		clickCallback : passClickToWidget,
 		legend: 'always',
 		customBars: true,
+		logscale: yScale,
+		valueRange : [parseFloat(document.getElementById('yMin').value), parseFloat(document.getElementById('yMax').value)],
 		axes:{
 			x: {
 				valueFormatter: function(number, opts, dygraph){
@@ -427,8 +455,8 @@ function repaint(dygraph){
 		xMin.value = Math.exp(g.xAxisRange()[0]).toFixed();
 		xMax.value = Math.exp(g.xAxisRange()[1]).toFixed();
 	}
-	yMin.value = g.yAxisRange()[0].toFixed();
-	yMax.value = g.yAxisRange()[1].toFixed();
+	yMin.value = g.yAxisRange()[0].toFixed(2);
+	yMax.value = g.yAxisRange()[1].toFixed(2);
 
 }
 

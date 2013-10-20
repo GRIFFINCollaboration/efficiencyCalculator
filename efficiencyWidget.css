@@ -303,6 +303,10 @@ div#HPGeControl, div#LaBr3Control{
     -moz-transition: height 0.5s ease;
 }
 
+input#yMin, input#yMax{
+	width: 3em;
+}
+
 /*img holder for savable data///////////////////////////////////////*/
 img#pngDump{
 	display:none;
