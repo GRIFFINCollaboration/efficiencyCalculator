@@ -48,7 +48,8 @@ Dygraph.Export.DEFAULT_ATTRS = {
 	lineHeight: 30,
 	maxlabelsWidth: 0,
 	labelTopMargin: 35,
-	magicNumbertop: 8
+	magicNumbertop: 8,
+    billHack: 20           //more padding needed hacks away!
 	
 };
 
@@ -99,8 +100,8 @@ Dygraph.Export.asCanvas = function (dygraph, userOptions) {
     Dygraph.update(options, Dygraph.Export.DEFAULT_ATTRS);
     Dygraph.update(options, userOptions);
 
-    canvas.width = dygraph.width_;
-    canvas.height = dygraph.height_ + options.legendHeight;
+    canvas.width = dygraph.width_+options.billHack;
+    canvas.height = dygraph.height_ + options.legendHeight+options.billHack;
 
     Dygraph.Export.drawPlot(canvas, dygraph, options);    
     Dygraph.Export.drawLegend(canvas, dygraph, options);
@@ -124,7 +125,7 @@ Dygraph.Export.drawPlot = function (canvas, dygraph, options) {
     
     var i = 0;
     
-    ctx.drawImage(plotCanvas, 0, 0);
+    ctx.drawImage(plotCanvas, options.billHack, options.billHack);
 
 
     // Add the x and y axes
@@ -205,7 +206,7 @@ Dygraph.Export.putLabel = function (ctx, divLabel, options, font, color) {
         break;
     }
 
-    Dygraph.Export.putText(ctx, left, top, divLabel, font, color);
+    Dygraph.Export.putText(ctx, left+options.billHack, top+options.billHack, divLabel, font, color);
 };
  
 /**
@@ -238,7 +239,7 @@ Dygraph.Export.putVerticalLabelY1 = function (ctx, divLabel, options, font, colo
     ctx.fillStyle = color;
     ctx.font = font;
     ctx.textAlign = textAlign;
-    ctx.fillText(text, top, left-10);  //-10 is a fudge from yours truly, BM of GRIFFIN
+    ctx.fillText(text, top, left -2);  //-2 is a fudge from yours truly, BM of GRIFFIN
     
     ctx.restore();
 };

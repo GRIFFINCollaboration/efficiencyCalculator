@@ -61,7 +61,6 @@ function setup(){
 			toggleOutput('nSinglesLaBr3', 1);
 			toggleOutput('nCoincLaBr3', 1);
 		}
-		toggleLaBrControls();
 		chooseGraphs();
 	}
 
@@ -283,14 +282,6 @@ function toggleHPGeControls(){
 	}
 }
 
-function toggleLaBrControls(){
-	if(document.getElementById('enableLaBr3').enabled){
-		document.getElementById('LaBr3Control').style.height = '5em';
-	} else{
-		document.getElementById('LaBr3Control').style.height = 0;
-	}
-}
-
 //decide which plots to send to a call to deployGraph
 function chooseGraphs(){
 	var funcs = [],
@@ -319,13 +310,7 @@ function chooseGraphs(){
 		titles[titles.length] = 'LaBr3';
 		colors[colors.length] = '#e67e22';
 	}
-	/*
-	if(document.getElementById('enableLEPS').enabled){
-		funcs[funcs.length] = fake;
-		titles[titles.length] = 'LEPS';
-		colors[colors.length] = '#2980b9';
-	}
-	*/
+
 	deployGraph(funcs, titles, colors, min, max);
 }
 
@@ -379,6 +364,9 @@ function deployGraph(func, titles, colors, min, max){
 		legend: 'always',
 		customBars: true,
 		logscale: yScale,
+		titleHeight: 30,
+		xLabelHeight: 24,
+		yLabelWidth: 24,
 		valueRange : [parseFloat(document.getElementById('yMin').value), parseFloat(document.getElementById('yMax').value)],
 		axes:{
 			x: {
@@ -429,12 +417,9 @@ function constructPlotKey(){
 		return plotKey;
 }
 
-//LaBr's only option is summing per detector or over the whole array:
+//LaBr's only option is summing per detector or over the whole array, and we're not interested in the array option.
 function constructLaBrPlotKey(){
-	var LaBrSummingSelect = document.getElementById('LaBrSummingScheme'),
-		summing = LaBrSummingSelect.options[LaBrSummingSelect.selectedIndex].value;
-
-		return summing;
+		return 'detector';
 }
 
 //callback to run every time the function repaints
@@ -464,19 +449,19 @@ function repaint(dygraph){
 function prepImageSave(dygraph){
 	var options = {
 	    //Texts displayed below the chart's x-axis and to the left of the y-axis 
-	    titleFont: "bold 18px sans-serif",
+	    titleFont: "bold 30px sans-serif",
 	    titleFontColor: "black",
 
 	    //Texts displayed below the chart's x-axis and to the left of the y-axis 
-	    axisLabelFont: "bold 14px sans-serif",
+	    axisLabelFont: "bold 24px sans-serif",
 	    axisLabelFontColor: "black",
 
 	    // Texts for the axis ticks
-	    labelFont: "normal 14px sans-serif",
+	    labelFont: "normal 18px sans-serif",
 	    labelFontColor: "black",
 
 	    // Text for the chart legend
-	    legendFont: "bold 14px sans-serif",
+	    legendFont: "bold 18px sans-serif",
 	    legendFontColor: "black",
 
 	    legendHeight: 40    // Height of the legend area
@@ -545,6 +530,15 @@ function passClickToWidget(event, energy){
 
 // http://stackoverflow.com/a/934925/298479 + hax
 function getBase64Image(img) {
+	var summingOptions = document.getElementById('summingScheme'),
+		summing = summingOptions.options[summingOptions.selectedIndex].value,
+		nHPGeOptions = document.getElementById('nHPGeSwitch'),
+		nHPGe = nHPGeOptions.options[nHPGeOptions.selectedIndex].value,
+		HPGeDistanceOptions = document.getElementById('HPGeDistanceSwitch'),
+		HPGeDistance = HPGeDistanceOptions.options[HPGeDistanceOptions.selectedIndex].value,
+		absorberOptions = document.getElementById('delrinSwitch'),
+		absorber = absorberOptions.options[absorberOptions.selectedIndex].value;
+
     // Create an empty canvas element
     var canvas = document.createElement("canvas");
     canvas.width = img.width;
@@ -553,6 +547,13 @@ function getBase64Image(img) {
     // Copy the image contents to the canvas
     var ctx = canvas.getContext("2d");
     ctx.drawImage(img, 0, 0);
+
+    //construct parameter report to imprint on canvas
+    ctx.font = '24px sans-serif';
+    ctx.fillText('No. HPGe: ' + nHPGe, img.width-ctx.measureText('HPGe Distance: ' + HPGeDistance + ' cm').width-20, 90);
+    ctx.fillText('HPGe Distance: ' + HPGeDistance + ' cm', img.width-ctx.measureText('HPGe Distance: ' + HPGeDistance + ' cm').width-20, 115);
+    ctx.fillText('Absorber: ' + absorber + ' mm Delrin', img.width-ctx.measureText('HPGe Distance: ' + HPGeDistance + ' cm').width-20, 140);
+    ctx.fillText('Addback: ' + summing, img.width-ctx.measureText('HPGe Distance: ' + HPGeDistance + ' cm').width-20, 165);
 
     // Get the data-URL formatted image
     // Firefox supports PNG and JPEG. You could check img.src to guess the
@@ -659,7 +660,7 @@ function computeCoincRate(){
 }
 
 function sciNot(val, sig){
-	if(val>10 || val<1){
+	if(val>100 || val<1){
 		var string = val.toExponential(sig),
 			out = parseFloat(string.slice(0, string.indexOf('e')))+' ' + String.fromCharCode(0x2A2F) + '10<sup>',
 			exp = ((string.indexOf('+') != -1) ? string.slice(string.indexOf('e')+2, string.length) : string.slice(string.indexOf('e')+1, string.length));
