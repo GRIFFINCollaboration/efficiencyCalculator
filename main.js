@@ -7,9 +7,12 @@ function setup(){
 	//call the parameter dump
 	loadParameters();
 	loadLaBrParameters();
-	//SiLi parameters dummy for now:
+	//SiLi parameters taken from CITATION NEEDED
+	//last parameter is an overall normalization to fix eff(603keV) = 0.0342, per
+	//Masters Thesis of Ryan Dunlop, University of Guelph, 2012, 
+	//High-precision branching ratio measurement for the superallowed beta+ emitter 74Rb
 	SiLiCoef = {};
-	SiLiCoef['detector'] = [Math.log(0.2), 0,0,0,0,0,0,0,0];
+	SiLiCoef['detector'] = [71.131, 7.97308, -0.474268, -0.00120224, 1.40317, .0342/104.30174050118521];
 
 	//Set up color codes
 	colorCodes = {};
@@ -91,6 +94,10 @@ function setup(){
     document.getElementById('ENSDF').onclick = function(){
         window.open('http://www.nndc.bnl.gov/ensdf/', 'ENSDFtab');
     };
+
+    document.getElementById('BrIcc').onclick = function(){
+        window.open('http://bricc.anu.edu.au/', 'BrIcctab');
+    };    
 
     document.getElementById('details').onclick = function(){
         confirm('GRIFFIN Simulated Efficiency Calculator', detailMessage)

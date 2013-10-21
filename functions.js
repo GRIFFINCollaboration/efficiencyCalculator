@@ -45,20 +45,11 @@ function LaBrEfficiency(param, loParam, hiParam, logE){
 
 function SiLiEfficiency(param, loParam, hiParam, logE){
 	var i,
-		logEff = 0,
 		loDelta = 0,
 		hiDelta = 0,
-		eff;
+		E = Math.exp(logE),
+		eff = param[5]*param[0]*Math.exp(param[1]*Math.pow(E, param[2]))*(1 - Math.exp(param[3]*Math.pow(E, param[4])));
 
-	for(i=0; i<9; i++){
-		logEff += param[i]*Math.pow(logE,i);
-		//loDelta += Math.pow((param[i] - loParam[i])*Math.pow(logE,i), 2);
-		//hiDelta += Math.pow((hiParam[i] - param[i])*Math.pow(logE,i), 2);
-	}
-	//loDelta = Math.sqrt(loDelta);  //leave these errors out until we have a better grasp of what they should be.
-	//hiDelta = Math.sqrt(hiDelta);
-
-	eff = Math.exp(logEff);
 	return (eff - eff*loDelta) + ';' + eff + ';' + (eff + eff*hiDelta);	
 }
 

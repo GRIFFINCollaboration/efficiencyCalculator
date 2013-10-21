@@ -35,7 +35,8 @@ function computeSingles(){
 function computeCoincidence(){
 	var e1 = Math.log(parseFloat(document.getElementById('coincEnergy1').value)),
 		e2 = Math.log(parseFloat(document.getElementById('coincEnergy2').value)),
-		BR = parseFloat(document.getElementById('coincBR').value),
+		BR1 = parseFloat(document.getElementById('coincBR1').value),
+		BR2 = parseFloat(document.getElementById('coincBR2').value),
 		intensity = parseFloat(document.getElementById('coincIntensity').value),
 		detectorASelect = document.getElementById('coincDetectorsA'),
 		detectorA = detectorASelect.options[detectorASelect.selectedIndex].value,
@@ -70,12 +71,12 @@ function computeCoincidence(){
 	document.getElementById('coincEfficiency').innerHTML = (efficiency > 0.1) ? efficiency.toFixed(2) : sciNot(efficiency, 1);
 
 	//compute and report rate
-	document.getElementById('coincRate').innerHTML = sciNot(intensity*BR*efficiency*period, 2);
+	document.getElementById('coincRate').innerHTML = sciNot(intensity*BR1*BR2*efficiency*period, 2);
 
 	//time to accrue:
-	nSeconds = nCounts/(intensity*BR*efficiency);
+	nSeconds = nCounts/(intensity*BR1*BR2*efficiency);
 	unit = chooseTimeUnit(nSeconds);
-	if(intensity*BR*efficiency != 0)
+	if(intensity*BR1*BR2*efficiency != 0)
 		document.getElementById('nCoincTime').innerHTML = sciNot(nSeconds/unit[0], 2)+' '+unit[1];
 	else
 		document.getElementById('nCoincTime').innerHTML = String.fromCharCode(0x221E);

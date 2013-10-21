@@ -74,6 +74,7 @@ THE SOFTWARE.-->
 			    <button id='wikiLink' class='standardButton'>Wiki Help</button>
 			    <button id='yieldDB' class='standardButton'>TRIUMF Yield Database</button>
 			    <button id='ENSDF' class='standardButton'>ENSDF</button>
+			    <button id='BrIcc' class='standardButton'>BrIcc</button>
 			    <button id='details' class='standardButton'>Show Simulation Details</button>
 			</div>
 
@@ -92,7 +93,7 @@ THE SOFTWARE.-->
 					<br><br>
 					<input id='xMin' class='widgetInput' type='number' value='10'></input>
 					<label id='xMinLabel' class='inputLabel' for='xMin'>< E <</label>
-					<input id='xMax' class='widgetInput' type='number' value='1000'></input>
+					<input id='xMax' class='widgetInput' type='number' value='3000'></input>
 					<label id='xMaxLabel' class='inputLabel' for='xMax'>keV</label>
 					<select id='xScale'>
 						<option value='lin'>Linear</option>
@@ -169,7 +170,7 @@ THE SOFTWARE.-->
 					<br>
 					<label id='singlesEfficiencyLabel' class='inputLabel' for='singlesEfficiency'>Efficiency: </label>
 					<div id='singlesEfficiency' class='widgetResult'>0.0</div>
-					<label id='singlesRateLabel' class='inputLabel' for='singlesRate'>Rate: </label>
+					<label id='singlesRateLabel' class='inputLabel' for='singlesRate'>Detected Events: </label>
 					<div id='singlesRate' class='widgetResult'>0.0</div>
 					<select id='singlesPeriod'>
 						<option value='1'>per second</option>
@@ -178,7 +179,7 @@ THE SOFTWARE.-->
 					</select>
 					<br>
 					<label id='nSinglesLabelb' class='inputLabel' for='nSingles'>Or </label>
-					<input id='nSingles' class='widgetInput' type='number' value='1000'></input>
+					<input id='nSingles' class='widgetInput' type='number' value='1E6'></input>
 					<label id='nSinglesLabel' class='inputLabel' for='nSingles'>counts will accrue in</label>
 					<div id='nSinglesTime' class='widgetResult'>0s</div>
 				</form>
@@ -194,7 +195,9 @@ THE SOFTWARE.-->
 					</select>
 					<label id='coincDetectorsAlabel' class='inputLabel' for='coincDetectorsA'>at</label>
 					<input id='coincEnergy1' class='widgetInput' type='number' value='100'></input>
-					<label id='coincEnergyLabel1' class='inputLabel' for='coincEnergy1'>keV + </label>
+					<label id='coincEnergyLabel1' class='inputLabel' for='coincEnergy1'>keV and </label>
+					<input id='coincBR1' class='widgetInput' type='number' value='1'></input>
+					<label id='coincBRLabel1' class='inputLabel' for='coincBR1'>BR + </label>
 					<select id='coincDetectorsB'>
 						<option value='HPGe'>HPGe</option>
 						<option value='LaBr3'>LaBr3</option>
@@ -202,15 +205,15 @@ THE SOFTWARE.-->
 					</select>
 					<label id='coincDetectorsBlabel' class='inputLabel' for='coincDetectorsB'>at</label>
 					<input id='coincEnergy2' class='widgetInput' type='number' value='100'></input>
-					<label id='coincEnergyLabel2' class='inputLabel' for='coincEnergy2'>keV, </label>
-					<input id='coincBR' class='widgetInput' type='number' value='1'></input>
-					<label id='coincBRLabel' class='inputLabel' for='coincBR'>BR, and</label>
+					<label id='coincEnergyLabel2' class='inputLabel' for='coincEnergy2'>keV and </label>
+					<input id='coincBR2' class='widgetInput' type='number' value='1'></input>
+					<label id='coincBRLabel2' class='inputLabel' for='coincBR2'>BR, at</label>
 					<input id='coincIntensity' class='widgetInput' type='number' value='1E6'></input>
 					<label id='coincIntensityLabel' class='inputLabel' for='coincIntensity'>pps:</label>
 					<br>
 					<label id='coincEfficiencyLabel' class='inputLabel' for='coincEfficiency'>Efficiency: </label>
 					<div id='coincEfficiency' class='splitDetector'>0.0</div>
-					<label id='coincRateLabel', class='inputLabel' for='coincRate'>Rate: </label>
+					<label id='coincRateLabel', class='inputLabel' for='coincRate'>Detected Events: </label>
 					<div id='coincRate' class='splitDetector'>0</div>
 					<select id='coincPeriod'>
 						<option value='1'>per second</option>
@@ -219,7 +222,7 @@ THE SOFTWARE.-->
 					</select>
 					<br>
 					<label id='nCoincLabelb' class='inputLabel' for='nCoinc'>Or</label>
-					<input id='nCoinc' class='widgetInput' type='number' value='1000'></input>
+					<input id='nCoinc' class='widgetInput' type='number' value='1E6'></input>
 					<label id='nCoincLabel' class='inputLabel' for='nCoinc'>counts will accrue in</label>
 					<div id='nCoincTime' class='splitDetector'>0s</div>	
 				</form>	
