@@ -1,7 +1,7 @@
 function setup(){
 	var HPGeSwitch = document.getElementById('enableHPGe'),
 		LaBr3Switch = document.getElementById('enableLaBr3'),
-		LEPSSwitch = document.getElementById('enableLEPS'),
+		SiLiSwitch = document.getElementById('enableSiLi'),
 		singlesInput = document.getElementById('inputEnergy'),
 		coincInput1 = document.getElementById('coincInputEnergy1'),
 		coincInput2 = document.getElementById('coincInputEnergy2'),
@@ -14,6 +14,9 @@ function setup(){
 	//call the parameter dump
 	loadParameters();
 	loadLaBrParameters();
+	//SiLi parameters dummy for now:
+	SiLiCoef = {};
+	SiLiCoef['detector'] = [Math.log(0.2), 0,0,0,0,0,0,0,0];
 
 	//set up control panel//////////////////////////////////////
 	HPGeSwitch.enabled = 0;
@@ -60,6 +63,29 @@ function setup(){
 			toggleOutput('coincRateWidgetResultLaBr3', 1);
 			toggleOutput('nSinglesLaBr3', 1);
 			toggleOutput('nCoincLaBr3', 1);
+		}
+		chooseGraphs();
+	}
+	SiLiSwitch.enabled = 0;
+	SiLiSwitch.onclick = function(event){
+		if (this.enabled){
+			this.style.backgroundColor = '#444444';
+			this.enabled = 0;
+			toggleOutput('effWidgetResultSiLi', 0);
+			toggleOutput('coincEffWidgetResultSiLi', 0);
+			toggleOutput('rateWidgetResultSiLi', 0);
+			toggleOutput('coincRateWidgetResultSiLi', 0);
+			toggleOutput('nSinglesSiLi', 0);
+			toggleOutput('nCoincSiLi', 0);
+		} else{
+			this.style.backgroundColor = '#2980b9';
+			this.enabled = 1;
+			toggleOutput('effWidgetResultSiLi', 1);
+			toggleOutput('coincEffWidgetResultSiLi', 1);
+			toggleOutput('rateWidgetResultSiLi', 1);
+			toggleOutput('coincRateWidgetResultSiLi', 1);
+			toggleOutput('nSinglesSiLi', 1);
+			toggleOutput('nCoincSiLi', 1);
 		}
 		chooseGraphs();
 	}
@@ -111,6 +137,7 @@ function setup(){
     document.getElementById('graphDiv').style.width = (window.innerWidth - document.getElementById('controlPanel').offsetWidth)*0.95;
     document.getElementById('graphDiv').style.height = document.getElementById('controlPanel').offsetHeight*1.05;
 
+    //Set up widgets///////////////////////////////////////////////////////////////////////
 	//set up singles efficiency widget//////////////////////////
 	document.getElementById('inputEnergyLabel').innerHTML = 'keV '+String.fromCharCode(0x2192);
 	singlesInput.onchange = computeSinglesEfficiency.bind(null);
@@ -151,7 +178,15 @@ function setup(){
 	//default to on for demo:
 	HPGeSwitch.onclick();
 	LaBr3Switch.onclick();
-	//LEPSSwitch.onclick();
+	SiLiSwitch.onclick();
+
+	//evaluate all widgets at defaults
+	computeSinglesEfficiency();
+	computeCoincEfficiency();
+	//computeTriplesEfficiency();
+	computeSinglesRate();
+	computeCoincRate();
+
 }
 
 //decide which plots to send to a call to deployGraph
@@ -163,14 +198,14 @@ function chooseGraphs(){
 		max = parseFloat(document.getElementById('xMax').value),
 		HPGeMinCoef = {},
 		HPGeMaxCoef = {},
-		requestString, LaBrString, i;
+		HPGeString, LaBrString, SiLiString, i;
 
 	HPGeMinCoef['dummy'] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 	HPGeMaxCoef['dummy'] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 	if(document.getElementById('enableHPGe').enabled){
-		requestString = constructPlotKey();
-		window.HPGeFunc = HPGeEfficiency.bind(null, HPGeCoef[requestString], HPGeMinCoef['dummy'], HPGeMaxCoef['dummy']);
+		HPGeString = constructPlotKey();
+		window.HPGeFunc = HPGeEfficiency.bind(null, HPGeCoef[HPGeString], HPGeMinCoef['dummy'], HPGeMaxCoef['dummy']);
 		funcs[funcs.length] = window.HPGeFunc;
 		titles[titles.length] = 'HPGe';
 		colors[colors.length] = '#449944';
@@ -181,6 +216,13 @@ function chooseGraphs(){
 		funcs[funcs.length] = window.LaBrFunc;
 		titles[titles.length] = 'LaBr3';
 		colors[colors.length] = '#e67e22';
+	}
+	if(document.getElementById('enableSiLi').enabled){
+		SiLiString = constructSiLiPlotKey();
+		window.SiLiFunc = SiLiEfficiency.bind(null, SiLiCoef[SiLiString], HPGeMinCoef['dummy'], HPGeMaxCoef['dummy']);
+		funcs[funcs.length] = window.SiLiFunc;
+		titles[titles.length] = 'Si(Li)';
+		colors[colors.length] = '#2980b9';
 	}
 
 	deployGraph(funcs, titles, colors, min, max);
@@ -239,7 +281,6 @@ function deployGraph(func, titles, colors, min, max){
 		titleHeight: 30,
 		xLabelHeight: 24,
 		yLabelWidth: 24,
-		valueRange : [parseFloat(document.getElementById('yMin').value), parseFloat(document.getElementById('yMax').value)],
 		axes:{
 			x: {
 				valueFormatter: function(number, opts, dygraph){
@@ -291,6 +332,10 @@ function constructPlotKey(){
 
 //LaBr's only option is summing per detector or over the whole array, and we're not interested in the array option.
 function constructLaBrPlotKey(){
+		return 'detector';
+}
+
+function constructSiLiPlotKey(){
 		return 'detector';
 }
 

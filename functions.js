@@ -43,6 +43,25 @@ function LaBrEfficiency(param, loParam, hiParam, logE){
 	return (eff - eff*loDelta) + ';' + eff + ';' + (eff + eff*hiDelta);
 }
 
+function SiLiEfficiency(param, loParam, hiParam, logE){
+	var i,
+		logEff = 0,
+		loDelta = 0,
+		hiDelta = 0,
+		eff;
+
+	for(i=0; i<9; i++){
+		logEff += param[i]*Math.pow(logE,i);
+		//loDelta += Math.pow((param[i] - loParam[i])*Math.pow(logE,i), 2);
+		//hiDelta += Math.pow((hiParam[i] - param[i])*Math.pow(logE,i), 2);
+	}
+	//loDelta = Math.sqrt(loDelta);  //leave these errors out until we have a better grasp of what they should be.
+	//hiDelta = Math.sqrt(hiDelta);
+
+	eff = Math.exp(logEff);
+	return (eff - eff*loDelta) + ';' + eff + ';' + (eff + eff*hiDelta);	
+}
+
 function DESCANTefficiency(logE){
 	if(logE < Math.log(1000)){
 		return 0;

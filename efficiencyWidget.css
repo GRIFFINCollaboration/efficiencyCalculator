@@ -222,7 +222,7 @@ div#effWidgetResultLaBr3, div#coincEffWidgetResultLaBr3, div#rateWidgetResultLaB
 	background-color: #e67e22;
 }
 
-div#effWidgetResultLEPS, div#coincEffWidgetResultLEPS, div#rateWidgetResultLEPS, div#coincRateWidgetResultLEPS{
+div#effWidgetResultSiLi, div#coincEffWidgetResultSiLi, div#rateWidgetResultSiLi, div#coincRateWidgetResultSiLi, div#nSinglesSiLi, div#nCoincSiLi{
 	background-color: #2980b9;
 }
 
@@ -232,6 +232,14 @@ div#tripleEffWidgetResult{
 
 #singlesRateEnergy, #coincRateEnergy1, #rateWidgetResultHPGe, #coincRateWidgetResultHPGe{
 	margin-bottom:0.25em;
+}
+
+div#coincEffWidgetResultHPGeSiLi{
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(-45deg, #449944 50%, #2980b9 50%);
+
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(-45deg, #449944 50%, #2980b9 50%);
 }
 
 /*Control Panel/////////////////////////////////////////////////////*/

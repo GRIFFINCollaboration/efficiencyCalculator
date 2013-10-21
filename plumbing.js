@@ -90,7 +90,7 @@ function passClickToWidget(event, energy){
 		rateInput2.onchange();
 		coincWidget.whichInput = 0;
 	}
-
+/*
 	//triple efficiency
 	if(triplesWidget.whichInput==0){
 		triplesInput1.value = reportEnergy;
@@ -105,8 +105,7 @@ function passClickToWidget(event, energy){
 		triplesInput3.onchange();
 		triplesWidget.whichInput=0;
 	}
-
-
+*/
 	//singles rate
 	rateInput.value = reportEnergy;
 	rateInput.onchange();

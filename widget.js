@@ -2,12 +2,15 @@ function computeSinglesEfficiency(){
 	var energy = Math.log(parseFloat(document.getElementById('inputEnergy').value)),
 		HPGeEff = window.HPGeFunc(energy),
 		LaBrEff = window.LaBrFunc(energy);
+		SiLiEff = window.SiLiFunc(energy);
 
 	HPGeEff = parseFloat(HPGeEff.slice(HPGeEff.indexOf(';')+1, HPGeEff.lastIndexOf(';') ));
 	LaBrEff = parseFloat(LaBrEff.slice(LaBrEff.indexOf(';')+1, LaBrEff.lastIndexOf(';') ));
+	SiLiEff = parseFloat(SiLiEff.slice(SiLiEff.indexOf(';')+1, SiLiEff.lastIndexOf(';') ));
 
 	document.getElementById('effWidgetResultHPGe').innerHTML = (HPGeEff > 0.1) ? HPGeEff.toFixed(2) : sciNot(HPGeEff, 1);
 	document.getElementById('effWidgetResultLaBr3').innerHTML = (LaBrEff > 0.1) ? LaBrEff.toFixed(2) : sciNot(LaBrEff, 1);
+	document.getElementById('effWidgetResultSiLi').innerHTML = (SiLiEff > 0.1) ? SiLiEff.toFixed(2) : sciNot(SiLiEff, 1);	
 }
 
 function computeCoincEfficiency(){
@@ -17,19 +20,25 @@ function computeCoincEfficiency(){
 		HPGeEff2 = window.HPGeFunc(e2),
 		LaBrEff1 = window.LaBrFunc(e1),
 		LaBrEff2 = window.LaBrFunc(e2),
+		SiLiEff1 = window.SiLiFunc(e1),
+		SiLiEff2 = window.SiLiFunc(e2),
 		nHPGeSelect = document.getElementById('nHPGeSwitch'),
 		nHPGe = parseFloat(nHPGeSelect.options[nHPGeSelect.selectedIndex].value),
-		HPGeEff, LaBrEff;
+		HPGeEff, LaBrEff, SiLiEff;
 
 	HPGeEff1 = parseFloat(HPGeEff1.slice(HPGeEff1.indexOf(';')+1, HPGeEff1.lastIndexOf(';') ));
 	HPGeEff2 = parseFloat(HPGeEff2.slice(HPGeEff2.indexOf(';')+1, HPGeEff2.lastIndexOf(';') ));
 	LaBrEff1 = parseFloat(LaBrEff1.slice(LaBrEff1.indexOf(';')+1, LaBrEff1.lastIndexOf(';') ));
 	LaBrEff2 = parseFloat(LaBrEff2.slice(LaBrEff2.indexOf(';')+1, LaBrEff2.lastIndexOf(';') ));
+	SiLiEff1 = parseFloat(SiLiEff1.slice(SiLiEff1.indexOf(';')+1, SiLiEff1.lastIndexOf(';') ));
+	SiLiEff2 = parseFloat(SiLiEff2.slice(SiLiEff2.indexOf(';')+1, SiLiEff2.lastIndexOf(';') ));
 
 	HPGeEff = (HPGeEff1*HPGeEff2*(nHPGe-1)/nHPGe);
 	LaBrEff = (LaBrEff1*LaBrEff2*7/8);
+	SiLiEff = (SiLiEff1*SiLiEff2*7/8);
 	document.getElementById('coincEffWidgetResultHPGe').innerHTML = (HPGeEff > 0.1) ? HPGeEff.toFixed(2) : sciNot(HPGeEff, 1);
 	document.getElementById('coincEffWidgetResultLaBr3').innerHTML = (LaBrEff > 0.1) ? LaBrEff.toFixed(2) : sciNot(LaBrEff, 1);
+	document.getElementById('coincEffWidgetResultSiLi').innerHTML = (SiLiEff > 0.1) ? SiLiEff.toFixed(2) : sciNot(SiLiEff, 1);
 } 
 
 function computeTriplesEfficiency(){
@@ -69,17 +78,20 @@ function computeSinglesRate(){
 		intensity = parseFloat(document.getElementById('singlesRateIntensity').value),
 		HPGeEff = window.HPGeFunc(energy),
 		LaBrEff = window.LaBrFunc(energy),
+		SiLiEff = window.SiLiFunc(energy),
 		periodSelect = document.getElementById("ratePeriod"),
 		period = parseFloat(periodSelect.options[periodSelect.selectedIndex].value),
 		nCounts = parseFloat(document.getElementById('nSingles').value),
-		HPGeSeconds, LaBrSeconds, HPGeUnit, LaBrUnit;
+		HPGeSeconds, LaBrSeconds, SiLiSeconds, HPGeUnit, LaBrUnit, SiLiUnit;
 
 	HPGeEff = parseFloat(HPGeEff.slice(HPGeEff.indexOf(';')+1, HPGeEff.lastIndexOf(';') ));
 	LaBrEff = parseFloat(LaBrEff.slice(LaBrEff.indexOf(';')+1, LaBrEff.lastIndexOf(';') ));
+	SiLiEff = parseFloat(SiLiEff.slice(SiLiEff.indexOf(';')+1, SiLiEff.lastIndexOf(';') ));
 
 	//rate
 	document.getElementById('rateWidgetResultHPGe').innerHTML = sciNot(intensity*BR*HPGeEff*period, 2);
 	document.getElementById('rateWidgetResultLaBr3').innerHTML = sciNot(intensity*BR*LaBrEff*period, 2);
+	document.getElementById('rateWidgetResultSiLi').innerHTML = sciNot(intensity*BR*SiLiEff*period, 2);
 
 	//time to accrue:
 	HPGeSeconds = nCounts/(intensity*BR*HPGeEff);
@@ -95,6 +107,13 @@ function computeSinglesRate(){
 		document.getElementById('nSinglesLaBr3').innerHTML = sciNot(LaBrSeconds/LaBrUnit[0], 2)+' '+LaBrUnit[1];
 	else 
 		document.getElementById('nSinglesLaBr3').innerHTML = String.fromCharCode(0x221E);
+
+	SiLiSeconds = nCounts/(intensity*BR*SiLiEff);
+	SiLiUnit = chooseTimeUnit(SiLiSeconds);
+	if(intensity*BR*SiLiEff != 0)
+		document.getElementById('nSinglesSiLi').innerHTML = sciNot(SiLiSeconds/SiLiUnit[0], 2)+' '+SiLiUnit[1];
+	else 
+		document.getElementById('nSinglesSiLi').innerHTML = String.fromCharCode(0x221E);
 }
 
 function computeCoincRate(){
@@ -107,22 +126,28 @@ function computeCoincRate(){
 		HPGeEff1 = window.HPGeFunc(e1),
 		HPGeEff2 = window.HPGeFunc(e2),
 		LaBrEff1 = window.LaBrFunc(e1),
-		LaBrEff2 = window.LaBrFunc(e2),	
+		LaBrEff2 = window.LaBrFunc(e2),
+		SiLiEff1 = window.SiLiFunc(e1),
+		SiLiEff2 = window.SiLiFunc(e2),
 		periodSelect = document.getElementById("coincRatePeriod"),
 		period = parseFloat(periodSelect.options[periodSelect.selectedIndex].value),
 		nCounts = parseFloat(document.getElementById('nCoinc').value),
-		HPGeEff, LaBrEff, HPGeSeconds, LaBrSeconds, HPGeUnit, LaBrUnit;
+		HPGeEff, LaBrEff, SiLiEff, HPGeSeconds, LaBrSeconds, SiLiSeconds, HPGeUnit, LaBrUnit, SiLiUnit;
 
 	HPGeEff1 = parseFloat(HPGeEff1.slice(HPGeEff1.indexOf(';')+1, HPGeEff1.lastIndexOf(';') ));
 	HPGeEff2 = parseFloat(HPGeEff2.slice(HPGeEff2.indexOf(';')+1, HPGeEff2.lastIndexOf(';') ));
 	LaBrEff1 = parseFloat(LaBrEff1.slice(LaBrEff1.indexOf(';')+1, LaBrEff1.lastIndexOf(';') ));
 	LaBrEff2 = parseFloat(LaBrEff2.slice(LaBrEff2.indexOf(';')+1, LaBrEff2.lastIndexOf(';') ));
+	SiLiEff1 = parseFloat(SiLiEff1.slice(SiLiEff1.indexOf(';')+1, SiLiEff1.lastIndexOf(';') ));
+	SiLiEff2 = parseFloat(SiLiEff2.slice(SiLiEff2.indexOf(';')+1, SiLiEff2.lastIndexOf(';') ));
 
 	HPGeEff = (HPGeEff1*HPGeEff2*(nHPGe-1)/nHPGe);
 	LaBrEff = (LaBrEff1*LaBrEff2*7/8);
+	SiLiEff = (SiLiEff1*SiLiEff2*7/8);
 
 	document.getElementById('coincRateWidgetResultHPGe').innerHTML = sciNot(intensity*BR*HPGeEff*period, 2);
 	document.getElementById('coincRateWidgetResultLaBr3').innerHTML = sciNot(intensity*BR*LaBrEff*period, 2);
+	document.getElementById('coincRateWidgetResultSiLi').innerHTML = sciNot(intensity*BR*SiLiEff*period, 2);
 
 	//time to accrue:
 	HPGeSeconds = nCounts/(intensity*BR*HPGeEff);
@@ -138,4 +163,11 @@ function computeCoincRate(){
 		document.getElementById('nCoincLaBr3').innerHTML = sciNot(LaBrSeconds/LaBrUnit[0], 2)+' '+LaBrUnit[1];
 	else
 		document.getElementById('nCoincLaBr3').innerHTML = String.fromCharCode(0x221E);
+
+	SiLiSeconds = nCounts/(intensity*BR*SiLiEff);
+	SiLiUnit = chooseTimeUnit(SiLiSeconds);
+	if(intensity*BR*SiLiEff != 0)
+		document.getElementById('nCoincSiLi').innerHTML = sciNot(SiLiSeconds/SiLiUnit[0], 2)+' '+SiLiUnit[1];
+	else
+		document.getElementById('nCoincSiLi').innerHTML = String.fromCharCode(0x221E);
 }
