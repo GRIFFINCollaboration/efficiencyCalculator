@@ -151,56 +151,78 @@ THE SOFTWARE.-->
 			</div>
 
 			<!--Widgets///////////////////////////////////////////////////////////-->
-			<!--div id='singlesWidget' class='widget'>
-				<h2 id='singlesWidgetTitle' class='widgetTitle'>Singles</h2>
-				<select id='singlesDetectors'>
-					<option value='HPGe'>HPGe</option>
-					<option value='LaBr3'>LaBr3</option>
-					<option value='SiLi'>Si(Li)</option>
-				</select>
-				<label id='singlesDetectorsLabel' class='inputLabel' for='singlesDetectors'>at</label>
-				<input id='singlesInputEnergy' class='widgetInput' type='number' value='100'></input>
-				<label id='singlesEnergyLabel' class='inputLabel' for='singlesInputEnergy'>keV, </label>
-				<input id='singlesBR' class='widgetInput' type='number' value='1'></input>
-				<label id='singlesBRLabel' class='inputLabel' for='singlesBR'>BR, and</label>
-				<input id='singlesIntensity' class='widgetInput' type='number' value='1E6'></input>
-				<label id='singlesIntensityLabel' class='inputLabel' for='singlesIntensity'>pps:</label>
-				<br>
-				<label id='singlesEfficiencyLabel' class='inputLabel' for='singlesEfficiency'>Efficiency: </label>
-				<div id='singlesEfficiency' class='widgetResult'>0.0</div>
-				<label id='singlesRateLabel' class='inputLabel' for='singlesRate'>Rate: </label>
-				<div id='singlesRate' class='widgetResult'>0.0</div>
-				<select id='singlesRatePeriod'>
-					<option value='1'>per second</option>
-					<option value='3600'>per hour</option>
-					<option value='43200'>per 12 hours</option>
-				</select>
-				<br>
-				<label id='nSinglesLabelb' class='inputLabel' for='nSingles'>Or </label>
-				<input id='nSingles' class='widgetInput' type='number' value='1000'></input>
-				<label id='nSinglesLabel' class='inputLabel' for='nSingles'>counts will accrue in</label>
-				<div id='nSinglesTime' class='widgetResult'>0s</div>							
-			</div-->
-
-			<div id='effWidget' class='widget'>
-				<h2 id='effWidgetTitle' class='widgetTitle'>Singles Efficiency</h2>
-				<input id='inputEnergy' class='widgetInput' type='number' value='100'></input>
-				<label id='inputEnergyLabel' class='inputLabel' for='inputEnergy'></label>
-				<div id='effWidgetResultHPGe' class='widgetResult'>0.0</div>
-				<div id='effWidgetResultLaBr3' class='widgetResult'>0.0</div>
-				<div id='effWidgetResultSiLi' class='widgetResult'>0.0</div>
+			<div id='singlesWidget' class='widget'>
+				<form id='singlesForm'>
+					<h2 id='singlesWidgetTitle' class='widgetTitle'>Singles</h2>
+					<select id='singlesDetectors'>
+						<option value='HPGe'>HPGe</option>
+						<option value='LaBr3'>LaBr3</option>
+						<option value='SiLi'>Si(Li)</option>
+					</select>
+					<label id='singlesDetectorsLabel' class='inputLabel' for='singlesDetectors'>at</label>
+					<input id='singlesInputEnergy' class='widgetInput' type='number' value='100'></input>
+					<label id='singlesEnergyLabel' class='inputLabel' for='singlesInputEnergy'>keV, </label>
+					<input id='singlesBR' class='widgetInput' type='number' value='1'></input>
+					<label id='singlesBRLabel' class='inputLabel' for='singlesBR'>BR, and</label>
+					<input id='singlesIntensity' class='widgetInput' type='number' value='1E6'></input>
+					<label id='singlesIntensityLabel' class='inputLabel' for='singlesIntensity'>pps:</label>
+					<br>
+					<label id='singlesEfficiencyLabel' class='inputLabel' for='singlesEfficiency'>Efficiency: </label>
+					<div id='singlesEfficiency' class='widgetResult'>0.0</div>
+					<label id='singlesRateLabel' class='inputLabel' for='singlesRate'>Rate: </label>
+					<div id='singlesRate' class='widgetResult'>0.0</div>
+					<select id='singlesPeriod'>
+						<option value='1'>per second</option>
+						<option value='3600'>per hour</option>
+						<option value='43200'>per 12 hours</option>
+					</select>
+					<br>
+					<label id='nSinglesLabelb' class='inputLabel' for='nSingles'>Or </label>
+					<input id='nSingles' class='widgetInput' type='number' value='1000'></input>
+					<label id='nSinglesLabel' class='inputLabel' for='nSingles'>counts will accrue in</label>
+					<div id='nSinglesTime' class='widgetResult'>0s</div>
+				</form>
 			</div>
 
-			<div id='coincEffWidget' class='widget'>
-				<h2 id='coincEffWidgetTitle' class='widgetTitle'>Coincidence Efficiency</h2>
-				<input id='coincInputEnergy1' class='widgetInput' type='number' value='100'></input>
-				<label id='coincInputEnergyLabel1' class='inputLabel' for='coincInputEnergy1'>keV &</label>
-				<input id='coincInputEnergy2' class='widgetInput' type='number' value='100'></input>
-				<label id='coincInputEnergyLabel2' class='inputLabel' for='coincInputEnergy2'></label>			
-				<div id='coincEffWidgetResultHPGe' class='widgetResult'>0.0</div>
-				<div id='coincEffWidgetResultLaBr3' class='widgetResult'>0.0</div>
-				<div id='coincEffWidgetResultSiLi' class='widgetResult'>0.0</div>
-				<div id='coincEffWidgetResultHPGeSiLi' class='widgetResult'>0.0</div>
+			<div id='coincidenceWidget' class='widget'>
+				<form id='coincForm'>
+					<h2 id='coincWidgetTitle' class='widgetTitle'>Coincidences</h2>
+					<select id='coincDetectorsA'>
+						<option value='HPGe'>HPGe</option>
+						<option value='LaBr3'>LaBr3</option>
+						<option value='SiLi'>Si(Li)</option>
+					</select>
+					<label id='coincDetectorsAlabel' class='inputLabel' for='coincDetectorsA'>at</label>
+					<input id='coincEnergy1' class='widgetInput' type='number' value='100'></input>
+					<label id='coincEnergyLabel1' class='inputLabel' for='coincEnergy1'>keV + </label>
+					<select id='coincDetectorsB'>
+						<option value='HPGe'>HPGe</option>
+						<option value='LaBr3'>LaBr3</option>
+						<option value='SiLi'>Si(Li)</option>
+					</select>
+					<label id='coincDetectorsBlabel' class='inputLabel' for='coincDetectorsB'>at</label>
+					<input id='coincEnergy2' class='widgetInput' type='number' value='100'></input>
+					<label id='coincEnergyLabel2' class='inputLabel' for='coincEnergy2'>keV, </label>
+					<input id='coincBR' class='widgetInput' type='number' value='1'></input>
+					<label id='coincBRLabel' class='inputLabel' for='coincBR'>BR, and</label>
+					<input id='coincIntensity' class='widgetInput' type='number' value='1E6'></input>
+					<label id='coincIntensityLabel' class='inputLabel' for='coincIntensity'>pps:</label>
+					<br>
+					<label id='coincEfficiencyLabel' class='inputLabel' for='coincEfficiency'>Efficiency: </label>
+					<div id='coincEfficiency' class='splitDetector'>0.0</div>
+					<label id='coincRateLabel', class='inputLabel' for='coincRate'>Rate: </label>
+					<div id='coincRate' class='splitDetector'>0</div>
+					<select id='coincPeriod'>
+						<option value='1'>per second</option>
+						<option value='3600'>per hour</option>
+						<option value='43200'>per 12 hours</option>
+					</select>
+					<br>
+					<label id='nCoincLabelb' class='inputLabel' for='nCoinc'>Or</label>
+					<input id='nCoinc' class='widgetInput' type='number' value='1000'></input>
+					<label id='nCoincLabel' class='inputLabel' for='nCoinc'>counts will accrue in</label>
+					<div id='nCoincTime' class='splitDetector'>0s</div>	
+				</form>	
 			</div>
 
 			<!--br>
@@ -225,62 +247,6 @@ THE SOFTWARE.-->
 				<label id='tripleResultLabel' class='inputLabel' for='tripleEffWidgetResult'></label>
 				<div id='tripleEffWidgetResult' class='widgetResult'>0.0</div>
 			</div-->
-
-			<br>
-			<div id='rateWidget' class='widget'>
-				<h2 id='rateWidgetTitle' class='widgetTitle'>Singles Detection Rate</h2>
-				<input id='singlesRateEnergy' class='widgetInput' type='number' value='100'></input>
-				<label id='singlesRateEnergyLabel' class='inputLabel' for='singlesRateEnergy'>keV, </label>
-				<input id='singlesRateBR' class='widgetInput' type='number' value='1'></input>
-				<label id='singlesRateBRLabel' class='inputLabel' for='singlesRateBR'>BR, </label>
-				<input id='singlesRateIntensity' class='widgetInput' type='number' value='1E6'></input>
-				<label id='singlesRateIntensityLabel' class='inputLabel' for='singlesRateIntensity'>pps</label>
-				<br>
-				<div id='rateWidgetResultHPGe' class='widgetResult'>0</div>
-				<div id='rateWidgetResultLaBr3' class='widgetResult'>0</div>
-				<div id='rateWidgetResultSiLi' class='widgetResult'>0</div>
-				<select id='ratePeriod'>
-					<option value='1'>per second</option>
-					<option value='3600'>per hour</option>
-					<option value='43200'>per 12 hours</option>
-				</select>
-				<br>
-				<label id='nSinglesLabelb' class='inputLabel' for='nSingles'>Or</label>
-				<input id='nSingles' class='widgetInput' type='number' value='1000'></input>
-				<label id='nSinglesLabel' class='inputLabel' for='nSingles'>counts will accrue in</label>
-				<div id='nSinglesHPGe' class='widgetResult'>0s</div>
-				<div id='nSinglesLaBr3' class='widgetResult'>0s</div>
-				<div id='nSinglesSiLi' class='widgetResult'>0s</div>
-
-			</div>
-
-			<div id='coincidentRateWidget' class='widget'>
-				<h2 id='coincRateWidgetTitle' class='widgetTitle'>Coincidence Detection Rate</h2>
-				<input id='coincRateEnergy1' class='widgetInput' type='number' value='100'></input>
-				<label id='coincRateEnergyLabel1' class='inputLabel' for='coincRateEnergy1'>keV + </label>
-				<input id='coincRateEnergy2' class='widgetInput' type='number' value='100'></input>
-				<label id='coincRateEnergyLabel2' class='inputLabel' for='coincRateEnergy2'>keV, </label>
-				<input id='coincRateBR' class='widgetInput' type='number' value='1'></input>
-				<label id='coincRateBRLabel' class='inputLabel' for='coincRateBR'>BR, </label>
-				<input id='coincRateIntensity' class='widgetInput' type='number' value='1E6'></input>
-				<label id='coincRateIntensityLabel' class='inputLabel' for='coincRateIntensity'>pps</label>
-				<br>
-				<div id='coincRateWidgetResultHPGe' class='widgetResult'>0</div>
-				<div id='coincRateWidgetResultLaBr3' class='widgetResult'>0</div>
-				<div id='coincRateWidgetResultSiLi' class='widgetResult'>0</div>
-				<select id='coincRatePeriod'>
-					<option value='1'>per second</option>
-					<option value='3600'>per hour</option>
-					<option value='43200'>per 12 hours</option>
-				</select>
-				<br>
-				<label id='nCoincLabelb' class='inputLabel' for='nCoinc'>Or</label>
-				<input id='nCoinc' class='widgetInput' type='number' value='1000'></input>
-				<label id='nCoincLabel' class='inputLabel' for='nCoinc'>counts will accrue in</label>
-				<div id='nCoincHPGe' class='widgetResult'>0s</div>
-				<div id='nCoincLaBr3' class='widgetResult'>0s</div>
-				<div id='nCoincSiLi' class='widgetResult'>0s</div>				
-			</div>
 
 			<!--Footer//////////////////////////////////////////////////////////-->
 			<div id='push'></div>

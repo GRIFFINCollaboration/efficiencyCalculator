@@ -57,41 +57,29 @@ function prepImageSave(dygraph){
 
 //when the plot is clicked, pass the corresponding energy to the widgets
 function passClickToWidget(event, energy){
-	var singlesInput = document.getElementById('inputEnergy'),
-		coincWidget = document.getElementById('coincEffWidget'),
-		coincInput1 = document.getElementById('coincInputEnergy1'),
-		coincInput2 = document.getElementById('coincInputEnergy2'),
-		rateInput1 = document.getElementById('coincRateEnergy1'),
-		rateInput2 = document.getElementById('coincRateEnergy2'),
-		rateInput = document.getElementById('singlesRateEnergy'),
-		triplesWidget = document.getElementById('tripleEffWidget'),
-		triplesInput1 = document.getElementById('tripleInputEnergy1'),
-		triplesInput2 = document.getElementById('tripleInputEnergy2'),
-		triplesInput3 = document.getElementById('tripleInputEnergy3'),
+	var singlesForm = document.getElementById('singlesForm'),
+		coincWidget = document.getElementById('coincidenceWidget'),
+		coincForm = document.getElementById('coincForm'),
 		scaleSelect = document.getElementById("xScale"),
 	    scale = scaleSelect.options[scaleSelect.selectedIndex].value,
 	    reportEnergy = (scale=='lin') ? energy.toFixed() : Math.exp(energy).toFixed();
 
-	//singles efficiency
-	singlesInput.value = reportEnergy;
-	singlesInput.onchange();
+	//singles
+	document.getElementById('singlesInputEnergy').value = reportEnergy;
+	singlesForm.onchange();
 
-	//coinc efficiency & rate
-	if(coincWidget.whichInput==0){
-		coincInput1.value = reportEnergy;
-		coincInput1.onchange();
-		rateInput1.value = reportEnergy;
-		rateInput1.onchange();
+	//coincidences
+	if(coincWidget.whichInput == 0){
+		document.getElementById('coincEnergy1').value = reportEnergy;
 		coincWidget.whichInput = 1;
-	} else{
-		coincInput2.value = reportEnergy;
-		coincInput2.onchange();
-		rateInput2.value = reportEnergy;
-		rateInput2.onchange();
+	} else {
+		document.getElementById('coincEnergy2').value = reportEnergy;
 		coincWidget.whichInput = 0;
 	}
-/*
+	coincForm.onchange();
+
 	//triple efficiency
+	/*
 	if(triplesWidget.whichInput==0){
 		triplesInput1.value = reportEnergy;
 		triplesInput1.onchange();
@@ -105,10 +93,32 @@ function passClickToWidget(event, energy){
 		triplesInput3.onchange();
 		triplesWidget.whichInput=0;
 	}
-*/
-	//singles rate
-	rateInput.value = reportEnergy;
-	rateInput.onchange();
+	*/
+}
+
+function assignSinglesColor(targets){
+	var i,
+		detectorSelect = document.getElementById('singlesDetectors'),
+		detector = detectorSelect.options[detectorSelect.selectedIndex].value;
+
+	for(i=0; i<targets.length; i++){
+		document.getElementById(targets[i]).style.backgroundColor = colorCodes[detector];
+	}
+}
+
+function assignCoincColor(targets){
+	var i,
+		detectorSelectA = document.getElementById('coincDetectorsA'),
+		detectorA = detectorSelectA.options[detectorSelectA.selectedIndex].value,
+		detectorSelectB = document.getElementById('coincDetectorsB'),
+		detectorB = detectorSelectB.options[detectorSelectB.selectedIndex].value,
+		colorA = colorCodes[detectorA],
+		colorB = colorCodes[detectorB],
+		gradient = '-webkit-linear-gradient(-45deg, ' + colorA + ' 50%, ' + colorB + ' 50%)';
+
+		for(i=0; i<targets.length; i++){
+			document.getElementById(targets[i]).style.background = gradient;
+		}
 }
 
 // http://stackoverflow.com/a/934925/298479 + hax
@@ -163,6 +173,15 @@ function chooseTimeUnit(nSeconds){
 		factor = 86400;
 	}
 	return [factor, unit];
+}
+
+function chooseFunction(detector){
+	if(detector == 'HPGe')
+		return window.HPGeFunc;
+	if(detector == 'LaBr3')
+		return window.LaBrFunc;
+	if(detector == 'SiLi')
+		return window.SiLiFunc;
 }
 
 function sciNot(val, sig){

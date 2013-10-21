@@ -2,13 +2,6 @@ function setup(){
 	var HPGeSwitch = document.getElementById('enableHPGe'),
 		LaBr3Switch = document.getElementById('enableLaBr3'),
 		SiLiSwitch = document.getElementById('enableSiLi'),
-		singlesInput = document.getElementById('inputEnergy'),
-		coincInput1 = document.getElementById('coincInputEnergy1'),
-		coincInput2 = document.getElementById('coincInputEnergy2'),
-		triplesInput1 = document.getElementById('tripleInputEnergy1'),
-		triplesInput2 = document.getElementById('tripleInputEnergy2'),
-		triplesInput3 = document.getElementById('tripleInputEnergy3');
-		triplesAuxDet = document.getElementById('tripleAux'),
 		detailMessage = 'HPGe Simulation: 8th order polynomial fit.<br>LaBr3 Simulation: 8th order polynomial fit above 40 keV.<br>DESCANT: 27% efficient between 1 and 5 MeV, currently 0 elsewhere.<br>SCEPTAR: 80% efficient.<br>SCEPTAR + ZDS: 65% efficient.<br>SCEPTAR + PACES: 40% efficient.<br>PACES + ZDS: 25% efficient.';
 
 	//call the parameter dump
@@ -18,27 +11,21 @@ function setup(){
 	SiLiCoef = {};
 	SiLiCoef['detector'] = [Math.log(0.2), 0,0,0,0,0,0,0,0];
 
+	//Set up color codes
+	colorCodes = {};
+	colorCodes['HPGe'] = '#449944';
+	colorCodes['LaBr3'] = '#e67e22';
+	colorCodes['SiLi'] = '#2980b9';
+
 	//set up control panel//////////////////////////////////////
 	HPGeSwitch.enabled = 0;
 	HPGeSwitch.onclick = function(event){
 		if (this.enabled){
 			this.style.backgroundColor = '#444444';
 			this.enabled = 0;
-			toggleOutput('effWidgetResultHPGe', 0);
-			toggleOutput('coincEffWidgetResultHPGe', 0);
-			toggleOutput('rateWidgetResultHPGe', 0);
-			toggleOutput('coincRateWidgetResultHPGe', 0);
-			toggleOutput('nSinglesHPGe', 0);
-			toggleOutput('nCoincHPGe', 0);
 		} else{
 			this.style.backgroundColor = '#449944';
 			this.enabled = 1;
-			toggleOutput('effWidgetResultHPGe', 1);
-			toggleOutput('coincEffWidgetResultHPGe', 1);
-			toggleOutput('rateWidgetResultHPGe', 1);
-			toggleOutput('coincRateWidgetResultHPGe', 1);
-			toggleOutput('nSinglesHPGe', 1);
-			toggleOutput('nCoincHPGe', 1);
 		}
 		toggleHPGeControls();
 		chooseGraphs();
@@ -48,21 +35,9 @@ function setup(){
 		if (this.enabled){
 			this.style.backgroundColor = '#444444';
 			this.enabled = 0;
-			toggleOutput('effWidgetResultLaBr3', 0);
-			toggleOutput('coincEffWidgetResultLaBr3', 0);
-			toggleOutput('rateWidgetResultLaBr3', 0);
-			toggleOutput('coincRateWidgetResultLaBr3', 0);
-			toggleOutput('nSinglesLaBr3', 0);
-			toggleOutput('nCoincLaBr3', 0);
 		} else{
 			this.style.backgroundColor = '#e67e22';
 			this.enabled = 1;
-			toggleOutput('effWidgetResultLaBr3', 1);
-			toggleOutput('coincEffWidgetResultLaBr3', 1);
-			toggleOutput('rateWidgetResultLaBr3', 1);
-			toggleOutput('coincRateWidgetResultLaBr3', 1);
-			toggleOutput('nSinglesLaBr3', 1);
-			toggleOutput('nCoincLaBr3', 1);
 		}
 		chooseGraphs();
 	}
@@ -71,21 +46,9 @@ function setup(){
 		if (this.enabled){
 			this.style.backgroundColor = '#444444';
 			this.enabled = 0;
-			toggleOutput('effWidgetResultSiLi', 0);
-			toggleOutput('coincEffWidgetResultSiLi', 0);
-			toggleOutput('rateWidgetResultSiLi', 0);
-			toggleOutput('coincRateWidgetResultSiLi', 0);
-			toggleOutput('nSinglesSiLi', 0);
-			toggleOutput('nCoincSiLi', 0);
 		} else{
 			this.style.backgroundColor = '#2980b9';
 			this.enabled = 1;
-			toggleOutput('effWidgetResultSiLi', 1);
-			toggleOutput('coincEffWidgetResultSiLi', 1);
-			toggleOutput('rateWidgetResultSiLi', 1);
-			toggleOutput('coincRateWidgetResultSiLi', 1);
-			toggleOutput('nSinglesSiLi', 1);
-			toggleOutput('nCoincSiLi', 1);
 		}
 		chooseGraphs();
 	}
@@ -138,16 +101,14 @@ function setup(){
     document.getElementById('graphDiv').style.height = document.getElementById('controlPanel').offsetHeight*1.05;
 
     //Set up widgets///////////////////////////////////////////////////////////////////////
-	//set up singles efficiency widget//////////////////////////
-	document.getElementById('inputEnergyLabel').innerHTML = 'keV '+String.fromCharCode(0x2192);
-	singlesInput.onchange = computeSinglesEfficiency.bind(null);
+    //Singles
+    document.getElementById('singlesForm').onchange = computeSingles.bind(null);
 
-	//set up coincidence efficiency widget//////////////////////////
-	document.getElementById('coincInputEnergyLabel2').innerHTML = 'keV '+String.fromCharCode(0x2192);
-	coincInput1.onchange = computeCoincEfficiency.bind(null);
-	coincInput2.onchange = computeCoincEfficiency.bind(null);
-	document.getElementById('coincEffWidget').whichInput = 0;
-	/*
+    //Coincidences
+    document.getElementById('coincidenceWidget').whichInput = 0;
+    document.getElementById('coincForm').onchange = computeCoincidence.bind(null);    
+
+    /*	
 	//set up triples efficiency widget//////////////////////////////
 	document.getElementById('tripleResultLabel').innerHTML = String.fromCharCode(0x2192);
 	triplesInput1.onchange = function(){
@@ -160,20 +121,6 @@ function setup(){
 
 	document.getElementById('tripleEffWidget').whichInput = 0;
 	*/
-	//set up singles rate widget////////////////////////////////////
-	document.getElementById('singlesRateEnergy').onchange = computeSinglesRate.bind(null);
-	document.getElementById('singlesRateBR').onchange = computeSinglesRate.bind(null);
-	document.getElementById('singlesRateIntensity').onchange = computeSinglesRate.bind(null);
-	document.getElementById('ratePeriod').onchange = computeSinglesRate.bind(null);
-	document.getElementById('nSingles').onchange = computeSinglesRate.bind(null);
-	
-	//set up coinc rate widget////////////////////////////////////////////
-	document.getElementById('coincRateEnergy1').onchange = computeCoincRate.bind(null);
-	document.getElementById('coincRateEnergy2').onchange = computeCoincRate.bind(null);
-	document.getElementById('coincRateBR').onchange = computeCoincRate.bind(null);
-	document.getElementById('coincRateIntensity').onchange = computeCoincRate.bind(null);
-	document.getElementById('coincRatePeriod').onchange = computeCoincRate.bind(null);
-	document.getElementById('nCoinc').onchange = computeCoincRate.bind(null);
 
 	//default to on for demo:
 	HPGeSwitch.onclick();
@@ -181,11 +128,9 @@ function setup(){
 	SiLiSwitch.onclick();
 
 	//evaluate all widgets at defaults
-	computeSinglesEfficiency();
-	computeCoincEfficiency();
-	//computeTriplesEfficiency();
-	computeSinglesRate();
-	computeCoincRate();
+	computeSingles();
+	computeCoincidence();
+
 
 }
 

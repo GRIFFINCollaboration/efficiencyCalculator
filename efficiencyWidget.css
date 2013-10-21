@@ -204,7 +204,7 @@ label.inputLabel{
 	color: #999999;
 }
 
-div.widgetResult{
+div.widgetResult, div.splitDetector{
 	font-size: 200%;
 	color: #FFFFFF;
 	border-radius: 5px;
@@ -212,18 +212,6 @@ div.widgetResult{
 	padding:0.5em;
 	-webkit-transition: width 0.3s, padding 0.3s, opacity 0.3s; 
     -moz-transition: width 0.3s, padding 0.3s, opacity 0.3s;
-}
-
-div#effWidgetResultHPGe, div#coincEffWidgetResultHPGe, div#rateWidgetResultHPGe, div#coincRateWidgetResultHPGe, div#nSinglesHPGe, div#nCoincHPGe{
-	background-color: #449944;
-}
-
-div#effWidgetResultLaBr3, div#coincEffWidgetResultLaBr3, div#rateWidgetResultLaBr3, div#coincRateWidgetResultLaBr3, div#nSinglesLaBr3, div#nCoincLaBr3{
-	background-color: #e67e22;
-}
-
-div#effWidgetResultSiLi, div#coincEffWidgetResultSiLi, div#rateWidgetResultSiLi, div#coincRateWidgetResultSiLi, div#nSinglesSiLi, div#nCoincSiLi{
-	background-color: #2980b9;
 }
 
 div#tripleEffWidgetResult{
@@ -234,7 +222,7 @@ div#tripleEffWidgetResult{
 	margin-bottom:0.25em;
 }
 
-div#coincEffWidgetResultHPGeSiLi{
+div.splitDetector{
   /* Safari 5.1, Chrome 10+ */
   background: -webkit-linear-gradient(-45deg, #449944 50%, #2980b9 50%);
 
