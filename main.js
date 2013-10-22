@@ -2,7 +2,16 @@ function setup(){
 	var HPGeSwitch = document.getElementById('enableHPGe'),
 		LaBr3Switch = document.getElementById('enableLaBr3'),
 		SiLiSwitch = document.getElementById('enableSiLi'),
-		detailMessage = 'HPGe Simulation: 8th order polynomial fit.<br>LaBr3 Simulation: 8th order polynomial fit above 40 keV.<br>DESCANT: 27% efficient between 1 and 5 MeV, currently 0 elsewhere.<br>SCEPTAR: 80% efficient.<br>SCEPTAR + ZDS: 65% efficient.<br>SCEPTAR + PACES: 40% efficient.<br>PACES + ZDS: 25% efficient.';
+		detailMessage = 'HPGe GEANT4 Simulation: 8th order polynomial fit including SCEPTAR and Delrin vacuum chamber.<br><br>'
+		detailMessage +='LaBr3 GEANT4 Simulation: 8th order polynomial fit above 40 keV including SCEPTAR and<br>Delrin vacuum chamber.<br><br>'
+		detailMessage +='Si(Li) Simulation: Relative Efficiency curve shape based on formalism referenced in<br>Radiation Detection & Measurement (G.F. Knoll, Wiley 2000).<br>'
+		detailMessage +='An absolute normalization is applied per Masters Thesis of Ryan Dunlop, University of Guelph, 2012,<br>High-precision branching ratio measurement for the superallowed beta+ emitter 74Rb, based on<br>the analysis of in-beam 80Rb decay.<br><br>'
+		detailMessage +='The following five configuration efficiencies are based on solid angle coverage of detectors:<br>'
+		detailMessage +='DESCANT: 27% efficient between 1 and 5 MeV; efficiency lower outside this range, and no value is<br>reported here.<br>'
+		detailMessage +='SCEPTAR: 80% efficient.<br>'
+		detailMessage +='SCEPTAR + ZDS: 65% efficient.<br>'
+		detailMessage +='SCEPTAR + PACES: 40% efficient.<br>'
+		detailMessage +='PACES + ZDS: 25% efficient.';
 
 	//call the parameter dump
 	loadParameters();

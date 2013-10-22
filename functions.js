@@ -10,6 +10,8 @@ function HPGeEfficiency(param, loParam, hiParam, logE){
 		hiDelta = 0,
 		eff;
 
+	if(logE < Math.log(5)) return '0;0;0';
+
 	for(i=0; i<9; i++){
 		logEff += param[i]*Math.pow(logE,i);
 		//loDelta += Math.pow((param[i] - loParam[i])*Math.pow(logE,i), 2);

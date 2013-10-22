@@ -266,15 +266,14 @@ function confirm(headline, detailText){
         'innerHTML' : headline
     })
 
-    //fix dimensions
-    var width = 0.35*window.innerWidth;
-    document.getElementById('dialogHeader').setAttribute('width', width);
-
-    //center dialogue
-    document.getElementById('tempDiv').style.left = document.body.offsetWidth/2 - width/2;
-
     //warning text
     injectDOM('p', 'warning', 'tempDiv', {'style':'padding: 1em; font-size:120%; line-height:1.5; text-align:left', 'innerHTML':detailText});
+
+
+
+    //center dialogue
+    var width = document.getElementById('tempDiv').offsetWidth;
+    document.getElementById('tempDiv').style.left = document.body.offsetWidth/2 - width/2;
 
     //insert submit & abort button
     injectDOM('input', 'abortChoice', 'tempDiv', {

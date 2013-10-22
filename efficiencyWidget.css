@@ -344,8 +344,10 @@ img#pngDump{
 	background:rgba(0,0,0,0.8); 
 	border: 5px solid; 
 	border-radius:10px;
-	top:200px;
+	top:100px;
 	padding:2em;
+	max-height: 800px;
+	overflow:scroll;
 }
 
 /*Footer and footer-related styles////////////////////////////////////////////////////*/
