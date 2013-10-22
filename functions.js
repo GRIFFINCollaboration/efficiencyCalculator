@@ -50,29 +50,28 @@ function SiLiEfficiency(param, loParam, hiParam, logE){
 		E = Math.exp(logE),
 		eff = param[5]*param[0]*Math.exp(param[1]*Math.pow(E, param[2]))*(1 - Math.exp(param[3]*Math.pow(E, param[4])));
 
+	if(logE < Math.log(15)) return '0;0;0';
+
 	return (eff - eff*loDelta) + ';' + eff + ';' + (eff + eff*hiDelta);	
 }
 
 function DESCANTefficiency(logE){
-	if(logE < Math.log(1000)){
-		return 0;
-	} else if(logE > Math.log(5000)){
-		return 0;
-	} else{
-		return 0.27;  //100% efficient * 27% geometric acceptance
+	if(logE > Math.log(1000) && logE < Math.log(5000))
+		return '0.27;0.27;0.27';  //100% efficient * 27% geometric acceptance
+	else{
+		confirm('DESCANT Energy Out of Range', 'DESCANT neutron efficiencies are not reported below 1 MeV or above 5 MeV at this time.');
+		return 'NaN;NaN;NaN'
 	}
 }
 
-function SCEPTARefficiency(logE){
-	var auxDetectorSelect = document.getElementById('tripleAux'),
-	auxDetector = auxDetectorSelect.options[auxDetectorSelect.selectedIndex].value;
+function SCEPTARefficiency(detector, logE){
 
-	if(auxDetector == 'SCEPTAR')
-		return 0.8;
-	else if(auxDetector == 'SCEPTARZDS')
-		return 0.65;
-	else if(auxDetector == 'SCEPTARPACES')
-		return 0.4;
-	else if(auxDetector == 'PACESZDS')
-		return 0.25;
+	if(detector == 'SCEPTAR')
+		return '0.8;0.8;0.8';
+	else if(detector == 'SCEPTARZDS')
+		return '0.65;0.65;0.65';
+	else if(detector == 'SCEPTARPACES')
+		return '0.4;0.4;0.4';
+	else if(detector == 'PACESZDS')
+		return '0.25;0.25;0.25';
 }

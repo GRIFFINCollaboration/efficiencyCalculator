@@ -1,3 +1,4 @@
+/*
 function validateDESCANTinput(){
 	var auxDetectorSelect = document.getElementById('tripleAux'),
 		auxDetector = auxDetectorSelect.options[auxDetectorSelect.selectedIndex].value,
@@ -8,6 +9,7 @@ function validateDESCANTinput(){
 		input.value = 1000;
 	}
 }
+*/
 
 function toggleOutput(id, state){
 	if(state == 0){
@@ -114,10 +116,32 @@ function assignCoincColor(targets){
 		detectorB = detectorSelectB.options[detectorSelectB.selectedIndex].value,
 		colorA = colorCodes[detectorA],
 		colorB = colorCodes[detectorB],
-		gradient = '-webkit-linear-gradient(-45deg, ' + colorA + ' 50%, ' + colorB + ' 50%)';
+		gradientWebkit = '-webkit-linear-gradient(-45deg, ' + colorA + ' 50%, ' + colorB + ' 50%)',
+		gradientMoz = '-moz-linear-gradient(-45deg, ' + colorA + ' 50%, ' + colorB + ' 50%)';
 
 		for(i=0; i<targets.length; i++){
-			document.getElementById(targets[i]).style.background = gradient;
+			document.getElementById(targets[i]).style.background = gradientWebkit;
+			document.getElementById(targets[i]).style.background = gradientMoz;
+		}
+}
+
+function assignTriplesColor(targets){
+	var i,
+		detectorSelectA = document.getElementById('triplesDetectorsA'),
+		detectorA = detectorSelectA.options[detectorSelectA.selectedIndex].value,
+		detectorSelectB = document.getElementById('triplesDetectorsB'),
+		detectorB = detectorSelectB.options[detectorSelectB.selectedIndex].value,
+		detectorSelectC = document.getElementById('triplesDetectorsC'),
+		detectorC = detectorSelectC.options[detectorSelectC.selectedIndex].value,		
+		colorA = colorCodes[detectorA],
+		colorB = colorCodes[detectorB],
+		colorC = colorCodes[detectorC],
+		gradientWebkit = '-webkit-linear-gradient(-45deg, ' + colorA + ' 34%, ' + colorB + ' 34%, ' + colorB + ' 67%,' + colorC + ' 67%)',
+		gradientMoz = '-moz-linear-gradient(-45deg, ' + colorA + ' 34%, ' + colorB + ' 34%, ' + colorB + ' 67%,' + colorC + ' 67%)';
+
+		for(i=0; i<targets.length; i++){
+			document.getElementById(targets[i]).style.background = gradientWebkit;
+			document.getElementById(targets[i]).style.background = gradientMoz;
 		}
 }
 
@@ -178,10 +202,14 @@ function chooseTimeUnit(nSeconds){
 function chooseFunction(detector){
 	if(detector == 'HPGe')
 		return window.HPGeFunc;
-	if(detector == 'LaBr3')
+	else if(detector == 'LaBr3')
 		return window.LaBrFunc;
-	if(detector == 'SiLi')
+	else if(detector == 'SiLi')
 		return window.SiLiFunc;
+	else if(detector == 'DESCANT')
+		return DESCANTefficiency;
+	else
+		return SCEPTARefficiency.bind(null, detector) //SCEPTARefficiency contains a whole stable of detectors, use the catch all for this.
 }
 
 function sciNot(val, sig){

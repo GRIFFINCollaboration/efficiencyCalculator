@@ -19,6 +19,11 @@ function setup(){
 	colorCodes['HPGe'] = '#449944';
 	colorCodes['LaBr3'] = '#e67e22';
 	colorCodes['SiLi'] = '#2980b9';
+	colorCodes['DESCANT'] = '#8e44ad';
+	colorCodes['SCEPTAR'] = '#c0392b';
+	colorCodes['SCEPTARZDS'] = '#c0392b';
+	colorCodes['SCEPTARPACES'] = '#c0392b';
+	colorCodes['PACESZDS'] = '#f1c40f';
 
 	//set up control panel//////////////////////////////////////
 	HPGeSwitch.enabled = 0;
@@ -115,19 +120,9 @@ function setup(){
     document.getElementById('coincidenceWidget').whichInput = 0;
     document.getElementById('coincForm').onchange = computeCoincidence.bind(null);    
 
-    /*	
-	//set up triples efficiency widget//////////////////////////////
-	document.getElementById('tripleResultLabel').innerHTML = String.fromCharCode(0x2192);
-	triplesInput1.onchange = function(){
-		validateDESCANTinput();
-		computeTriplesEfficiency.bind(null)();
-	}
-	triplesInput2.onchange = computeTriplesEfficiency.bind(null);
-	triplesInput3.onchange = computeTriplesEfficiency.bind(null);
-	triplesAuxDet.onchange = computeTriplesEfficiency.bind(null);
-
-	document.getElementById('tripleEffWidget').whichInput = 0;
-	*/
+    //Triples
+    document.getElementById('triplesWidget').whichInput = 0;
+    document.getElementById('triplesForm').onchange = computeTriples.bind(null);     
 
 	//default to on for demo:
 	HPGeSwitch.onclick();
@@ -137,7 +132,7 @@ function setup(){
 	//evaluate all widgets at defaults
 	computeSingles();
 	computeCoincidence();
-
+	computeTriples();
 
 }
 

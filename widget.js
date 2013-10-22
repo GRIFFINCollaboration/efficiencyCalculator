@@ -85,6 +85,138 @@ function computeCoincidence(){
 	assignCoincColor(['coincEfficiency', 'coincRate', 'nCoincTime']);
 }
 
+function computeTriples(){
+	var e1 = Math.log(parseFloat(document.getElementById('triplesEnergy1').value)),
+		e2 = Math.log(parseFloat(document.getElementById('triplesEnergy2').value)),
+		e3 = Math.log(parseFloat(document.getElementById('triplesEnergy3').value)),
+		BR1 = parseFloat(document.getElementById('triplesBR1').value),
+		BR2 = parseFloat(document.getElementById('triplesBR2').value),
+		BR3 = parseFloat(document.getElementById('triplesBR3').value),
+		intensity = parseFloat(document.getElementById('triplesIntensity').value),
+		detectorASelect = document.getElementById('triplesDetectorsA'),
+		detectorA = detectorASelect.options[detectorASelect.selectedIndex].value,
+		detectorBSelect = document.getElementById('triplesDetectorsB'),
+		detectorB = detectorBSelect.options[detectorBSelect.selectedIndex].value,
+		detectorCSelect = document.getElementById('triplesDetectorsC'),
+		detectorC = detectorCSelect.options[detectorCSelect.selectedIndex].value,
+		periodSelect = document.getElementById("triplesPeriod"),
+		period = parseFloat(periodSelect.options[periodSelect.selectedIndex].value),
+		nHPGeSelect = document.getElementById("nHPGeSwitch"),
+		nHPGe = parseFloat(nHPGeSelect.options[nHPGeSelect.selectedIndex].value),
+		nCounts = parseFloat(document.getElementById('nTriples').value),
+		eff1, eff2, eff3, efficiency, nSeconds, unit, countingFactor;
+
+	//choose the appropriate function and evaluate it at <e1> and <e2>
+	eff1 = chooseFunction(detectorA).bind(null, e1)();
+	eff1 = parseFloat(eff1.slice(eff1.indexOf(';')+1, eff1.lastIndexOf(';') ));
+	eff2 = chooseFunction(detectorB).bind(null, e2)();
+	eff2 = parseFloat(eff2.slice(eff2.indexOf(';')+1, eff2.lastIndexOf(';') ));
+	eff3 = chooseFunction(detectorC).bind(null, e3)();
+	eff3 = parseFloat(eff3.slice(eff3.indexOf(';')+1, eff3.lastIndexOf(';') ));
+
+	//compute counting factor:
+	countingFactor = 1;
+	if(detectorA == detectorB){
+		if(detectorB == detectorC){  //all options the same
+			if(detectorA == 'HPGe')
+				countingFactor = (nHPGe-1)/nHPGe*(nHPGe-2)/nHPGe;
+			else if(detectorA == 'LaBr3')
+				countingFactor = 7/8*6/8;
+			else if(detectorA == 'SiLi')
+				countingFactor = 7/8*6/8;
+			else if(detectorA == 'DESCANT')
+				countingFactor = 69/70*68/70;
+			else if(detectorA == 'SCEPTAR')
+				countingFactor = 19/20*18/20;
+			else if(detectorA == 'SCEPTARZDS')
+				countingFactor = 10/11*9/11;
+			else if(detectorA == 'SECEPTARPACES')
+				countingFactor = 19/20*18/20;
+			else if(detectorA == 'PACESZDS')
+				countingFactor = 10/11*9/11;
+		} else { //only A and B the same
+			if(detectorB == 'HPGe')
+				countingFactor = (nHPGe-1)/nHPGe;
+			else if(detectorB == 'LaBr3')
+				countingFactor = 7/8;
+			else if(detectorB == 'SiLi')
+				countingFactor = 7/8;
+			else if(detectorB == 'DESCANT')
+				countingFactor = 69/70;
+			else if(detectorB == 'SCEPTAR')
+				countingFactor = 19/20;
+			else if(detectorB == 'SCEPTARZDS')
+				countingFactor = 10/11;
+			else if(detectorB == 'SECEPTARPACES')
+				countingFactor = 19/20;
+			else if(detectorB == 'PACESZDS')
+				countingFactor = 10/11;
+
+		}
+	} else if(detectorB == detectorC){
+			if(detectorB == 'HPGe')
+				countingFactor = (nHPGe-1)/nHPGe;
+			else if(detectorB == 'LaBr3')
+				countingFactor = 7/8;
+			else if(detectorB == 'SiLi')
+				countingFactor = 7/8;
+			else if(detectorB == 'DESCANT')
+				countingFactor = 69/70;
+			else if(detectorB == 'SCEPTAR')
+				countingFactor = 19/20;
+			else if(detectorB == 'SCEPTARZDS')
+				countingFactor = 10/11;
+			else if(detectorB == 'SECEPTARPACES')
+				countingFactor = 19/20;
+			else if(detectorB == 'PACESZDS')
+				countingFactor = 10/11;		
+	} else if(detectorA == detectorC){
+			if(detectorA == 'HPGe')
+				countingFactor = (nHPGe-1)/nHPGe;
+			else if(detectorA == 'LaBr3')
+				countingFactor = 7/8;
+			else if(detectorA == 'SiLi')
+				countingFactor = 7/8;
+			else if(detectorA == 'DESCANT')
+				countingFactor = 69/70;
+			else if(detectorA == 'SCEPTAR')
+				countingFactor = 19/20;
+			else if(detectorA == 'SCEPTARZDS')
+				countingFactor = 10/11;
+			else if(detectorA == 'SECEPTARPACES')
+				countingFactor = 19/20;
+			else if(detectorA == 'PACESZDS')
+				countingFactor = 10/11;		
+	}
+
+	//compute efficiency
+	efficiency = eff1*eff2*eff3*countingFactor;
+	document.getElementById('triplesEfficiency').innerHTML = (efficiency > 0.1) ? efficiency.toFixed(2) : sciNot(efficiency, 1);
+
+	//compute and report rate
+	document.getElementById('triplesRate').innerHTML = sciNot(intensity*BR1*BR2*BR3*efficiency*period, 2);
+
+	//time to accrue:
+	nSeconds = nCounts/(intensity*BR1*BR2*BR3*efficiency);
+	unit = chooseTimeUnit(nSeconds);
+	if(intensity*BR1*BR2*BR3*efficiency != 0)
+		document.getElementById('nTriplesTime').innerHTML = sciNot(nSeconds/unit[0], 2)+' '+unit[1];
+	else
+		document.getElementById('nTriplesTime').innerHTML = String.fromCharCode(0x221E);
+
+	//set colors correctly
+	assignTriplesColor(['triplesEfficiency', 'triplesRate', 'nTriplesTime']);
+}
+
+
+
+
+
+
+
+
+
+/*
 function computeTriplesEfficiency(){
 	var e1 = Math.log(parseFloat(document.getElementById('tripleInputEnergy1').value)),
 		e2 = Math.log(parseFloat(document.getElementById('tripleInputEnergy2').value)),
@@ -115,3 +247,4 @@ function computeTriplesEfficiency(){
 
 	document.getElementById('tripleEffWidgetResult').innerHTML = (tripleEff > 0.1) ? tripleEff.toFixed(2) : sciNot(tripleEff, 1);
 }
+*/

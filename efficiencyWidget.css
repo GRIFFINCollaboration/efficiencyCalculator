@@ -74,6 +74,11 @@ body{
 	margin-left:0px;
 }
 
+:invalid{
+	color: #FF0000;
+	border: 2px solid #FF0000;
+}
+
 /*links//////////////////////////////////////////////////*/
 a{
 	cursor:pointer;
@@ -160,10 +165,16 @@ h1#title{
 }
 
 /*widgets////////////////////////////////////////////////////*/
+div.widgetWrapper{
+	overflow:scroll;
+	white-space: nowrap;
+}
+
 div.widget{
 	text-align:center;
 	padding: 1em;
 	display: inline-block;
+	vertical-align: top;
 	min-width:-webkit-max-content;
 	min-width:-moz-max-content;
 	margin: 1em;
@@ -177,6 +188,7 @@ h2.widgetTitle{
 	padding-bottom: 0.25em;
 	margin-bottom: 0.25em;
 	border-bottom: 1px solid #999999;
+	text-align: center;
 }
 
 input.widgetInput, input#filename{
@@ -218,16 +230,24 @@ div#tripleEffWidgetResult{
 	background-color: #9b59b6;
 }
 
-#singlesRateEnergy, #coincRateEnergy1, #rateWidgetResultHPGe, #coincRateWidgetResultHPGe{
-	margin-bottom:0.25em;
-}
-
 div.splitDetector{
   /* Safari 5.1, Chrome 10+ */
   background: -webkit-linear-gradient(-45deg, #449944 50%, #2980b9 50%);
 
   /* Firefox 3.6+ */
   background: -moz-linear-gradient(-45deg, #449944 50%, #2980b9 50%);
+}
+
+div.leftDiv{
+	text-align: left;
+	margin-left: auto;
+	margin-right: auto;
+	width:-webkit-max-content;
+	width:-moz-max-content;
+}
+
+.widgetInput, .widgetResult, .splitDetector{
+	margin-bottom:0.25em;
 }
 
 /*Control Panel/////////////////////////////////////////////////////*/
