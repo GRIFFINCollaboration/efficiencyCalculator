@@ -80,10 +80,6 @@ function setup(){
 	//default summing to per clover:
 	document.getElementById('summingScheme').value = 'clover';
 
-	//default x axis to log
-	document.getElementById('xScale').value = 'log';
-	document.getElementById('xScale').onchange = chooseGraphs.bind(null);
-
 	//repaint the plot when anything in the form changes:
 	document.getElementById('plotOptions').onchange = chooseGraphs.bind(null);
 
@@ -213,7 +209,7 @@ function deployGraph(func, titles, colors, min, max){
 	}
 
 	g = new Dygraph(document.getElementById('graphDiv'), data, {
-		title: 'Simulated Gamma Efficiency v. Energy',
+		title: 'Simulated Efficiency v. Energy',
 		xlabel: 'Energy [keV]',
 		ylabel: 'Efficiency',
 		sigFigs: 2,
@@ -249,7 +245,7 @@ function deployGraph(func, titles, colors, min, max){
 					if(number<0.1){
 						return number.toExponential(1)
 					} else
-						return number;
+						return number.toFixed(2);
 				}				
 			}
 		}
@@ -314,5 +310,9 @@ function repaint(dygraph){
 	}
 	yMin.value = g.yAxisRange()[0].toFixed(2);
 	yMax.value = g.yAxisRange()[1].toFixed(2);
+
+	computeSingles();
+	computeCoincidence();
+	computeTriples();
 
 }

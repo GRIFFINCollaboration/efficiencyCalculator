@@ -66,6 +66,8 @@ input, select, button{
 
 sup {font-size:small; vertical-align:super;}
 
+sub {font-size:small; vertical-align:sub;}
+
 body{
 	font-family: 'Raleway', sans-serif; 
 	font-size:14px; 

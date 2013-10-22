@@ -63,7 +63,7 @@ function computeCoincidence(){
 		else if(detectorA == 'LaBr3')
 			countingFactor = 7/8;
 		else if(detectorA == 'SiLi')
-			countingFactor = 7/8;
+			countingFactor = 4/5;
 	}
 
 	//compute efficiency
@@ -123,7 +123,7 @@ function computeTriples(){
 			else if(detectorA == 'LaBr3')
 				countingFactor = 7/8*6/8;
 			else if(detectorA == 'SiLi')
-				countingFactor = 7/8*6/8;
+				countingFactor = 4/5*3/5;
 			else if(detectorA == 'DESCANT')
 				countingFactor = 69/70*68/70;
 			else if(detectorA == 'SCEPTAR')
@@ -131,16 +131,16 @@ function computeTriples(){
 			else if(detectorA == 'SCEPTARZDS')
 				countingFactor = 10/11*9/11;
 			else if(detectorA == 'SECEPTARPACES')
-				countingFactor = 19/20*18/20;
+				countingFactor = 14/15*13/15;
 			else if(detectorA == 'PACESZDS')
-				countingFactor = 10/11*9/11;
+				countingFactor = 5/6*4/6;
 		} else { //only A and B the same
 			if(detectorB == 'HPGe')
 				countingFactor = (nHPGe-1)/nHPGe;
 			else if(detectorB == 'LaBr3')
 				countingFactor = 7/8;
 			else if(detectorB == 'SiLi')
-				countingFactor = 7/8;
+				countingFactor = 4/5;
 			else if(detectorB == 'DESCANT')
 				countingFactor = 69/70;
 			else if(detectorB == 'SCEPTAR')
@@ -148,9 +148,9 @@ function computeTriples(){
 			else if(detectorB == 'SCEPTARZDS')
 				countingFactor = 10/11;
 			else if(detectorB == 'SECEPTARPACES')
-				countingFactor = 19/20;
+				countingFactor = 14/15;
 			else if(detectorB == 'PACESZDS')
-				countingFactor = 10/11;
+				countingFactor = 5/6;
 
 		}
 	} else if(detectorB == detectorC){
@@ -159,7 +159,7 @@ function computeTriples(){
 			else if(detectorB == 'LaBr3')
 				countingFactor = 7/8;
 			else if(detectorB == 'SiLi')
-				countingFactor = 7/8;
+				countingFactor = 4/5;
 			else if(detectorB == 'DESCANT')
 				countingFactor = 69/70;
 			else if(detectorB == 'SCEPTAR')
@@ -167,16 +167,16 @@ function computeTriples(){
 			else if(detectorB == 'SCEPTARZDS')
 				countingFactor = 10/11;
 			else if(detectorB == 'SECEPTARPACES')
-				countingFactor = 19/20;
+				countingFactor = 14/15;
 			else if(detectorB == 'PACESZDS')
-				countingFactor = 10/11;		
+				countingFactor = 5/6;		
 	} else if(detectorA == detectorC){
 			if(detectorA == 'HPGe')
 				countingFactor = (nHPGe-1)/nHPGe;
 			else if(detectorA == 'LaBr3')
 				countingFactor = 7/8;
 			else if(detectorA == 'SiLi')
-				countingFactor = 7/8;
+				countingFactor = 4/5;
 			else if(detectorA == 'DESCANT')
 				countingFactor = 69/70;
 			else if(detectorA == 'SCEPTAR')
@@ -184,9 +184,9 @@ function computeTriples(){
 			else if(detectorA == 'SCEPTARZDS')
 				countingFactor = 10/11;
 			else if(detectorA == 'SECEPTARPACES')
-				countingFactor = 19/20;
+				countingFactor = 14/15;
 			else if(detectorA == 'PACESZDS')
-				countingFactor = 10/11;		
+				countingFactor = 5/6;		
 	}
 
 	//compute efficiency
@@ -207,44 +207,3 @@ function computeTriples(){
 	//set colors correctly
 	assignTriplesColor(['triplesEfficiency', 'triplesRate', 'nTriplesTime']);
 }
-
-
-
-
-
-
-
-
-
-/*
-function computeTriplesEfficiency(){
-	var e1 = Math.log(parseFloat(document.getElementById('tripleInputEnergy1').value)),
-		e2 = Math.log(parseFloat(document.getElementById('tripleInputEnergy2').value)),
-		e3 = Math.log(parseFloat(document.getElementById('tripleInputEnergy3').value)),
-		auxDetectorSelect = document.getElementById('tripleAux'),
-		auxDetector = auxDetectorSelect.options[auxDetectorSelect.selectedIndex].value,
-		//auxEff = window.HPGeFunc(e1),
-		LaBrEff1 = window.LaBrFunc(e2),
-		LaBrEff2 = window.LaBrFunc(e3),
-		LaBrEff, tripleEff, auxEff;
-
-	if(auxDetector == 'HPGe'){
-		auxEff = window.HPGeFunc(e1);
-		auxEff = parseFloat(auxEff.slice(auxEff.indexOf(';')+1, auxEff.lastIndexOf(';') ));
-	} else if(auxDetector == 'DESCANT'){
-		validateDESCANTinput();
-		e1 = Math.log(parseFloat(document.getElementById('tripleInputEnergy1').value));
-		auxEff = DESCANTefficiency(e1);
-	} else{
-		auxEff = SCEPTARefficiency(e1);
-	}
-
-	LaBrEff1 = parseFloat(LaBrEff1.slice(LaBrEff1.indexOf(';')+1, LaBrEff1.lastIndexOf(';') ));
-	LaBrEff2 = parseFloat(LaBrEff2.slice(LaBrEff2.indexOf(';')+1, LaBrEff2.lastIndexOf(';') ));
-
-	LaBrEff = (LaBrEff1*LaBrEff2*7/8);
-	tripleEff = auxEff*LaBrEff;
-
-	document.getElementById('tripleEffWidgetResult').innerHTML = (tripleEff > 0.1) ? tripleEff.toFixed(2) : sciNot(tripleEff, 1);
-}
-*/

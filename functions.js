@@ -56,7 +56,7 @@ function SiLiEfficiency(param, loParam, hiParam, logE){
 }
 
 function DESCANTefficiency(logE){
-	if(logE > Math.log(1000) && logE < Math.log(5000))
+	if(logE >= Math.log(1000) && logE <= Math.log(5000))
 		return '0.27;0.27;0.27';  //100% efficient * 27% geometric acceptance
 	else{
 		confirm('DESCANT Energy Out of Range', 'DESCANT neutron efficiencies are not reported below 1 MeV or above 5 MeV at this time.');
