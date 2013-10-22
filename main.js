@@ -228,6 +228,7 @@ function deployGraph(func, titles, colors, min, max){
 		titleHeight: 30,
 		xLabelHeight: 24,
 		yLabelWidth: 24,
+		yAxisLabelWidth: 75,
 		axes:{
 			x: {
 				valueFormatter: function(number, opts, dygraph){
@@ -237,12 +238,19 @@ function deployGraph(func, titles, colors, min, max){
 						return number.toFixed() + ' keV';
 				},
 				axisLabelFormatter: function(number, gran, opts, dygraph){
-					var val = Math.round(Math.exp(number));
 					if(scale=='lin')
 						return Math.round(number);
 					else
 						return Math.round(Math.exp(number));
 				}
+			},
+			y: {
+				axisLabelFormatter: function(number, gran, opts, dygraph){
+					if(number<0.1){
+						return number.toExponential(1)
+					} else
+						return number;
+				}				
 			}
 		}
 	});

@@ -166,11 +166,13 @@ function getBase64Image(img) {
     ctx.drawImage(img, 0, 0);
 
     //construct parameter report to imprint on canvas
-    ctx.font = '24px sans-serif';
-    ctx.fillText('No. HPGe: ' + nHPGe, img.width-ctx.measureText('HPGe Distance: ' + HPGeDistance + ' cm').width-20, 90);
-    ctx.fillText('HPGe Distance: ' + HPGeDistance + ' cm', img.width-ctx.measureText('HPGe Distance: ' + HPGeDistance + ' cm').width-20, 115);
-    ctx.fillText('Absorber: ' + absorber + ' mm Delrin', img.width-ctx.measureText('HPGe Distance: ' + HPGeDistance + ' cm').width-20, 140);
-    ctx.fillText('Addback: ' + summing, img.width-ctx.measureText('HPGe Distance: ' + HPGeDistance + ' cm').width-20, 165);
+    if(document.getElementById('enableHPGe').enabled){
+	    ctx.font = '24px sans-serif';
+	    ctx.fillText('No. HPGe: ' + nHPGe, img.width-ctx.measureText('HPGe Distance: ' + HPGeDistance + ' cm').width-20, 90);
+	    ctx.fillText('HPGe Distance: ' + HPGeDistance + ' cm', img.width-ctx.measureText('HPGe Distance: ' + HPGeDistance + ' cm').width-20, 115);
+	    ctx.fillText('Absorber: ' + absorber + ' mm Delrin', img.width-ctx.measureText('HPGe Distance: ' + HPGeDistance + ' cm').width-20, 140);
+	    ctx.fillText('Addback: ' + summing, img.width-ctx.measureText('HPGe Distance: ' + HPGeDistance + ' cm').width-20, 165);
+	}
 
     // Get the data-URL formatted image
     // Firefox supports PNG and JPEG. You could check img.src to guess the
