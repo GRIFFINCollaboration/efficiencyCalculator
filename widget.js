@@ -2,6 +2,7 @@ function computeSingles(){
 	var energy = Math.log(parseFloat(document.getElementById('singlesInputEnergy').value)),
 		BR = parseFloat(document.getElementById('singlesBR').value),
 		intensity = parseFloat(document.getElementById('singlesIntensity').value),
+		DC = parseFloat(document.getElementById('singlesDutyCycle').value),
 		detectorSelect = document.getElementById('singlesDetectors'),
 		detector = detectorSelect.options[detectorSelect.selectedIndex].value,
 		periodSelect = document.getElementById("singlesPeriod"),
@@ -17,12 +18,12 @@ function computeSingles(){
 	document.getElementById('singlesEfficiency').innerHTML = (efficiency > 0.1) ? efficiency.toFixed(2) : sciNot(efficiency, 1);
 
 	//rate
-	document.getElementById('singlesRate').innerHTML = sciNot(intensity*BR*efficiency*period, 2);
+	document.getElementById('singlesRate').innerHTML = sciNot(intensity*DC*BR*efficiency*period, 2);
 
 	//time to accrue:
-	nSeconds = nCounts/(intensity*BR*efficiency);
+	nSeconds = nCounts/(intensity*DC*BR*efficiency);
 	unit = chooseTimeUnit(nSeconds);
-	if(intensity*BR*efficiency != 0)
+	if(intensity*DC*BR*efficiency != 0)
 		document.getElementById('nSinglesTime').innerHTML = sciNot(nSeconds/unit[0], 2)+' '+unit[1];
 	else 
 		document.getElementById('nSinglesTime').innerHTML = String.fromCharCode(0x221E);
@@ -38,6 +39,7 @@ function computeCoincidence(){
 		BR1 = parseFloat(document.getElementById('coincBR1').value),
 		BR2 = parseFloat(document.getElementById('coincBR2').value),
 		intensity = parseFloat(document.getElementById('coincIntensity').value),
+		DC = parseFloat(document.getElementById('coincDutyCycle').value),
 		detectorASelect = document.getElementById('coincDetectorsA'),
 		detectorA = detectorASelect.options[detectorASelect.selectedIndex].value,
 		detectorBSelect = document.getElementById('coincDetectorsB'),
@@ -71,12 +73,12 @@ function computeCoincidence(){
 	document.getElementById('coincEfficiency').innerHTML = (efficiency > 0.1) ? efficiency.toFixed(2) : sciNot(efficiency, 1);
 
 	//compute and report rate
-	document.getElementById('coincRate').innerHTML = sciNot(intensity*BR1*BR2*efficiency*period, 2);
+	document.getElementById('coincRate').innerHTML = sciNot(intensity*DC*BR1*BR2*efficiency*period, 2);
 
 	//time to accrue:
-	nSeconds = nCounts/(intensity*BR1*BR2*efficiency);
+	nSeconds = nCounts/(intensity*DC*BR1*BR2*efficiency);
 	unit = chooseTimeUnit(nSeconds);
-	if(intensity*BR1*BR2*efficiency != 0)
+	if(intensity*DC*BR1*BR2*efficiency != 0)
 		document.getElementById('nCoincTime').innerHTML = sciNot(nSeconds/unit[0], 2)+' '+unit[1];
 	else
 		document.getElementById('nCoincTime').innerHTML = String.fromCharCode(0x221E);
@@ -93,6 +95,7 @@ function computeTriples(){
 		BR2 = parseFloat(document.getElementById('triplesBR2').value),
 		BR3 = parseFloat(document.getElementById('triplesBR3').value),
 		intensity = parseFloat(document.getElementById('triplesIntensity').value),
+		DC = parseFloat(document.getElementById('triplesDutyCycle').value),
 		detectorASelect = document.getElementById('triplesDetectorsA'),
 		detectorA = detectorASelect.options[detectorASelect.selectedIndex].value,
 		detectorBSelect = document.getElementById('triplesDetectorsB'),
@@ -194,12 +197,12 @@ function computeTriples(){
 	document.getElementById('triplesEfficiency').innerHTML = (efficiency > 0.1) ? efficiency.toFixed(2) : sciNot(efficiency, 1);
 
 	//compute and report rate
-	document.getElementById('triplesRate').innerHTML = sciNot(intensity*BR1*BR2*BR3*efficiency*period, 2);
+	document.getElementById('triplesRate').innerHTML = sciNot(intensity*DC*BR1*BR2*BR3*efficiency*period, 2);
 
 	//time to accrue:
-	nSeconds = nCounts/(intensity*BR1*BR2*BR3*efficiency);
+	nSeconds = nCounts/(intensity*DC*BR1*BR2*BR3*efficiency);
 	unit = chooseTimeUnit(nSeconds);
-	if(intensity*BR1*BR2*BR3*efficiency != 0)
+	if(intensity*DC*BR1*BR2*BR3*efficiency != 0)
 		document.getElementById('nTriplesTime').innerHTML = sciNot(nSeconds/unit[0], 2)+' '+unit[1];
 	else
 		document.getElementById('nTriplesTime').innerHTML = String.fromCharCode(0x221E);
