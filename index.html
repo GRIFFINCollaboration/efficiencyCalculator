@@ -29,6 +29,7 @@ THE SOFTWARE.-->
 		<script type="text/javascript" src="widget.js"></script>
 		<script type="text/javascript" src="fitParams.js"></script>
 		<script type="text/javascript" src="fitParamsLaBr.js"></script>
+		<script type="text/javascript" src="browserDetect.js"></script>
 
 		<link rel="stylesheet" type="text/css" href="efficiencyWidget.css" />
 	</head>
@@ -330,6 +331,9 @@ THE SOFTWARE.-->
 		<img id='pngDump'></img>
 
 		<script type='text/javascript'>
+			if(BrowserDetect.browser != 'Chrome' && BrowserDetect.browser != 'Firefox'){
+				confirm('Time for a new browser!', 'The GRIFFIN Web App Project only supports <a href="https://www.google.com/intl/en/chrome/browser/">Chrome</a> and <a href="http://www.mozilla.org/en-US/firefox/new/">Firefox</a>.')
+			}
 			setup();
 		</script>
 	</body>

@@ -349,6 +349,10 @@ img#pngDump{
 	overflow:scroll;
 }
 
+.tempDialog a{
+	color: #9999FF;
+}
+
 /*Footer and footer-related styles////////////////////////////////////////////////////*/
 div#footer{
 	background-color: #999999;
