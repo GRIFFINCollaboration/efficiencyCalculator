@@ -76,7 +76,7 @@ body{
 	margin-left:0px;
 }
 
-:invalid{
+input.widgetInput:invalid, input.widgetInput:-moz-ui-invalid{
 	color: #FF0000;
 	border: 2px solid #FF0000;
 }

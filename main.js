@@ -155,6 +155,10 @@ function chooseGraphs(){
 	HPGeMinCoef['dummy'] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 	HPGeMaxCoef['dummy'] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
+	//make sure specified plot maxima aren't silly:
+	document.getElementById('xMax').min = parseFloat(document.getElementById('xMin').value);
+	document.getElementById('yMax').min = parseFloat(document.getElementById('yMin').value);
+
 	if(document.getElementById('enableHPGe').enabled){
 		HPGeString = constructPlotKey();
 		window.HPGeFunc = HPGeEfficiency.bind(null, HPGeCoef[HPGeString], HPGeMinCoef['dummy'], HPGeMaxCoef['dummy']);

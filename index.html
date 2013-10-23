@@ -92,19 +92,19 @@ THE SOFTWARE.-->
 					<div id='enableSiLi' class='detectorSwitch'>Si(Li)</div>
 
 					<br><br>
-					<input id='xMin' class='widgetInput' type='number' value='10'></input>
+					<input id='xMin' class='widgetInput' type='number' value='10' min='0' step='any'></input>
 					<label id='xMinLabel' class='inputLabel' for='xMin'>< E <</label>
-					<input id='xMax' class='widgetInput' type='number' value='3000'></input>
-					<label id='xMaxLabel' class='inputLabel' for='xMax'>keV</label>
+					<input id='xMax' class='widgetInput' type='number' value='3000' step='any'></input>
+					<label id='xMaxLabel' class='inputLabel' for='xMax' step='any'>keV</label>
 					<select id='xScale'>
 						<option value='lin'>Linear</option>
 						<option value='log'>Log</option>
 					</select>				
 
 					<br><br>
-					<input id='yMin' class='widgetInput' type='number' value='null'></input>
+					<input id='yMin' class='widgetInput' type='number' value='null' min='0' step='any'></input>
 					<label id='yMinLabel' class='inputLabel' for='yMin'>< Effic. <</label>
-					<input id='yMax' class='widgetInput' type='number' value='null'></input>
+					<input id='yMax' class='widgetInput' type='number' value='null' step='any'></input>
 					<select id='yScale'>
 						<option value='false'>Linear</option>
 						<option value='true'>Log</option>
@@ -162,18 +162,18 @@ THE SOFTWARE.-->
 								<option value='SiLi'>Si(Li)</option>
 							</select>
 							<label id='singlesDetectorsLabel' class='inputLabel' for='singlesDetectors'>at</label>
-							<input id='singlesInputEnergy' class='widgetInput' type='number' value='100'></input>
+							<input id='singlesInputEnergy' class='widgetInput' type='number' value='100' min='0' step='any'></input>
 							<label id='singlesEnergyLabel' class='inputLabel' for='singlesInputEnergy'>keV and</label>
-							<input id='singlesBR' class='widgetInput' type='number' value='1'></input>
+							<input id='singlesBR' class='widgetInput' type='number' value='1' min='0' max='1' step='any'></input>
 							<label id='singlesBRLabel' class='inputLabel' for='singlesBR'>BR,</label>
 							<br>
 							<label id='singlesIntensityLabelb' class='inputLabel' for='singlesIntensity'>w/ beam intensity</label>
-							<input id='singlesIntensity' class='widgetInput' type='number' value='1E6'></input>
+							<input id='singlesIntensity' class='widgetInput' type='number' value='1E6' min='0' step='any'></input>
 							<label id='singlesIntensityLabel' class='inputLabel' for='singlesIntensity'>pps,</label>
 							<br>
 							<label id='singlesDutyCycleLabel' class='inputLabel' for='singlesDutyCycle'>and duty cycle </label>
-							<input id='singlesDutyCycle' class='widgetInput' type='number' value='1'></input>
-							<label id='singlesDutyCycleLabelB' class='inputLabel' for='singlesDutyCycle'>:</label>
+							<input id='singlesDutyCycle' class='widgetInput' type='number' value='100' min='0' max='100' step='any'></input>
+							<label id='singlesDutyCycleLabelB' class='inputLabel' for='singlesDutyCycle'>%:</label>
 						</div>
 						<br>
 						<label id='singlesEfficiencyLabel' class='inputLabel' for='singlesEfficiency'>Efficiency: </label>
@@ -188,7 +188,7 @@ THE SOFTWARE.-->
 						</select>
 						<br>
 						<label id='nSinglesLabelb' class='inputLabel' for='nSingles'>Or </label>
-						<input id='nSingles' class='widgetInput' type='number' value='1E6'></input>
+						<input id='nSingles' class='widgetInput' type='number' value='1E6' min='0' step='any'></input>
 						<label id='nSinglesLabel' class='inputLabel' for='nSingles'>counts will accrue in</label>
 						<div id='nSinglesTime' class='widgetResult'>0s</div>
 					</form>
@@ -204,9 +204,9 @@ THE SOFTWARE.-->
 								<option value='SiLi'>Si(Li)</option>
 							</select>
 							<label id='coincDetectorsAlabel' class='inputLabel' for='coincDetectorsA'>at</label>
-							<input id='coincEnergy1' class='widgetInput' type='number' value='100'></input>
+							<input id='coincEnergy1' class='widgetInput' type='number' value='100' min='0' step='any'></input>
 							<label id='coincEnergyLabel1' class='inputLabel' for='coincEnergy1'>keV and </label>
-							<input id='coincBR1' class='widgetInput' type='number' value='1'></input>
+							<input id='coincBR1' class='widgetInput' type='number' value='1' min='0' max='1' step='any'></input>
 							<label id='coincBRLabel1' class='inputLabel' for='coincBR1'>BR + </label>
 							<br>
 							<select id='coincDetectorsB'>
@@ -215,18 +215,18 @@ THE SOFTWARE.-->
 								<option value='SiLi'>Si(Li)</option>
 							</select>
 							<label id='coincDetectorsBlabel' class='inputLabel' for='coincDetectorsB'>at</label>
-							<input id='coincEnergy2' class='widgetInput' type='number' value='100'></input>
+							<input id='coincEnergy2' class='widgetInput' type='number' value='100' min='0' step='any'></input>
 							<label id='coincEnergyLabel2' class='inputLabel' for='coincEnergy2'>keV and </label>
-							<input id='coincBR2' class='widgetInput' type='number' value='1'></input>
+							<input id='coincBR2' class='widgetInput' type='number' value='1' min='0' max='1' step='any'></input>
 							<label id='coincBRLabel2' class='inputLabel' for='coincBR2'>BR,</label>
 							<br>
 							<label id='coincIntensityLabelb' class='inputLabel' for='coincIntensity'>with beam intensity</label>
-							<input id='coincIntensity' class='widgetInput' type='number' value='1E6'></input>
+							<input id='coincIntensity' class='widgetInput' type='number' value='1E6' min='0' step='any'></input>
 							<label id='coincIntensityLabel' class='inputLabel' for='coincIntensity'>pps,</label>
 							<br>
 							<label id='coincDutyCycleLabel' class='inputLabel' for='coincDutyCycle'>and duty cycle </label>
-							<input id='coincDutyCycle' class='widgetInput' type='number' value='1'></input>
-							<label id='coincDutyCycleLabelB' class='inputLabel' for='coincDutyCycle'>:</label>
+							<input id='coincDutyCycle' class='widgetInput' type='number' value='100' min='0' max='100' step='any'></input>
+							<label id='coincDutyCycleLabelB' class='inputLabel' for='coincDutyCycle'>%:</label>
 						</div>
 						<br>
 						<label id='coincEfficiencyLabel' class='inputLabel' for='coincEfficiency'>Efficiency: </label>
@@ -241,7 +241,7 @@ THE SOFTWARE.-->
 						</select>				
 						<br>
 						<label id='nCoincLabelb' class='inputLabel' for='nCoinc'>Or</label>
-						<input id='nCoinc' class='widgetInput' type='number' value='1E6'></input>
+						<input id='nCoinc' class='widgetInput' type='number' value='1E6' min='0' step='any'></input>
 						<label id='nCoincLabel' class='inputLabel' for='nCoinc'>counts will accrue in</label>
 						<div id='nCoincTime' class='splitDetector'>0s</div>	
 					</form>	
@@ -262,9 +262,9 @@ THE SOFTWARE.-->
 								<option value='PACESZDS'>&#946 Tag (Si(Li) + ZDS)</option>
 							</select>
 							<label id='triplesDetectorsAlabel' class='inputLabel' for='triplesDetectorsA'>at</label>
-							<input id='triplesEnergy1' class='widgetInput' type='number' value='100'></input>
+							<input id='triplesEnergy1' class='widgetInput' type='number' value='100' min='0' step='any'></input>
 							<label id='triplesEnergyLabel1' class='inputLabel' for='triplesEnergy1'>keV and </label>
-							<input id='triplesBR1' class='widgetInput' type='number' value='1'></input>
+							<input id='triplesBR1' class='widgetInput' type='number' value='1' min='0' max='1' step='any'></input>
 							<label id='triplesBRLabel1' class='inputLabel' for='triplesBR1'>BR + </label>
 							<br>
 							<select id='triplesDetectorsB'>
@@ -278,9 +278,9 @@ THE SOFTWARE.-->
 								<option value='PACESZDS'>&#946 Tag (Si(Li) + ZDS)</option>
 							</select>
 							<label id='triplesDetectorsBlabel' class='inputLabel' for='triplesDetectorsB'>at</label>
-							<input id='triplesEnergy2' class='widgetInput' type='number' value='100'></input>
+							<input id='triplesEnergy2' class='widgetInput' type='number' value='100' min='0' step='any'></input>
 							<label id='triplesEnergyLabel2' class='inputLabel' for='triplesEnergy2'>keV and </label>
-							<input id='triplesBR2' class='widgetInput' type='number' value='1'></input>
+							<input id='triplesBR2' class='widgetInput' type='number' value='1' min='0' max='1' step='any'></input>
 							<label id='triplesBRLabel2' class='inputLabel' for='triplesBR2'>BR + </label>
 							<br>
 							<select id='triplesDetectorsC'>
@@ -294,18 +294,18 @@ THE SOFTWARE.-->
 								<option value='PACESZDS'>&#946 Tag (Si(Li) + ZDS)</option>
 							</select>
 							<label id='triplesDetectorsClabel' class='inputLabel' for='triplesDetectorsC'>at</label>
-							<input id='triplesEnergy3' class='widgetInput' type='number' value='100'></input>
+							<input id='triplesEnergy3' class='widgetInput' type='number' value='100' min='0' step='any'></input>
 							<label id='triplesEnergyLabel3' class='inputLabel' for='triplesEnergy3'>keV and </label>
-							<input id='triplesBR3' class='widgetInput' type='number' value='1'></input>
+							<input id='triplesBR3' class='widgetInput' type='number' value='1' min='0' max='1' step='any'></input>
 							<label id='triplesBRLabel3' class='inputLabel' for='triplesBR3'>BR,</label>
 							<br>
 							<label id='triplesIntensityLabelb' class='inputLabel' for='triplesIntensity'>with beam intensity</label>
-							<input id='triplesIntensity' class='widgetInput' type='number' value='1E6'></input>
+							<input id='triplesIntensity' class='widgetInput' type='number' value='1E6' min='0' step='any'></input>
 							<label id='triplesIntensityLabel' class='inputLabel' for='triplesIntensity'>pps, </label>
 							
 							<label id='triplesDutyCycleLabel' class='inputLabel' for='triplesDutyCycle'>and duty cycle </label>
-							<input id='triplesDutyCycle' class='widgetInput' type='number' value='1'></input>
-							<label id='triplesDutyCycleLabelB' class='inputLabel' for='triplesDutyCycle'>:</label>
+							<input id='triplesDutyCycle' class='widgetInput' type='number' value='100' min='0' max='100' step='any'></input>
+							<label id='triplesDutyCycleLabelB' class='inputLabel' for='triplesDutyCycle'>%:</label>
 						</div>
 						<br>
 						<label id='triplesEfficiencyLabel' class='inputLabel' for='triplesEfficiency'>Efficiency: </label>
@@ -320,7 +320,7 @@ THE SOFTWARE.-->
 						</select>				
 						<br>
 						<label id='nTriplesLabelb' class='inputLabel' for='nTriples'>Or</label>
-						<input id='nTriples' class='widgetInput' type='number' value='1E6'></input>
+						<input id='nTriples' class='widgetInput' type='number' value='1E6' min='0' step='any'></input>
 						<label id='nTriplesLabel' class='inputLabel' for='nTriples'>counts will accrue in</label>
 						<div id='nTriplesTime' class='splitDetector'>0s</div>	
 					</form>	
