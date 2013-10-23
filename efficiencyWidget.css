@@ -287,7 +287,6 @@ input#filename{
 	font-size: 100%;
 	padding:1em;
 	margin:0px;
-	height:3em;
 }
 
 select{
@@ -309,11 +308,11 @@ select{
 }
 
 select#HPGeDistanceSwitch{
-	width:2.8em;
+	width:3.5em;
 }
 
 select#nHPGeSwitch{
-	width:2em;
+	width:3em;
 }
 
 div#HPGeControl, div#LaBr3Control{
