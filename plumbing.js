@@ -295,6 +295,30 @@ function confirm(headline, detailText){
     dialogue.style.opacity = 1
 }
 
+//FF doesn't yet have support for the number input, must validate by hand //facepalm
+function validateNumber(inputID){
+	var input = document.getElementById(inputID),
+		value = parseFloat(input.value),
+		min = parseFloat(input.min),
+		max = parseFloat(input.max),
+		invalid = false;
+
+	if(min || min==0){
+		if (value < min)
+			invalid = true;
+	}
+
+	if(max || max==0){
+		if(value > max)
+			invalid = true;
+	}
+
+	if(invalid){
+		input.style = 'border: 2px solid red; color: red';
+	} else
+		input.style = 'border: none; color: white';
+}
+
 /////Dygraph hax/////////////////////////////////////////////////////////////
 
 //hack to cope with the questionable decision to not support logarithmic x-axes:

@@ -1,8 +1,9 @@
 function setup(){
-	var HPGeSwitch = document.getElementById('enableHPGe'),
+	var i, nodes,
+		HPGeSwitch = document.getElementById('enableHPGe'),
 		LaBr3Switch = document.getElementById('enableLaBr3'),
 		SiLiSwitch = document.getElementById('enableSiLi'),
-		detailMessage = 'HPGe GEANT4 Simulation: 8th order polynomial fit including SCEPTAR and Delrin vacuum chamber.<br><br>'
+		detailMessage = 'HPGe GEANT4 Simulation: 8th order polynomial fit including SCEPTAR and Delrin vacuum chamber.<br><br>';
 		detailMessage +='LaBr3 GEANT4 Simulation: 8th order polynomial fit above 40 keV including SCEPTAR and<br>Delrin vacuum chamber.<br><br>'
 		detailMessage +='Si(Li) Simulation: Relative Efficiency curve shape based on formalism referenced in<br>Radiation Detection & Measurement (G.F. Knoll, Wiley 2000).<br>'
 		detailMessage +='An absolute normalization is applied per Masters Thesis of Ryan Dunlop, University of Guelph, 2012,<br>High-precision branching ratio measurement for the superallowed beta+ emitter 74Rb, based on<br>the analysis of in-beam 80Rb decay.<br><br>'
@@ -11,7 +12,7 @@ function setup(){
 		detailMessage +='SCEPTAR: 80% efficient.<br>'
 		detailMessage +='SCEPTAR + ZDS: 65% efficient.<br>'
 		detailMessage +='SCEPTAR + PACES: 40% efficient.<br>'
-		detailMessage +='PACES + ZDS: 25% efficient.';
+		detailMessage +='PACES + ZDS: 25% efficient.'
 
 	//call the parameter dump
 	loadParameters();
@@ -128,6 +129,34 @@ function setup(){
     //Triples
     document.getElementById('triplesWidget').whichInput = 0;
     document.getElementById('triplesForm').onchange = computeTriples.bind(null);     
+
+    //must validate by hand until FF implements number-type inputs:
+    nodes = document.querySelectorAll('input.widgetInput')
+    for(i=0; i<nodes.length; i++ ){
+    	nodes[i].onchange = validateNumber.bind(null, nodes[i].id);
+    }
+
+    /*
+    document.getElementById('singlesInputEnergy').onchange = validateNumber.bind(null, 'singlesInputEnergy');
+    document.getElementById('singlesBR').onchange = validateNumber.bind(null, 'singlesBR');
+    document.getElementById('singlesIntensity').onchange = validateNumber.bind(null, 'singlesIntensity');
+	document.getElementById('singlesDutyCycle').onchange = validateNumber.bind(null, 'singlesDutyCycle');    
+	document.getElementById('nSingles').onchange = validateNumber.bind(null, 'nSingles');
+
+    document.getElementById('coincInputEnergy1').onchange = validateNumber.bind(null, 'coincInputEnergy1');
+    document.getElementById('coincInputEnergy2').onchange = validateNumber.bind(null, 'coincInputEnergy2');
+    document.getElementById('coincBR1').onchange = validateNumber.bind(null, 'coincBR1');
+    document.getElementById('coincBR2').onchange = validateNumber.bind(null, 'coincBR2');
+    document.getElementById('singlesIntensity').onchange = validateNumber.bind(null, 'singlesIntensity');
+	document.getElementById('singlesDutyCycle').onchange = validateNumber.bind(null, 'singlesDutyCycle');    
+	document.getElementById('nSingles').onchange = validateNumber.bind(null, 'nSingles');
+
+    document.getElementById('singlesInputEnergy').onchange = validateNumber.bind(null, 'singlesInputEnergy');
+    document.getElementById('singlesBR').onchange = validateNumber.bind(null, 'singlesBR');
+    document.getElementById('singlesIntensity').onchange = validateNumber.bind(null, 'singlesIntensity');
+	document.getElementById('singlesDutyCycle').onchange = validateNumber.bind(null, 'singlesDutyCycle');    
+	document.getElementById('nSingles').onchange = validateNumber.bind(null, 'nSingles');
+	*/
 
 	//default to on for demo:
 	HPGeSwitch.onclick();
@@ -323,6 +352,12 @@ function repaint(dygraph){
 	}
 	yMin.value = g.yAxisRange()[0].toFixed(2);
 	yMax.value = g.yAxisRange()[1].toFixed(2);
+
+	//FF form validation shenanigans again:
+	validateNumber('xMin');
+	validateNumber('xMax');
+	validateNumber('yMin');
+	validateNumber('yMax');
 
 	computeSingles();
 	computeCoincidence();
