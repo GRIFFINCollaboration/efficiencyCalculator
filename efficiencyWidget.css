@@ -136,7 +136,7 @@ h1#title{
 	/*background-color:#333333 !important;*/
 	background: transparent !important;
 	font-size:200% !important;
-	width: 6.5em !important;
+	width: 7.5em !important;
 	left: auto !important;
 	right: 0px !important;
 }
@@ -315,14 +315,19 @@ select#nHPGeSwitch{
 	width:3em;
 }
 
-div#HPGeControl, div#LaBr3Control{
+div#HPGeControl, div#SCEPTARControl{
 	overflow:hidden;
 	-webkit-transition: height 0.5s ease;
     -moz-transition: height 0.5s ease;
+    padding-bottom: 1em;
 }
 
 input#yMin, input#yMax{
 	width: 3em;
+}
+
+div.optionalParameters{
+	border-top: 1px solid #999999;
 }
 
 /*img holder for savable data///////////////////////////////////////*/

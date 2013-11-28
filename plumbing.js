@@ -25,9 +25,17 @@ function toggleOutput(id, state){
 
 function toggleHPGeControls(){
 	if(document.getElementById('enableHPGe').enabled){
-		document.getElementById('HPGeControl').style.height = '21em';
+		document.getElementById('HPGeControl').style.height = '23em';
 	} else{
 		document.getElementById('HPGeControl').style.height = 0;
+	}
+}
+
+function toggleSCEPTARControls(){
+	if(document.getElementById('enableSCEPTAR').enabled){
+		document.getElementById('SCEPTARControl').style.height = '12em';
+	} else{
+		document.getElementById('SCEPTARControl').style.height = 0;
 	}
 }
 
@@ -173,7 +181,12 @@ function getBase64Image(img) {
 	    ctx.fillText('Absorber: ' + absorber + ' mm Delrin', img.width-ctx.measureText('HPGe Distance: ' + HPGeDistance + ' cm').width-20, 140);
 	    ctx.fillText('Addback: ' + summing, img.width-ctx.measureText('HPGe Distance: ' + HPGeDistance + ' cm').width-20, 165);
 	}
-
+/*
+	if(document.getElementById('enableSCEPTAR').enabled){
+		ctx.font = '24px sans-serif';
+		//...
+	}
+*/
     // Get the data-URL formatted image
     // Firefox supports PNG and JPEG. You could check img.src to guess the
     // original format, but be aware the using "image/jpg" will re-encode the image.
@@ -211,7 +224,7 @@ function chooseFunction(detector){
 	else if(detector == 'DESCANT')
 		return DESCANTefficiency;
 	else
-		return SCEPTARefficiency.bind(null, detector) //SCEPTARefficiency contains a whole stable of detectors, use the catch all for this.
+		return SCEPTARauxEfficiency.bind(null, detector) //SCEPTARauxEfficiency contains a whole stable of detectors, use the catch all for this.
 }
 
 function sciNot(val, sig){
@@ -275,7 +288,7 @@ function confirm(headline, detailText){
     var width = document.getElementById('tempDiv').offsetWidth;
     document.getElementById('tempDiv').style.left = document.body.offsetWidth/2 - width/2;
 
-    //insert submit & abort button
+    //insert abort button
     injectDOM('input', 'abortChoice', 'tempDiv', {
         'class' : 'standardButton',
         'style' : 'width:auto; height:auto; padding:0.5em; margin-bottom:1em',

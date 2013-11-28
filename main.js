@@ -3,6 +3,8 @@ function setup(){
 		HPGeSwitch = document.getElementById('enableHPGe'),
 		LaBr3Switch = document.getElementById('enableLaBr3'),
 		SiLiSwitch = document.getElementById('enableSiLi'),
+		switchToBeta = document.getElementById('toBetaPlots'),
+		//SCEPTARSwitch = document.getElementById('enableSCEPTAR');
 		detailMessage = 'HPGe GEANT4 Simulation: 8th order polynomial fit including SCEPTAR and Delrin vacuum chamber.<br><br>';
 		detailMessage +='LaBr3 GEANT4 Simulation: 8th order polynomial fit above 40 keV including SCEPTAR and<br>Delrin vacuum chamber.<br><br>'
 		detailMessage +='Si(Li) Simulation: Relative Efficiency curve shape based on formalism referenced in<br>Radiation Detection & Measurement (G.F. Knoll, Wiley 2000).<br>'
@@ -13,10 +15,10 @@ function setup(){
 		detailMessage +='SCEPTAR + ZDS: 65% efficient.<br>'
 		detailMessage +='SCEPTAR + PACES: 40% efficient.<br>'
 		detailMessage +='PACES + ZDS: 25% efficient.'
-
 	//call the parameter dump
 	loadParameters();
 	loadLaBrParameters();
+	loadSCEPTARParameters();
 	//SiLi parameters taken from CITATION NEEDED
 	//last parameter is an overall normalization to fix eff(603keV) = 0.0342, per
 	//Masters Thesis of Ryan Dunlop, University of Guelph, 2012, 
@@ -70,7 +72,23 @@ function setup(){
 		}
 		chooseGraphs();
 	}
-
+	switchToBeta.onclick = function(){
+		document.getElementById('plots').shuffleTo(1);
+	}
+	/*
+	SCEPTARSwitch.enabled = 0;
+	SCEPTARSwitch.onclick = function(event){
+		if (this.enabled){
+			this.style.backgroundColor = '#444444';
+			this.enabled = 0;
+		} else{
+			this.style.backgroundColor = '#c0392b';
+			this.enabled = 1;
+		}
+		toggleSCEPTARControls();
+		chooseGraphs();
+	}
+	*/
 	//make sure the file name for image saving gets passed around:
 	document.getElementById('filename').onchange = function(){
 		//set the filename to whatever the user has requested:
@@ -117,6 +135,7 @@ function setup(){
     //make sure the plot area is a sane size:
     document.getElementById('graphDiv').style.width = (window.innerWidth - document.getElementById('controlPanel').offsetWidth)*0.95;
     document.getElementById('graphDiv').style.height = document.getElementById('controlPanel').offsetHeight*1.05;
+    document.getElementById('plots').style.height = document.getElementById('controlPanel').offsetHeight*1.1;
 
     //Set up widgets///////////////////////////////////////////////////////////////////////
     //Singles
@@ -136,32 +155,11 @@ function setup(){
     	nodes[i].onchange = validateNumber.bind(null, nodes[i].id);
     }
 
-    /*
-    document.getElementById('singlesInputEnergy').onchange = validateNumber.bind(null, 'singlesInputEnergy');
-    document.getElementById('singlesBR').onchange = validateNumber.bind(null, 'singlesBR');
-    document.getElementById('singlesIntensity').onchange = validateNumber.bind(null, 'singlesIntensity');
-	document.getElementById('singlesDutyCycle').onchange = validateNumber.bind(null, 'singlesDutyCycle');    
-	document.getElementById('nSingles').onchange = validateNumber.bind(null, 'nSingles');
-
-    document.getElementById('coincInputEnergy1').onchange = validateNumber.bind(null, 'coincInputEnergy1');
-    document.getElementById('coincInputEnergy2').onchange = validateNumber.bind(null, 'coincInputEnergy2');
-    document.getElementById('coincBR1').onchange = validateNumber.bind(null, 'coincBR1');
-    document.getElementById('coincBR2').onchange = validateNumber.bind(null, 'coincBR2');
-    document.getElementById('singlesIntensity').onchange = validateNumber.bind(null, 'singlesIntensity');
-	document.getElementById('singlesDutyCycle').onchange = validateNumber.bind(null, 'singlesDutyCycle');    
-	document.getElementById('nSingles').onchange = validateNumber.bind(null, 'nSingles');
-
-    document.getElementById('singlesInputEnergy').onchange = validateNumber.bind(null, 'singlesInputEnergy');
-    document.getElementById('singlesBR').onchange = validateNumber.bind(null, 'singlesBR');
-    document.getElementById('singlesIntensity').onchange = validateNumber.bind(null, 'singlesIntensity');
-	document.getElementById('singlesDutyCycle').onchange = validateNumber.bind(null, 'singlesDutyCycle');    
-	document.getElementById('nSingles').onchange = validateNumber.bind(null, 'nSingles');
-	*/
-
 	//default to on for demo:
 	HPGeSwitch.onclick();
 	LaBr3Switch.onclick();
 	SiLiSwitch.onclick();
+	//SCEPTARSwitch.onclick();
 
 	//evaluate all widgets at defaults
 	computeSingles();
@@ -193,23 +191,31 @@ function chooseGraphs(){
 		window.HPGeFunc = HPGeEfficiency.bind(null, HPGeCoef[HPGeString], HPGeMinCoef['dummy'], HPGeMaxCoef['dummy']);
 		funcs[funcs.length] = window.HPGeFunc;
 		titles[titles.length] = 'HPGe';
-		colors[colors.length] = '#449944';
+		colors[colors.length] = colorCodes['HPGe'];
 	}
 	if(document.getElementById('enableLaBr3').enabled){
 		LaBrString = constructLaBrPlotKey();
 		window.LaBrFunc = LaBrEfficiency.bind(null, LaBrCoef[LaBrString], HPGeMinCoef['dummy'], HPGeMaxCoef['dummy']);
 		funcs[funcs.length] = window.LaBrFunc;
 		titles[titles.length] = 'LaBr3';
-		colors[colors.length] = '#e67e22';
+		colors[colors.length] = colorCodes['LaBr3'];
 	}
 	if(document.getElementById('enableSiLi').enabled){
 		SiLiString = constructSiLiPlotKey();
 		window.SiLiFunc = SiLiEfficiency.bind(null, SiLiCoef[SiLiString], HPGeMinCoef['dummy'], HPGeMaxCoef['dummy']);
 		funcs[funcs.length] = window.SiLiFunc;
 		titles[titles.length] = 'Si(Li)';
-		colors[colors.length] = '#2980b9';
+		colors[colors.length] = colorCodes['SiLi'];
 	}
-
+	/*
+	if(document.getElementById('enableSCEPTAR').enabled){
+		SCEPTARString = constructSCEPTARPlotKey();
+		window.SCEPTARFunc = SCEPTAREfficiency.bind(null, SCEPTARCoef[SCEPTARString], HPGeMinCoef['dummy'], HPGeMaxCoef['dummy']);
+		funcs[funcs.length] = window.SCEPTARFunc;
+		titles[titles.length] = 'SCEPTAR';
+		colors[colors.length] = colorCodes['SCEPTAR'];
+	}
+	*/
 	deployGraph(funcs, titles, colors, min, max);
 }
 
@@ -330,6 +336,18 @@ function constructLaBrPlotKey(){
 
 function constructSiLiPlotKey(){
 		return 'detector';
+}
+
+function constructSCEPTARPlotKey(){
+	var leptonOptions = document.getElementById('lepton'),
+		lepton = leptonOptions.options[leptonOptions.selectedIndex].value,
+		zOptions = document.getElementById('parentZ'),
+		z = zOptions.options[zOptions.selectedIndex].value,
+		thresholdOptions = document.getElementById('betaThreshold'),
+		threshold = thresholdOptions.options[thresholdOptions.selectedIndex].value,
+		plotKey = ''+lepton+z+threshold;
+
+		return plotKey;
 }
 
 //callback to run every time the function repaints

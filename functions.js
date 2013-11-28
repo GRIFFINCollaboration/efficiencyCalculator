@@ -66,7 +66,21 @@ function DESCANTefficiency(logE){
 	}
 }
 
-function SCEPTARefficiency(detector, logE){
+//SCEPTAR simulation
+function SCEPTAREfficiency(param, loParam, hiParam, logE){
+	var logEff = 0,
+		eff;
+
+	//Evan & Carl requested the 0.8 hack-in instead of param[6]
+	logEff = 0.8*(1-1/(Math.exp((logE-param[0])/param[1])+1)-1/(Math.exp((logE-param[2])/param[3])+1)-1/(Math.exp((logE-param[4])/param[5])+1));
+	eff = Math.exp(logEff);
+	eff = Math.max(eff, 0.00065);
+
+	return eff + ';' + eff + ';' + eff;
+}
+
+//SCEPTAR & friends estimates
+function SCEPTARauxEfficiency(detector, logE){
 
 	if(detector == 'SCEPTAR')
 		return '0.8;0.8;0.8';
