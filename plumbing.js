@@ -40,7 +40,7 @@ function toggleSCEPTARControls(){
 }
 
 //generate a hidden image and send its data uri to the appropriate place for saving:
-function prepImageSave(dygraph){
+function prepImageSave(dygraph, saveButton){
 	var options = {
 	    //Texts displayed below the chart's x-axis and to the left of the y-axis 
 	    titleFont: "bold 30px sans-serif",
@@ -62,48 +62,55 @@ function prepImageSave(dygraph){
 	};
 
 	Dygraph.Export.asPNG(dygraph, document.getElementById('pngDump'), options);
-	document.getElementById('savePlot').href = getBase64Image(document.getElementById('pngDump'));	
+	document.getElementById(saveButton).href = getBase64Image(document.getElementById('pngDump'));	
 }
 
 //when the plot is clicked, pass the corresponding energy to the widgets
 function passClickToWidget(event, energy){
 	var singlesForm = document.getElementById('singlesForm'),
 		coincWidget = document.getElementById('coincidenceWidget'),
+		triplesWidget = document.getElementById('triplesWidget'),
 		coincForm = document.getElementById('coincForm'),
+		triplesForm = document.getElementById('triplesForm'),
 		scaleSelect = document.getElementById("xScale"),
 	    scale = scaleSelect.options[scaleSelect.selectedIndex].value,
-	    reportEnergy = (scale=='lin') ? energy.toFixed() : Math.exp(energy).toFixed();
+	    reportEnergy = (scale=='lin') ? energy.toFixed() : Math.exp(energy).toFixed(),
+	    SCEPTARview = document.getElementById('plots').selectedIndex;
 
 	//singles
 	document.getElementById('singlesInputEnergy').value = reportEnergy;
+	if(SCEPTARview)
+		document.getElementById('singlesDetectors').value = 'SCEPTAR';
 	singlesForm.onchange();
 
 	//coincidences
 	if(coincWidget.whichInput == 0){
 		document.getElementById('coincEnergy1').value = reportEnergy;
+		if(SCEPTARview)
+			document.getElementById('coincDetectorsA').value = 'SCEPTAR';
 		coincWidget.whichInput = 1;
 	} else {
 		document.getElementById('coincEnergy2').value = reportEnergy;
+		if(SCEPTARview)
+			document.getElementById('coincDetectorsB').value = 'SCEPTAR';
 		coincWidget.whichInput = 0;
 	}
 	coincForm.onchange();
 
 	//triple efficiency
-	/*
 	if(triplesWidget.whichInput==0){
-		triplesInput1.value = reportEnergy;
-		triplesInput1.onchange();
+		document.getElementById('triplesEnergy1').value = reportEnergy;
+		triplesForm.onchange();
 		triplesWidget.whichInput=1;
 	} else if(triplesWidget.whichInput==1){
-		triplesInput2.value = reportEnergy;
-		triplesInput2.onchange();
+		document.getElementById('triplesEnergy2').value = reportEnergy;
+		triplesForm.onchange();
 		triplesWidget.whichInput=2;
 	} else if(triplesWidget.whichInput==2){
-		triplesInput3.value = reportEnergy;
-		triplesInput3.onchange();
+		document.getElementById('triplesEnergy3').value = reportEnergy;
+		triplesForm.onchange();
 		triplesWidget.whichInput=0;
 	}
-	*/
 }
 
 function assignSinglesColor(targets){
@@ -162,7 +169,13 @@ function getBase64Image(img) {
 		HPGeDistanceOptions = document.getElementById('HPGeDistanceSwitch'),
 		HPGeDistance = HPGeDistanceOptions.options[HPGeDistanceOptions.selectedIndex].value,
 		absorberOptions = document.getElementById('delrinSwitch'),
-		absorber = absorberOptions.options[absorberOptions.selectedIndex].value;
+		absorber = absorberOptions.options[absorberOptions.selectedIndex].value,
+		betaChargeOptions = document.getElementById('lepton'),
+		betaCharge = betaChargeOptions[betaChargeOptions.selectedIndex].value,
+		parentZOptions = document.getElementById('parentZ'),
+		parentZ = parentZOptions[parentZOptions.selectedIndex].value,
+		betaThreshOptions = document.getElementById('betaThreshold'),
+		betaThresh = betaThreshOptions[betaThreshOptions.selectedIndex].value;
 
     // Create an empty canvas element
     var canvas = document.createElement("canvas");
@@ -174,19 +187,19 @@ function getBase64Image(img) {
     ctx.drawImage(img, 0, 0);
 
     //construct parameter report to imprint on canvas
-    if(document.getElementById('enableHPGe').enabled){
+    if(document.getElementById('enableHPGe').enabled && document.getElementById('plots').selectedIndex==0){  //HPGe imprint
 	    ctx.font = '24px sans-serif';
 	    ctx.fillText('No. HPGe: ' + nHPGe, img.width-ctx.measureText('HPGe Distance: ' + HPGeDistance + ' cm').width-20, 90);
 	    ctx.fillText('HPGe Distance: ' + HPGeDistance + ' cm', img.width-ctx.measureText('HPGe Distance: ' + HPGeDistance + ' cm').width-20, 115);
 	    ctx.fillText('Absorber: ' + absorber + ' mm Delrin', img.width-ctx.measureText('HPGe Distance: ' + HPGeDistance + ' cm').width-20, 140);
 	    ctx.fillText('Addback: ' + summing, img.width-ctx.measureText('HPGe Distance: ' + HPGeDistance + ' cm').width-20, 165);
-	}
-/*
-	if(document.getElementById('enableSCEPTAR').enabled){
+	} else if(document.getElementById('plots').selectedIndex==1){  //SCEPTAR imprint
 		ctx.font = '24px sans-serif';
-		//...
+		ctx.fillText('Beta Charge: '+betaCharge, img.width-ctx.measureText('Beta Charge: '+betaCharge).width-20, 90);
+		ctx.fillText('Parent Z: '+parentZ, img.width - ctx.measureText('Parent Z: '+parentZ).width-20, 115);
+		ctx.fillText('SCEPTAR Threshold: '+betaThresh, img.width - ctx.measureText('SCEPTAR Threshold: '+betaThresh).width-20, 140);
 	}
-*/
+
     // Get the data-URL formatted image
     // Firefox supports PNG and JPEG. You could check img.src to guess the
     // original format, but be aware the using "image/jpg" will re-encode the image.
@@ -223,6 +236,8 @@ function chooseFunction(detector){
 		return window.SiLiFunc;
 	else if(detector == 'DESCANT')
 		return DESCANTefficiency;
+	else if(detector == 'SCEPTAR')
+		return window.SCEPTARFunc;
 	else
 		return SCEPTARauxEfficiency.bind(null, detector) //SCEPTARauxEfficiency contains a whole stable of detectors, use the catch all for this.
 }

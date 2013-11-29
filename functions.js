@@ -68,13 +68,17 @@ function DESCANTefficiency(logE){
 
 //SCEPTAR simulation
 function SCEPTAREfficiency(param, loParam, hiParam, logE){
-	var logEff = 0,
-		eff;
+	var eff,
+		Q = Math.exp(logE),
+		leptonOptions = document.getElementById('lepton'),
+		lepton = leptonOptions.options[leptonOptions.selectedIndex].value;
+
+	if(Q<100)
+		return '0;0;0';
 
 	//Evan & Carl requested the 0.8 hack-in instead of param[6]
-	logEff = 0.8*(1-1/(Math.exp((logE-param[0])/param[1])+1)-1/(Math.exp((logE-param[2])/param[3])+1)-1/(Math.exp((logE-param[4])/param[5])+1));
-	eff = Math.exp(logEff);
-	eff = Math.max(eff, 0.00065);
+	eff = 0.8*(1-1/(Math.exp((Q-param[0])/param[1])+1)-1/(Math.exp((Q-param[2])/param[3])+1)-1/(Math.exp((Q-param[4])/param[5])+1));
+	if(lepton == 1) eff = Math.max(eff, 0.00065); //only for positrons
 
 	return eff + ';' + eff + ';' + eff;
 }

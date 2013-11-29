@@ -82,7 +82,8 @@ THE SOFTWARE.-->
 			    <button id='BrIcc' class='standardButton'>BrIcc</button>
 			</div>
 
-			<x-deck id='plots'>
+			<!--x-deck contains two views: one for eff(E) for gammas, and one for eff(Q) for betas-->
+			<x-deck id='plots' selected-index='0'>
 				<x-card id='gamma'>
 				    <!--Graph///////////////////////////////////////////////////////////-->
 					<div id='graphDiv'></div>
@@ -95,7 +96,7 @@ THE SOFTWARE.-->
 							<div id='enableHPGe' class='detectorSwitch'>HPGe</div>
 							<div id='enableLaBr3' class='detectorSwitch'>LaBr3</div>
 							<div id='enableSiLi' class='detectorSwitch'>Si(Li)</div>
-							<button id='toBetaPlots' class='standardButton'>To &#946 Plots</button>
+							<button id='toBetaPlots' class='standardButton' type='button'>To &#946 Plots</button>
 
 							<br><br>
 							<input id='xMin' class='widgetInput' type='number' value='10' min='0' step='any'></input>
@@ -151,8 +152,47 @@ THE SOFTWARE.-->
 								</select>
 
 							</div>
+							<br>
+							<a id='savePlot' download='efficiencyPlot.png'>Save Plot</a>
+							<input id='filename', type='text' value='efficiencyPlot.png'></input>
+						</form>
+					</div>
+				</x-card>
 
-							<!--div id='SCEPTARControl' class='optionalParameters'>
+				<x-card id='beta'>
+				    <!--Graph///////////////////////////////////////////////////////////-->
+					<div id='betaGraphDiv'></div>
+
+					<!--Control Panel///////////////////////////////////////////////////-->
+					<div id='betaControlPanel'>
+						<form id='betaPlotOptions'>
+							<h2 id='betaControlTitle' class='widgetTitle'>Plot Options</h2>
+
+							<div id='enableSCEPTAR' class='detectorSwitch'>SCEPTAR</div>
+							<button id='toGammaPlots' class='standardButton' type='button'>To &#947 Plots</button>
+
+							<br><br>
+							<input id='betaxMin' class='widgetInput' type='number' value='10' min='0' step='any'></input>
+							<label id='betaxMinLabel' class='inputLabel' for='betaxMin'>< Q <</label>
+							<input id='betaxMax' class='widgetInput' type='number' value='3000' step='any'></input>
+							<label id='betaxMaxLabel' class='inputLabel' for='betaxMax' step='any'>keV</label>
+							<select id='betaxScale'>
+								<option value='lin'>Linear</option>
+								<option value='log'>Log</option>
+							</select>				
+
+							<br><br>
+							<input id='betayMin' class='widgetInput' type='number' value='null' min='0' step='any'></input>
+							<label id='betayMinLabel' class='inputLabel' for='betayMin'>< Effic. <</label>
+							<input id='betayMax' class='widgetInput' type='number' value='null' step='any'></input>
+							<select id='betayScale'>
+								<option value='false'>Linear</option>
+								<option value='true'>Log</option>
+							</select>
+
+							<br><br>
+
+							<div id='SCEPTARControl' class='optionalParameters'>
 								<br>
 								<label id='leptonLabel' class='inputLabel' for='lepton'>&#946 Decay: </label>
 								<select id='lepton'>
@@ -181,18 +221,13 @@ THE SOFTWARE.-->
 									<option value='100'>100</option>
 								</select>
 								<label id='betaThresholdUnit' class='inputLabel', for='betaThreshold'> keV</label>
-
-							</div-->
+							</div>
 
 							<br>
-							<a id='savePlot' download='efficiencyPlot.png'>Save Plot</a>
-							<input id='filename', type='text' value='efficiencyPlot.png'></input>
+							<a id='saveBetaPlot' download='efficiencyPlot.png'>Save Plot</a>
+							<input id='betaFilename', type='text' value='efficiencyPlot.png'></input>
 						</form>
 					</div>
-				</x-card>
-
-				<x-card id='beta'>
-					<h2>Beta Test</h2>
 				</x-card>
 			</x-deck>
 
@@ -206,6 +241,7 @@ THE SOFTWARE.-->
 								<option value='HPGe'>HPGe</option>
 								<option value='LaBr3'>LaBr3</option>
 								<option value='SiLi'>Si(Li)</option>
+								<option value='SCEPTAR'>SCEPTAR</option>
 							</select>
 							<label id='singlesDetectorsLabel' class='inputLabel' for='singlesDetectors'>at</label>
 							<input id='singlesInputEnergy' class='widgetInput' type='number' value='100' min='0' step='any'></input>
@@ -248,6 +284,7 @@ THE SOFTWARE.-->
 								<option value='HPGe'>HPGe</option>
 								<option value='LaBr3'>LaBr3</option>
 								<option value='SiLi'>Si(Li)</option>
+								<option value='SCEPTAR'>SCEPTAR</option>
 							</select>
 							<label id='coincDetectorsAlabel' class='inputLabel' for='coincDetectorsA'>at</label>
 							<input id='coincEnergy1' class='widgetInput' type='number' value='100' min='0' step='any'></input>
@@ -259,6 +296,7 @@ THE SOFTWARE.-->
 								<option value='HPGe'>HPGe</option>
 								<option value='LaBr3'>LaBr3</option>
 								<option value='SiLi'>Si(Li)</option>
+								<option value='SCEPTAR'>SCEPTAR</option>
 							</select>
 							<label id='coincDetectorsBlabel' class='inputLabel' for='coincDetectorsB'>at</label>
 							<input id='coincEnergy2' class='widgetInput' type='number' value='100' min='0' step='any'></input>
@@ -301,8 +339,8 @@ THE SOFTWARE.-->
 								<option value='HPGe'>HPGe</option>
 								<option value='LaBr3'>LaBr3</option>
 								<option value='SiLi'>Si(Li)</option>
-								<option value='DESCANT'>DESCANT</option>
 								<option value='SCEPTAR'>&#946 Tag (SCEPTAR)</option>
+								<option value='DESCANT'>DESCANT</option>
 								<option value='SCEPTARZDS'>&#946 Tag (SCEPTAR + ZDS)</option>
 								<option value='SCEPTARPACES'>&#946 Tag (SCEPTAR + Si(Li))</option>
 								<option value='PACESZDS'>&#946 Tag (Si(Li) + ZDS)</option>
@@ -317,8 +355,8 @@ THE SOFTWARE.-->
 								<option value='HPGe'>HPGe</option>
 								<option value='LaBr3'>LaBr3</option>
 								<option value='SiLi'>Si(Li)</option>
-								<option value='DESCANT'>DESCANT</option>
 								<option value='SCEPTAR'>&#946 Tag (SCEPTAR)</option>
+								<option value='DESCANT'>DESCANT</option>
 								<option value='SCEPTARZDS'>&#946 Tag (SCEPTAR + ZDS)</option>
 								<option value='SCEPTARPACES'>&#946 Tag (SCEPTAR + Si(Li))</option>
 								<option value='PACESZDS'>&#946 Tag (Si(Li) + ZDS)</option>
@@ -333,8 +371,8 @@ THE SOFTWARE.-->
 								<option value='HPGe'>HPGe</option>
 								<option value='LaBr3'>LaBr3</option>
 								<option value='SiLi'>Si(Li)</option>
-								<option value='DESCANT'>DESCANT</option>
 								<option value='SCEPTAR'>&#946 Tag (SCEPTAR)</option>
+								<option value='DESCANT'>DESCANT</option>
 								<option value='SCEPTARZDS'>&#946 Tag (SCEPTAR + ZDS)</option>
 								<option value='SCEPTARPACES'>&#946 Tag (SCEPTAR + Si(Li))</option>
 								<option value='PACESZDS'>&#946 Tag (Si(Li) + ZDS)</option>
