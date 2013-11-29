@@ -29,9 +29,12 @@ THE SOFTWARE.-->
 		<script type="text/javascript" src="widget.js"></script>
 		<script type="text/javascript" src="fitParams.js"></script>
 		<script type="text/javascript" src="fitParamsLaBr.js"></script>
+		<script type="text/javascript" src="fitParamsSCEPTAR.js"></script>
 		<script type="text/javascript" src="browserDetect.js"></script>
+		<script type='text/javascript' src='brick-0.9.1.js'></script>
 
 		<link rel="stylesheet" type="text/css" href="efficiencyWidget.css" />
+		<link rel='stylesheet' type='text/css' href='brick-0.9.1.css'>
 	</head>
 
 	<body>
@@ -79,76 +82,154 @@ THE SOFTWARE.-->
 			    <button id='BrIcc' class='standardButton'>BrIcc</button>
 			</div>
 
-		    <!--Graph///////////////////////////////////////////////////////////-->
-			<div id='graphDiv'></div>
+			<!--x-deck contains two views: one for eff(E) for gammas, and one for eff(Q) for betas-->
+			<x-deck id='plots' selected-index='0'>
+				<x-card id='gamma'>
+				    <!--Graph///////////////////////////////////////////////////////////-->
+					<div id='graphDiv'></div>
 
-			<!--Control Panel///////////////////////////////////////////////////-->
-			<div id='controlPanel'>
-				<form id='plotOptions'>
-					<h2 id='controlTitle' class='widgetTitle'>Plot Options</h2>
+					<!--Control Panel///////////////////////////////////////////////////-->
+					<div id='controlPanel'>
+						<form id='plotOptions'>
+							<h2 id='controlTitle' class='widgetTitle'>Plot Options</h2>
 
-					<div id='enableHPGe' class='detectorSwitch'>HPGe</div>
-					<div id='enableLaBr3' class='detectorSwitch'>LaBr3</div>
-					<div id='enableSiLi' class='detectorSwitch'>Si(Li)</div>
+							<div id='enableHPGe' class='detectorSwitch'>HPGe</div>
+							<div id='enableLaBr3' class='detectorSwitch'>LaBr3</div>
+							<div id='enableSiLi' class='detectorSwitch'>Si(Li)</div>
+							<button id='toBetaPlots' class='standardButton' type='button'>To &#946 Plots</button>
 
-					<br><br>
-					<input id='xMin' class='widgetInput' type='number' value='10' min='0' step='any'></input>
-					<label id='xMinLabel' class='inputLabel' for='xMin'>< E <</label>
-					<input id='xMax' class='widgetInput' type='number' value='3000' step='any'></input>
-					<label id='xMaxLabel' class='inputLabel' for='xMax' step='any'>keV</label>
-					<select id='xScale'>
-						<option value='lin'>Linear</option>
-						<option value='log'>Log</option>
-					</select>				
+							<br><br>
+							<input id='xMin' class='widgetInput' type='number' value='10' min='0' step='any'></input>
+							<label id='xMinLabel' class='inputLabel' for='xMin'>< E <</label>
+							<input id='xMax' class='widgetInput' type='number' value='3000' step='any'></input>
+							<label id='xMaxLabel' class='inputLabel' for='xMax' step='any'>keV</label>
+							<select id='xScale'>
+								<option value='lin'>Linear</option>
+								<option value='log'>Log</option>
+							</select>				
 
-					<br><br>
-					<input id='yMin' class='widgetInput' type='number' value='null' min='0' step='any'></input>
-					<label id='yMinLabel' class='inputLabel' for='yMin'>< Effic. <</label>
-					<input id='yMax' class='widgetInput' type='number' value='null' step='any'></input>
-					<select id='yScale'>
-						<option value='false'>Linear</option>
-						<option value='true'>Log</option>
-					</select>
+							<br><br>
+							<input id='yMin' class='widgetInput' type='number' value='null' min='0' step='any'></input>
+							<label id='yMinLabel' class='inputLabel' for='yMin'>< Effic. <</label>
+							<input id='yMax' class='widgetInput' type='number' value='null' step='any'></input>
+							<select id='yScale'>
+								<option value='false'>Linear</option>
+								<option value='true'>Log</option>
+							</select>
 
-					<br><br>
-					<div id='HPGeControl'>
-						<label id='HPGeDistanceSwitchLabel', class='inputLabel', for='HPGeDistanceSwitch'>HPGe Distance</label>
-						<select id='HPGeDistanceSwitch'>
-							<option value='11.0'>11.0</option>
-							<option value='14.5'>14.5</option>
-						</select>
-						<label id='HPGeDistanceSwitchLabel', class='inputLabel', for='HPGeDistanceSwitch'>cm</label>
+							<br><br>
+							<div id='HPGeControl' class='optionalParameters'>
+								<br>
+								<label id='HPGeDistanceSwitchLabel', class='inputLabel', for='HPGeDistanceSwitch'>HPGe Distance</label>
+								<select id='HPGeDistanceSwitch'>
+									<option value='11.0'>11.0</option>
+									<option value='14.5'>14.5</option>
+								</select>
+								<label id='HPGeDistanceSwitchLabel', class='inputLabel', for='HPGeDistanceSwitch'>cm</label>
 
-						<br><br>
-						<label id='nHPGeSwitchLabel', class='inputLabel', for='nHPGeSwitch'>No. HPGe</label>
-						<select id='nHPGeSwitch'>
-							<option value='8'>8</option>
-							<option value='12'>12</option>
-							<option value='16'>16</option>
-						</select>
+								<br><br>
+								<label id='nHPGeSwitchLabel', class='inputLabel', for='nHPGeSwitch'>No. HPGe</label>
+								<select id='nHPGeSwitch'>
+									<option value='8'>8</option>
+									<option value='12'>12</option>
+									<option value='16'>16</option>
+								</select>
 
-						<br><br>
-						<label id='delrinLabel' class='inputLabel' for='delrinSwitch'>Delrin Absorbers: </label>
-						<select id='delrinSwitch'>
-							<option value='0'>None</option>
-							<option value='10'>10 mm</option>
-							<option value='20'>20 mm</option>
-						</select>
+								<br><br>
+								<label id='delrinLabel' class='inputLabel' for='delrinSwitch'>Delrin Absorbers: </label>
+								<select id='delrinSwitch'>
+									<option value='0'>None</option>
+									<option value='10'>10 mm</option>
+									<option value='20'>20 mm</option>
+								</select>
 
-						<br><br>
-						<label id='summingSchemeLabel' class='inputLabel' for='summingScheme'>HPGe Addback: </label>
-						<select id='summingScheme'>
-							<option value='crystal'>Per Crystal</option>
-							<option value='clover'>Per Clover</option>
-							<option value='array'>Full Array</option>
-						</select>
+								<br><br>
+								<label id='summingSchemeLabel' class='inputLabel' for='summingScheme'>HPGe Addback: </label>
+								<select id='summingScheme'>
+									<option value='crystal'>Per Crystal</option>
+									<option value='clover'>Per Clover</option>
+									<option value='array'>Full Array</option>
+								</select>
+
+							</div>
+							<br>
+							<a id='savePlot' download='efficiencyPlot.png'>Save Plot</a>
+							<input id='filename', type='text' value='efficiencyPlot.png'></input>
+						</form>
 					</div>
+				</x-card>
 
-					<br>
-					<a id='savePlot' download='efficiencyPlot.png'>Save Plot</a>
-					<input id='filename', type='text' value='efficiencyPlot.png'></input>
-				</form>
-			</div>
+				<x-card id='beta'>
+				    <!--Graph///////////////////////////////////////////////////////////-->
+					<div id='betaGraphDiv'></div>
+
+					<!--Control Panel///////////////////////////////////////////////////-->
+					<div id='betaControlPanel'>
+						<form id='betaPlotOptions'>
+							<h2 id='betaControlTitle' class='widgetTitle'>Plot Options</h2>
+
+							<div id='enableSCEPTAR' class='detectorSwitch'>SCEPTAR</div>
+							<button id='toGammaPlots' class='standardButton' type='button'>To &#947 Plots</button>
+
+							<br><br>
+							<input id='betaxMin' class='widgetInput' type='number' value='10' min='0' step='any'></input>
+							<label id='betaxMinLabel' class='inputLabel' for='betaxMin'>< Q <</label>
+							<input id='betaxMax' class='widgetInput' type='number' value='3000' step='any'></input>
+							<label id='betaxMaxLabel' class='inputLabel' for='betaxMax' step='any'>keV</label>
+							<select id='betaxScale'>
+								<option value='lin'>Linear</option>
+								<option value='log'>Log</option>
+							</select>				
+
+							<br><br>
+							<input id='betayMin' class='widgetInput' type='number' value='null' min='0' step='any'></input>
+							<label id='betayMinLabel' class='inputLabel' for='betayMin'>< Effic. <</label>
+							<input id='betayMax' class='widgetInput' type='number' value='null' step='any'></input>
+							<select id='betayScale'>
+								<option value='false'>Linear</option>
+								<option value='true'>Log</option>
+							</select>
+
+							<br><br>
+
+							<div id='SCEPTARControl' class='optionalParameters'>
+								<br>
+								<label id='leptonLabel' class='inputLabel' for='lepton'>&#946 Decay: </label>
+								<select id='lepton'>
+									<option value='-1'>&#946-</option>
+									<option value='1'>&#946+</option>
+								</select>
+
+								<label id='parentZLabel' class='inputLabel' for='parentZ'>&#946 Parent Z: </label>
+								<select id='parentZ'>
+									<option value='1'>1</option>
+									<option value='5'>5</option>
+									<option value='10'>10</option>
+									<option value='25'>25</option>
+									<option value='50'>50</option>
+									<option value='75'>75</option>
+									<option value='100'>100</option>
+								</select>
+								<br><br>
+
+								<label id='betaThresholdLabel' class='inputLabel', for='betaThreshold'>SCEPTAR Threhsold: </label>
+								<select id='betaThreshold'>
+									<option value='0'>0</option>
+									<option value='25'>25</option>
+									<option value='50'>50</option>
+									<option value='75'>75</option>
+									<option value='100'>100</option>
+								</select>
+								<label id='betaThresholdUnit' class='inputLabel', for='betaThreshold'> keV</label>
+							</div>
+
+							<br>
+							<a id='saveBetaPlot' download='efficiencyPlot.png'>Save Plot</a>
+							<input id='betaFilename', type='text' value='efficiencyPlot.png'></input>
+						</form>
+					</div>
+				</x-card>
+			</x-deck>
 
 			<!--Widgets///////////////////////////////////////////////////////////-->
 			<div class='widgetWrapper'>
@@ -160,6 +241,7 @@ THE SOFTWARE.-->
 								<option value='HPGe'>HPGe</option>
 								<option value='LaBr3'>LaBr3</option>
 								<option value='SiLi'>Si(Li)</option>
+								<option value='SCEPTAR'>SCEPTAR</option>
 							</select>
 							<label id='singlesDetectorsLabel' class='inputLabel' for='singlesDetectors'>at</label>
 							<input id='singlesInputEnergy' class='widgetInput' type='number' value='100' min='0' step='any'></input>
@@ -202,6 +284,7 @@ THE SOFTWARE.-->
 								<option value='HPGe'>HPGe</option>
 								<option value='LaBr3'>LaBr3</option>
 								<option value='SiLi'>Si(Li)</option>
+								<option value='SCEPTAR'>SCEPTAR</option>
 							</select>
 							<label id='coincDetectorsAlabel' class='inputLabel' for='coincDetectorsA'>at</label>
 							<input id='coincEnergy1' class='widgetInput' type='number' value='100' min='0' step='any'></input>
@@ -213,6 +296,7 @@ THE SOFTWARE.-->
 								<option value='HPGe'>HPGe</option>
 								<option value='LaBr3'>LaBr3</option>
 								<option value='SiLi'>Si(Li)</option>
+								<option value='SCEPTAR'>SCEPTAR</option>
 							</select>
 							<label id='coincDetectorsBlabel' class='inputLabel' for='coincDetectorsB'>at</label>
 							<input id='coincEnergy2' class='widgetInput' type='number' value='100' min='0' step='any'></input>
@@ -255,8 +339,8 @@ THE SOFTWARE.-->
 								<option value='HPGe'>HPGe</option>
 								<option value='LaBr3'>LaBr3</option>
 								<option value='SiLi'>Si(Li)</option>
-								<option value='DESCANT'>DESCANT</option>
 								<option value='SCEPTAR'>&#946 Tag (SCEPTAR)</option>
+								<option value='DESCANT'>DESCANT</option>
 								<option value='SCEPTARZDS'>&#946 Tag (SCEPTAR + ZDS)</option>
 								<option value='SCEPTARPACES'>&#946 Tag (SCEPTAR + Si(Li))</option>
 								<option value='PACESZDS'>&#946 Tag (Si(Li) + ZDS)</option>
@@ -271,8 +355,8 @@ THE SOFTWARE.-->
 								<option value='HPGe'>HPGe</option>
 								<option value='LaBr3'>LaBr3</option>
 								<option value='SiLi'>Si(Li)</option>
-								<option value='DESCANT'>DESCANT</option>
 								<option value='SCEPTAR'>&#946 Tag (SCEPTAR)</option>
+								<option value='DESCANT'>DESCANT</option>
 								<option value='SCEPTARZDS'>&#946 Tag (SCEPTAR + ZDS)</option>
 								<option value='SCEPTARPACES'>&#946 Tag (SCEPTAR + Si(Li))</option>
 								<option value='PACESZDS'>&#946 Tag (Si(Li) + ZDS)</option>
@@ -287,8 +371,8 @@ THE SOFTWARE.-->
 								<option value='HPGe'>HPGe</option>
 								<option value='LaBr3'>LaBr3</option>
 								<option value='SiLi'>Si(Li)</option>
-								<option value='DESCANT'>DESCANT</option>
 								<option value='SCEPTAR'>&#946 Tag (SCEPTAR)</option>
+								<option value='DESCANT'>DESCANT</option>
 								<option value='SCEPTARZDS'>&#946 Tag (SCEPTAR + ZDS)</option>
 								<option value='SCEPTARPACES'>&#946 Tag (SCEPTAR + Si(Li))</option>
 								<option value='PACESZDS'>&#946 Tag (Si(Li) + ZDS)</option>
@@ -343,10 +427,12 @@ THE SOFTWARE.-->
 		<img id='pngDump'></img>
 
 		<script type='text/javascript'>
-			if(BrowserDetect.browser != 'Chrome' && BrowserDetect.browser != 'Firefox'){
-				confirm('Time for a new browser!', 'The GRIFFIN Web App Project only supports <a href="https://www.google.com/intl/en/chrome/browser/">Chrome</a> and <a href="http://www.mozilla.org/en-US/firefox/new/">Firefox</a>.')
-			}
-			setup();
+			document.addEventListener('DOMComponentsLoaded', function(){
+				if(BrowserDetect.browser != 'Chrome' && BrowserDetect.browser != 'Firefox'){
+					confirm('Time for a new browser!', 'The GRIFFIN Web App Project only supports <a href="https://www.google.com/intl/en/chrome/browser/">Chrome</a> and <a href="http://www.mozilla.org/en-US/firefox/new/">Firefox</a>.')
+				}
+				setup();
+			});
 		</script>
 	</body>
 
