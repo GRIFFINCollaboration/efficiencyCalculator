@@ -11,4 +11,7 @@ http://dygraphs.com/
 and an add on for image saving:
 http://cavorite.com/labs/js/dygraphs-export/
 
-Our many thanks to the developers who contributed to these packages!
+and the fabulous brick x-tags library from Mozilla:
+http://mozilla.github.io/brick/index.html
+
+Our many thanks to the developers who contributed to these packages!  efficiencyTracker is available under the MIT license.

@@ -109,7 +109,7 @@ function computeTriples(){
 		nCounts = parseFloat(document.getElementById('nTriples').value),
 		eff1, eff2, eff3, efficiency, nSeconds, unit, countingFactor;
 
-	//choose the appropriate function and evaluate it at <e1> and <e2>
+	//choose the appropriate function and evaluate them
 	eff1 = chooseFunction(detectorA).bind(null, e1)();
 	eff1 = parseFloat(eff1.slice(eff1.indexOf(';')+1, eff1.lastIndexOf(';') ));
 	eff2 = chooseFunction(detectorB).bind(null, e2)();

@@ -7,13 +7,13 @@ function setup(){
 		switchToBeta = document.getElementById('toBetaPlots'),
 		switchToGamma = document.getElementById('toGammaPlots'),
 		detailMessage = 'HPGe GEANT4 Simulation: 8th order polynomial fit including SCEPTAR and Delrin vacuum chamber.<br><br>';
-		detailMessage +='LaBr3 GEANT4 Simulation: 8th order polynomial fit above 40 keV including SCEPTAR and<br>Delrin vacuum chamber.<br><br>'
-		detailMessage +='Si(Li) Simulation: Relative Efficiency curve shape based on formalism referenced in<br>Radiation Detection & Measurement (G.F. Knoll, Wiley 2000).<br>'
-		detailMessage +='An absolute normalization is applied per Masters Thesis of Ryan Dunlop, University of Guelph, 2012,<br>High-precision branching ratio measurement for the superallowed beta+ emitter 74Rb, based on<br>the analysis of in-beam 80Rb decay.<br><br>'
-		detailMessage +='SCEPTAR GEANT4 Simulation: triple Fermi function fit adjusted to asymptotically approach 0.8<br>'
-		detailMessage +='at high Q per experiment.<br><br>'
+		detailMessage +='LaBr3 GEANT4 Simulation: 8th order polynomial fit above 40 keV including SCEPTAR and Delrin vacuum chamber.<br><br>'
+		detailMessage +='Si(Li) Simulation: Relative Efficiency curve shape based on formalism referenced in Radiation Detection & Measurement (G.F. Knoll, Wiley 2000).  An '
+		detailMessage +='absolute normalization is applied per Masters Thesis of Ryan Dunlop, University of Guelph, 2012, "High-precision branching ratio measurement for the superallowed beta+ emitter 74Rb", based on the analysis of in-beam 80Rb decay.<br><br>'
+		detailMessage +='SCEPTAR GEANT4 Simulation: triple Fermi function fit adjusted to asymptotically approach 0.8 '
+		detailMessage +='at high Q per experiment.  Low-Q position efficiencies fixed to 0.065% per simulated annihilation photopeak efficiency.<br><br>'
 		detailMessage +='The following four configuration efficiencies are based on solid angle coverage of detectors:<br>'
-		detailMessage +='DESCANT: 27% efficient between 1 and 5 MeV; efficiency lower outside this range, and no value is<br>reported here.<br>'
+		detailMessage +='DESCANT: 27% efficient between 1 and 5 MeV; efficiency lower outside this range, and no value is reported here.<br>'
 		detailMessage +='SCEPTAR + ZDS: 65% efficient.<br>'
 		detailMessage +='SCEPTAR + PACES: 40% efficient.<br>'
 		detailMessage +='PACES + ZDS: 25% efficient.'
@@ -128,7 +128,8 @@ function setup(){
     };    
 
     document.getElementById('details').onclick = function(){
-        confirm('GRIFFIN Simulated Efficiency Calculator', detailMessage)
+    	if(!document.getElementById('warning'))
+	        confirm('GRIFFIN Simulated Efficiency Calculator', detailMessage)
     };    
 
     //make sure the plot area is a sane size:
