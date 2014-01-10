@@ -233,7 +233,6 @@ function chooseBetaGraphs(){
 	//should always be true for now
 	if(document.getElementById('enableSCEPTAR').enabled){
 		SCEPTARString = constructSCEPTARPlotKey();
-		console.log(SCEPTARString)
 		window.SCEPTARFunc = SCEPTAREfficiency.bind(null, SCEPTARCoef[SCEPTARString], HPGeMinCoef['dummy'], HPGeMaxCoef['dummy']);
 		funcs[funcs.length] = window.SCEPTARFunc;
 		titles[titles.length] = 'SCEPTAR';
