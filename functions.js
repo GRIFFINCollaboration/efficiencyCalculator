@@ -69,7 +69,7 @@ function DESCANTefficiency(logE){
 //SCEPTAR simulation
 function SCEPTAREfficiency(param, loParam, hiParam, logE){
 	var eff,
-		Q = Math.exp(logE),
+		Q = Math.exp(logE), //this fit was done in a linear-linear space, but we still pass in logE for consistency upstream from here.
 		leptonOptions = document.getElementById('lepton'),
 		lepton = leptonOptions.options[leptonOptions.selectedIndex].value;
 
@@ -79,6 +79,7 @@ function SCEPTAREfficiency(param, loParam, hiParam, logE){
 	//Evan & Carl requested the 0.8 hack-in instead of param[6]
 	eff = 0.8*(1-1/(Math.exp((Q-param[0])/param[1])+1)-1/(Math.exp((Q-param[2])/param[3])+1)-1/(Math.exp((Q-param[4])/param[5])+1));
 	if(lepton == 1) eff = Math.max(eff, 0.00065); //only for positrons
+	eff = Math.max(eff, 0); //negative excursions occur at energies ~100 keV for electrons, suppress. 
 
 	return eff + ';' + eff + ';' + eff;
 }
