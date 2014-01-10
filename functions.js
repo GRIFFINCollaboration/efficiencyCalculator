@@ -75,7 +75,7 @@ function SCEPTAREfficiency(param, loParam, hiParam, logE){
 
 	if(Q<100)
 		return '0;0;0';
-
+console.log(param)
 	//Evan & Carl requested the 0.8 hack-in instead of param[6]
 	eff = 0.8*(1-1/(Math.exp((Q-param[0])/param[1])+1)-1/(Math.exp((Q-param[2])/param[3])+1)-1/(Math.exp((Q-param[4])/param[5])+1));
 	if(lepton == 1) eff = Math.max(eff, 0.00065); //only for positrons
