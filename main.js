@@ -5,7 +5,9 @@ function setup(){
 		SiLiSwitch = document.getElementById('enableSiLi'),
 		SCEPTARSwitch = document.getElementById('enableSCEPTAR'),
 		switchToBeta = document.getElementById('toBetaPlots'),
+		betaReminder = document.getElementById('lookAtBeta'),
 		switchToGamma = document.getElementById('toGammaPlots'),
+		gammaReminder = document.getElementById('lookAtGamma'),
 		detailMessage = 'HPGe GEANT4 Simulation: 8th order polynomial fit including SCEPTAR and Delrin vacuum chamber.<br><br>';
 		detailMessage +='LaBr3 GEANT4 Simulation: 8th order polynomial fit above 40 keV including SCEPTAR and Delrin vacuum chamber.<br><br>'
 		detailMessage +='Si(Li) Simulation: Relative Efficiency curve shape based on formalism referenced in Radiation Detection & Measurement (G.F. Knoll, Wiley 2000).  An '
@@ -78,6 +80,11 @@ function setup(){
 		document.getElementById('plots').shuffleTo(1);
 		repaintBeta(b); //repaint to make sure the saved image has the right view-dependent imprint
 	}
+	//same as switchToBeta:
+	betaReminder.onclick = function(){
+		document.getElementById('plots').shuffleTo(1);
+		repaintBeta(b); //repaint to make sure the saved image has the right view-dependent imprint
+	}
 
 	//make sure the file name for image saving gets passed around:
 	document.getElementById('filename').onchange = function(){
@@ -103,6 +110,10 @@ function setup(){
 	SCEPTARSwitch.onclick = chooseBetaGraphs;
 
 	switchToGamma.onclick = function(){
+		document.getElementById('plots').shuffleTo(0);
+		repaint(g); //repaint to make sure the saved image has the right view-dependent imprint
+	}
+	gammaReminder.onclick = function(){
 		document.getElementById('plots').shuffleTo(0);
 		repaint(g); //repaint to make sure the saved image has the right view-dependent imprint
 	}

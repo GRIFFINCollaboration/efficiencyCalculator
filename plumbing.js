@@ -1,16 +1,3 @@
-/*
-function validateDESCANTinput(){
-	var auxDetectorSelect = document.getElementById('tripleAux'),
-		auxDetector = auxDetectorSelect.options[auxDetectorSelect.selectedIndex].value,
-		input = document.getElementById('tripleInputEnergy1');
-
-	if(auxDetector == 'DESCANT' && (parseFloat(input.value)<1000 || parseFloat(input.value)>5000)){
-		confirm('DESCANT Energy Out of Range', 'DESCANT neutron efficiencies are not reported below 1 MeV or above 5 MeV at this time.');
-		input.value = 1000;
-	}
-}
-*/
-
 function toggleOutput(id, state){
 	if(state == 0){
 		document.getElementById(id).style.width = 0;
@@ -26,8 +13,10 @@ function toggleOutput(id, state){
 function toggleHPGeControls(){
 	if(document.getElementById('enableHPGe').enabled){
 		document.getElementById('HPGeControl').style.height = '23em';
+		document.getElementById('HPGeControl').style.borderTop = '1px solid #999999'
 	} else{
 		document.getElementById('HPGeControl').style.height = 0;
+		document.getElementById('HPGeControl').style.borderTop = 'none'
 	}
 }
 
