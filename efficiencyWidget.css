@@ -338,6 +338,13 @@ div#enableSCEPTAR{
 	background-color: #c0392b;
 }
 
+p#lookAtBeta, p#lookAtGamma{
+	text-align: center;
+	border-top: 1px solid #999999;
+	padding: 1em;
+	cursor: pointer;
+}
+
 /*img holder for savable data///////////////////////////////////////*/
 img#pngDump{
 	display:none;
