@@ -91,9 +91,19 @@ function setup(){
 		//set the filename to whatever the user has requested:
 		document.getElementById('savePlot').download = this.value;
 	}
+	//and similarly for the csv filename:
+	document.getElementById('CSVfilename').onchange = function(){
+		//set the filename to whatever the user has requested:
+		document.getElementById('downloadGammaCSV').download = this.value;
+	}	
 	document.getElementById('betaFilename').onchange = function(){
 		//set the filename to whatever the user has requested:
 		document.getElementById('saveBetaPlot').download = this.value;
+	}
+	//and similarly for the csv filename:
+	document.getElementById('betaCSVfilename').onchange = function(){
+		//set the filename to whatever the user has requested:
+		document.getElementById('downloadBetaCSV').download = this.value;
 	}
 
 	//default No. HPGe to 12:
@@ -255,7 +265,8 @@ function chooseBetaGraphs(){
 
 //deploy graphs of [func]tions with [titles]
 function deployGraph(func, titles, colors, min, max){
-	var i, j, logx, deltaLow, deltaHigh, eff,
+	var i, j, logx, deltaLow, deltaHigh, eff, textBlob, 
+	    CSV = 'Energy[keV]',
 		data = 'Energy[keV]',
 		nPoints = 1000,
 		scaleSelect = document.getElementById("xScale"),
@@ -270,25 +281,37 @@ function deployGraph(func, titles, colors, min, max){
 
 	for(i=0; i<titles.length; i++){
 		data += ', '+titles[i];
+		CSV += ', '+titles[i];
 	}
 	data += '\n';
+    CSV += '\n';
 
 	for(i=0; i<nPoints+1; i++){
 			if(scale=='lin'){
 				logx = (max-min)/nPoints*i+min;
 				data += logx;
+				CSV += logx;
 				logx = Math.log(logx);
 			} else{
 				logx = (Math.log(max)-Math.log(min))/nPoints*i+Math.log(min);
 				data += logx;
+				CSV += logx;
 			}
 			for(j=0; j<func.length; j++){
 				data+=',';
+				CSV += ', '
 				eff = func[j].bind(null, logx)();
 				data += eff;
+				CSV += eff.slice(0, eff.indexOf(';'));
 			}
 			data += '\n';
+			CSV += '\n';
 	}
+
+	textBlob = new Blob([CSV], {type: 'text/plain'});
+    URL.revokeObjectURL(window.textBlobURL);
+    window.textBlobURL = URL.createObjectURL(textBlob);
+    document.getElementById('downloadGammaCSV').setAttribute('href', window.textBlobURL);
 
 	g = new Dygraph(document.getElementById('graphDiv'), data, {
 		title: 'Simulated Efficiency v. Energy',
@@ -343,8 +366,9 @@ function deployGraph(func, titles, colors, min, max){
 
 //deploy graphs of [func]tions with [titles] for beta plots
 function deployBetaGraph(func, titles, colors, min, max){
-	var i, j, logx, deltaLow, deltaHigh, eff,
+	var i, j, logx, deltaLow, deltaHigh, eff, textBlob,
 		data = 'Q [keV]',
+		CSV = 'Q [keV]',
 		nPoints = 1000,
 		scaleSelect = document.getElementById("betaxScale"),
 	    scale = scaleSelect.options[scaleSelect.selectedIndex].value;
@@ -358,25 +382,37 @@ function deployBetaGraph(func, titles, colors, min, max){
 
 	for(i=0; i<titles.length; i++){
 		data += ', '+titles[i];
+		CSV += ', '+titles[i];
 	}
 	data += '\n';
+	CSV += '\n';
 
 	for(i=0; i<nPoints+1; i++){
 			if(scale=='lin'){
 				logx = (max-min)/nPoints*i+min;
 				data += logx;
+				CSV += logx;
 				logx = Math.log(logx);
 			} else{
 				logx = (Math.log(max)-Math.log(min))/nPoints*i+Math.log(min);
 				data += logx;
+				CSV += logx;
 			}
 			for(j=0; j<func.length; j++){
 				data+=',';
+				CSV +=', '
 				eff = func[j].bind(null, logx)();
 				data += eff;
+				CSV += eff.slice(0, eff.indexOf(';'));
 			}
 			data += '\n';
+			CSV += '\n';
 	}
+
+	textBlob = new Blob([CSV], {type: 'text/plain'});
+    URL.revokeObjectURL(window.betaTextBlobURL);
+    window.betaTextBlobURL = URL.createObjectURL(textBlob);
+    document.getElementById('downloadBetaCSV').setAttribute('href', window.betaTextBlobURL);
 
 	b = new Dygraph(document.getElementById('betaGraphDiv'), data, {
 		title: 'Simulated Efficiency v. Q',
