@@ -193,7 +193,7 @@ h2.widgetTitle{
 	text-align: center;
 }
 
-input.widgetInput, input#filename, input#betaFilename{
+input.widgetInput, input#filename, input#betaFilename, input#CSVfilename, input#betaCSVfilename{
 	background-color: #444444;
 	border-radius: 5px;
 	color: #CCCCCC;
@@ -263,7 +263,7 @@ div#controlPanel, div#betaControlPanel{
 	padding: 1em;
 }
 
-div.detectorSwitch, a#savePlot, a#saveBetaPlot{
+div.detectorSwitch, a#savePlot, a#saveBetaPlot, a#downloadGammaCSV, a#downloadBetaCSV{
 	display:inline-block;
 	padding:1em;
 	height:3em;
@@ -274,23 +274,27 @@ div.detectorSwitch, a#savePlot, a#saveBetaPlot{
     -moz-transition: background-color 0.3s;
 }
 
-a#savePlot, a#saveBetaPlot{
+a#savePlot, a#saveBetaPlot, a#downloadGammaCSV, a#downloadBetaCSV{
 	color:#FFFFFF;
 	text-decoration: none;
 	font-size: 100%;
 	padding:1em;
 }
 
-a#savePlot:hover, a#saveBetaPlot:hover{
+a#savePlot:hover, a#saveBetaPlot:hover, a#downloadGammaCSV:hover, a#downloadBetaCSV:hover{
 	background:#777777;
 }
 
-input#filename, input#betaFilename{
+input#filename, input#betaFilename, input#CSVfilename, input#betaCSVfilename{
 	width:15em;
 	text-align: left;
 	font-size: 100%;
 	padding:1em;
 	margin:0px;
+}
+
+input#CSVfilename, input#betaCSVfilename{
+	margin-top:0.5em;
 }
 
 select{

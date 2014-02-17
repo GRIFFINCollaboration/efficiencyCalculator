@@ -158,6 +158,11 @@ THE SOFTWARE.-->
 							<br>
 							<a id='savePlot' download='efficiencyPlot.png'>Save Plot</a>
 							<input id='filename', type='text' value='efficiencyPlot.png'></input>
+
+                            <br>
+                            <a id='downloadGammaCSV' download='efficiencyData.csv'>Download CSV</a>
+                            <input id='CSVfilename', type='text' value='efficiencyData.csv'></input>
+							
 						</form>
 					</div>
 				</x-card>
@@ -231,6 +236,10 @@ THE SOFTWARE.-->
 							<br>
 							<a id='saveBetaPlot' download='efficiencyPlot.png'>Save Plot</a>
 							<input id='betaFilename', type='text' value='efficiencyPlot.png'></input>
+
+                            <br>
+                            <a id='downloadBetaCSV' download='betaEfficiencyData.csv'>Download CSV</a>
+                            <input id='betaCSVfilename', type='text' value='betaEfficiencyData.csv'></input>
 						</form>
 					</div>
 				</x-card>
@@ -437,6 +446,7 @@ THE SOFTWARE.-->
 					confirm('Time for a new browser!', 'The GRIFFIN Web App Project only supports <a href="https://www.google.com/intl/en/chrome/browser/">Chrome</a> and <a href="http://www.mozilla.org/en-US/firefox/new/">Firefox</a>.')
 				}
 				setup();
+
 			});
 		</script>
 	</body>
