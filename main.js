@@ -265,12 +265,13 @@ function chooseBetaGraphs(){
 
 //deploy graphs of [func]tions with [titles]
 function deployGraph(func, titles, colors, min, max){
-	var i, j, logx, deltaLow, deltaHigh, eff, textBlob, 
-	    CSV = 'Energy[keV]',
-		data = 'Energy[keV]',
-		nPoints = 1000,
+	var i, j, logx, deltaLow, deltaHigh, eff, textBlob,
 		scaleSelect = document.getElementById("xScale"),
-	    scale = scaleSelect.options[scaleSelect.selectedIndex].value;
+	    scale = scaleSelect.options[scaleSelect.selectedIndex].value; 
+		isLog = (scale == 'lin') ? '' : 'Log ',
+	    CSV = isLog + 'Energy[keV]',
+		data = isLog + 'Energy[keV]',
+		nPoints = 1000,
 		yScaleSelect = document.getElementById("yScale"),
 	    yScale = yScaleSelect.options[yScaleSelect.selectedIndex].value;
 	    if(yScale=='true') yScale = true;
@@ -306,6 +307,20 @@ function deployGraph(func, titles, colors, min, max){
 			}
 			data += '\n';
 			CSV += '\n';
+	}
+
+    //Greg's request: log CSV values every keV for nice values on linear scale; don't bother on log scale
+    if(scale == 'lin'){
+    	CSV = CSV.slice(0, CSV.indexOf('\n')) + '\n'; //keep the header, redo the rest
+		for(i=0; i<max-min+1; i++){
+			CSV += min + i;
+			for(j=0; j<func.length; j++){
+				CSV += ', ';
+				eff = func[j].bind(null, Math.log(min+i) )();
+				CSV += eff.slice(0, eff.indexOf(';'));
+			}
+			CSV += '\n';
+		}
 	}
 
 	textBlob = new Blob([CSV], {type: 'text/plain'});
@@ -367,11 +382,13 @@ function deployGraph(func, titles, colors, min, max){
 //deploy graphs of [func]tions with [titles] for beta plots
 function deployBetaGraph(func, titles, colors, min, max){
 	var i, j, logx, deltaLow, deltaHigh, eff, textBlob,
-		data = 'Q [keV]',
-		CSV = 'Q [keV]',
-		nPoints = 1000,
 		scaleSelect = document.getElementById("betaxScale"),
 	    scale = scaleSelect.options[scaleSelect.selectedIndex].value;
+	    isLog = (scale == 'lin') ? '' : 'Log ',
+		data = isLog + 'Q [keV]',
+		CSV = isLog + 'Q [keV]',
+		nPoints = 1000,
+
 		yScaleSelect = document.getElementById("betayScale"),
 	    yScale = yScaleSelect.options[yScaleSelect.selectedIndex].value;
 	    if(yScale=='true') yScale = true;
@@ -407,6 +424,20 @@ function deployBetaGraph(func, titles, colors, min, max){
 			}
 			data += '\n';
 			CSV += '\n';
+	}
+
+    //Greg's request: log CSV values every keV for nice values on linear scale; don't bother on log scale
+    if(scale == 'lin'){
+    	CSV = CSV.slice(0, CSV.indexOf('\n')) + '\n'; //keep the header, redo the rest
+		for(i=0; i<max-min+1; i++){
+			CSV += min + i;
+			for(j=0; j<func.length; j++){
+				CSV += ', ';
+				eff = func[j].bind(null, Math.log(min+i) )();
+				CSV += eff.slice(0, eff.indexOf(';'));
+			}
+			CSV += '\n';
+		}
 	}
 
 	textBlob = new Blob([CSV], {type: 'text/plain'});
