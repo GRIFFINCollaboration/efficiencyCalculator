@@ -9,7 +9,7 @@ function setup(){
 		switchToGamma = document.getElementById('toGammaPlots'),
 		gammaReminder = document.getElementById('lookAtGamma'),
 		detailMessage = 'HPGe, LaBr3, SCEPTAR Simulations: E. Rand<sup>1</sup><br>'
-		detailMessage += 'Si(Li) Simulation:  D. Cross<sup>2</sup>, R. Dunlop<sup>1</sup>, W. Mills<sup>3</sup>, Z. -M. Wang<sup>2, 3</sup>, C. Andreoiu<sup>2</sup>, T. Ma<sup>2, 3</sup><br>'
+		detailMessage += 'Si(Li) Simulation:  T. Ma<sup>2, 3</sup>, D. Cross<sup>2</sup>, R. Dunlop<sup>1</sup>, W. Mills<sup>3</sup>, Z. -M. Wang<sup>2, 3</sup>, C. Andreoiu<sup>2</sup><br>'
 		detailMessage += 'Web App: W. Mills<sup>3</sup><br>'
 		detailMessage += '<sup>1</sup> University of Guelph, Guelph, ON, Canada, N1G 2W1<br>'
 		detailMessage += '<sup>2</sup> Simon Fraser University, Burnaby, BC, Canada, V5A 1S6<br>'
