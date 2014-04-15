@@ -8,9 +8,12 @@ function setup(){
 		betaReminder = document.getElementById('lookAtBeta'),
 		switchToGamma = document.getElementById('toGammaPlots'),
 		gammaReminder = document.getElementById('lookAtGamma'),
-		detailMessage = 'HPGe, LaBr3, SCEPTAR Simulations: E. Rand<br>'
-		detailMessage += 'Si(Li) Simulation: C. Andreoiu, D. Cross, R. Dunlop, T. Ma, W. Mills, Z. Wang<br>'
-		detailMessage += 'Web App: W. Mills<br><br>'
+		detailMessage = 'HPGe, LaBr3, SCEPTAR Simulations: E. Rand<sup>1</sup><br>'
+		detailMessage += 'Si(Li) Simulation:  D. Cross<sup>2</sup>, R. Dunlop<sup>1</sup>, W. Mills<sup>3</sup>, Z. -M. Wang<sup>2, 3</sup>, C. Andreoiu<sup>2</sup>, T. Ma<sup>2, 3</sup><br>'
+		detailMessage += 'Web App: W. Mills<sup>3</sup><br>'
+		detailMessage += '<sup>1</sup> University of Guelph, Guelph, ON, Canada, N1G 2W1<br>'
+		detailMessage += '<sup>2</sup> Simon Fraser University, Burnaby, BC, Canada, V5A 1S6<br>'
+		detailMessage += '<sup>3</sup> TRIUMF, 4004 Wesbrook Mall, Vancouver, BC, Canada, V6T 2A3<br><br>'
 		detailMessage += 'HPGe GEANT4 Simulation: 8th order polynomial fit including SCEPTAR and Delrin vacuum chamber.<br><br>';
 		detailMessage +='LaBr3 GEANT4 Simulation: 8th order polynomial fit above 40 keV including SCEPTAR and Delrin vacuum chamber.<br><br>'
 		detailMessage +='Si(Li) Simulation: Relative Efficiency curve shape based on formalism referenced in Radiation Detection & Measurement (G.F. Knoll, Wiley 2000).  An '
