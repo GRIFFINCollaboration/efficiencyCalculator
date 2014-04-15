@@ -8,7 +8,10 @@ function setup(){
 		betaReminder = document.getElementById('lookAtBeta'),
 		switchToGamma = document.getElementById('toGammaPlots'),
 		gammaReminder = document.getElementById('lookAtGamma'),
-		detailMessage = 'HPGe GEANT4 Simulation: 8th order polynomial fit including SCEPTAR and Delrin vacuum chamber.<br><br>';
+		detailMessage = 'HPGe, LaBr3, SCEPTAR Simulations: E. Rand<br>'
+		detailMessage += 'Si(Li) Simulation: C. Andreoiu, D. Cross, R. Dunlop, T. Ma, W. Mills, Z. Wang<br>'
+		detailMessage += 'Web App: W. Mills<br><br>'
+		detailMessage += 'HPGe GEANT4 Simulation: 8th order polynomial fit including SCEPTAR and Delrin vacuum chamber.<br><br>';
 		detailMessage +='LaBr3 GEANT4 Simulation: 8th order polynomial fit above 40 keV including SCEPTAR and Delrin vacuum chamber.<br><br>'
 		detailMessage +='Si(Li) Simulation: Relative Efficiency curve shape based on formalism referenced in Radiation Detection & Measurement (G.F. Knoll, Wiley 2000).  An '
 		detailMessage +='absolute normalization is applied per Masters Thesis of Ryan Dunlop, University of Guelph, 2012, "High-precision branching ratio measurement for the superallowed beta+ emitter 74Rb", based on the analysis of in-beam 80Rb decay.<br><br>'
@@ -23,7 +26,7 @@ function setup(){
 	loadParameters();
 	loadLaBrParameters();
 	loadSCEPTARParameters();
-	//SiLi parameters taken from CITATION NEEDED
+	//SiLi parameters taken from presentation by D. Cross, simulations from Ma & Wang
 	//last parameter is an overall normalization to fix eff(603keV) = 0.0342, per
 	//Masters Thesis of Ryan Dunlop, University of Guelph, 2012, 
 	//High-precision branching ratio measurement for the superallowed beta+ emitter 74Rb
