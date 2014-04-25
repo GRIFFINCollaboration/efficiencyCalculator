@@ -1,4 +1,4 @@
-<!--Copyright (c) 2013 Bill Mills
+<!--Copyright (c) 2014 GRIFFIN Collaboration
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,6 +32,7 @@ THE SOFTWARE.-->
 		<script type="text/javascript" src="fitParamsSCEPTAR.js"></script>
 		<script type="text/javascript" src="browserDetect.js"></script>
 		<script type='text/javascript' src='brick-0.9.1.js'></script>
+		<script type='text/javascript' src='branding.js'></script>
 
 		<link rel="stylesheet" type="text/css" href="efficiencyWidget.css" />
 		<link rel='stylesheet' type='text/css' href='brick-0.9.1.css'>
@@ -68,10 +69,13 @@ THE SOFTWARE.-->
 
     	<div id='wrapper'>
 		    <!--Branding///////////////////////////////////////////////////////////-->
-		    <div id='branding'>
-		      <img id='logo' src='logo.gif'></img>
-		      <h1 id='title'>GRIFFIN</h1>
-		    </div>
+			<div id='header'>
+				<img id='logo' width='92.5' height='111' src='img/GRIFFIN_Logo_White_small.png'></img>
+				<div id='title'>
+					<h1 id='headline'>GRIFFIN</h1>
+					<h2 id='subline'>TOOLKIT</h2>
+				</div>
+			</div>
 
 		    <!--Links///////////////////////////////////////////////////////////-->
 		    <div class='linkWrapper'>
@@ -433,9 +437,34 @@ THE SOFTWARE.-->
 		</div>
 
 		<div id='footer'>
-			GRIFFIN 2013 - Powered by <a href="http://dygraphs.com/">Dygraphs.js</a> & <a href="http://mozilla.github.io/brick/">Brick</a>
-			<br> 
-			GRIFFIN Collaboration Spokesperson: Adam Garnsworthy (garns@triumf.ca) - GEANT4 Simulations: Evan Rand - UI/UX Design & Web Development: Bill Mills
+			<div class='textBlock'>
+				<h3>Built in Vancouver by the GRIFFIN Collaboration</h3>
+
+				<p>
+					Code available on <a href='https://github.com/GRIFFINCollaboration'>Github</a>
+					<br>
+					Copyright &#169 2014 GRIFFIN Collaboration
+					<br>
+					All code freely available under MIT license.
+				</p>
+
+				<table>
+					<tr>
+						<td>
+							<a class='imgLink' href='https://github.com/GRIFFINCollaboration'>
+								<img id='gitLogo' width='72' height='72' src='img/GitHub-Mark-Light-64px.png'></img>
+							</a>
+						</td>
+						<td>
+							<a class='imgLink' href='http://www.triumf.ca/griffin'>
+								<img id='griffLogo' width='65' height='78' src='img/GRIFFIN_Logo_White_small.png'></img>
+							</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<canvas id='footerImage' width='550' height='300'></canvas>
 		</div>
 
 		<img id='pngDump'></img>
@@ -445,6 +474,16 @@ THE SOFTWARE.-->
 				if(BrowserDetect.browser != 'Chrome' && BrowserDetect.browser != 'Firefox'){
 					confirm('Time for a new browser!', 'The GRIFFIN Web App Project only supports <a href="https://www.google.com/intl/en/chrome/browser/">Chrome</a> and <a href="http://www.mozilla.org/en-US/firefox/new/">Firefox</a>.')
 				}
+
+				//set up branding
+				footerImage('footerImage', 2, '#444444');
+
+				//kern title nicely
+				var headlineWidth = document.getElementById('headline').offsetWidth,
+					sublineWidth  = document.getElementById('subline').offsetWidth,
+					sublineKern   = (headlineWidth - sublineWidth) / 6;
+				document.getElementById('subline').style.letterSpacing = sublineKern;
+			
 				setup();
 
 			});

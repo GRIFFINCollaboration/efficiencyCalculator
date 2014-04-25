@@ -286,8 +286,6 @@ function confirm(headline, detailText){
     //warning text
     injectDOM('p', 'warning', 'tempDiv', {'style':'padding: 1em; font-size:120%; line-height:1.5; text-align:left', 'innerHTML':detailText});
 
-
-
     //center dialogue
     var width = document.getElementById('tempDiv').offsetWidth;
     document.getElementById('tempDiv').style.left = document.body.offsetWidth/2 - width/2;
@@ -306,10 +304,17 @@ function confirm(headline, detailText){
             var element = document.getElementById('tempDiv');
             element.parentNode.removeChild(element);            
         }, 500);
+        document.body.onclick = null;
     }
 
     //fade the div in:
     dialogue.style.opacity = 1
+
+    //dismiss details popup by clicking anywhere
+    document.body.onclick = function(event){
+        if(event.originalTarget.id != 'details')
+	        document.getElementById('abortChoice').onclick(); 
+    }
 }
 
 //FF doesn't yet have support for the number input, must validate by hand //facepalm

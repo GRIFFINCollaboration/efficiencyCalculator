@@ -8,22 +8,29 @@ function setup(){
 		betaReminder = document.getElementById('lookAtBeta'),
 		switchToGamma = document.getElementById('toGammaPlots'),
 		gammaReminder = document.getElementById('lookAtGamma'),
-		detailMessage = 'HPGe GEANT4 Simulation: 8th order polynomial fit including SCEPTAR and Delrin vacuum chamber.<br><br>';
-		detailMessage +='LaBr3 GEANT4 Simulation: 8th order polynomial fit above 40 keV including SCEPTAR and Delrin vacuum chamber.<br><br>'
-		detailMessage +='Si(Li) Simulation: Relative Efficiency curve shape based on formalism referenced in Radiation Detection & Measurement (G.F. Knoll, Wiley 2000).  An '
-		detailMessage +='absolute normalization is applied per Masters Thesis of Ryan Dunlop, University of Guelph, 2012, "High-precision branching ratio measurement for the superallowed beta+ emitter 74Rb", based on the analysis of in-beam 80Rb decay.<br><br>'
-		detailMessage +='SCEPTAR GEANT4 Simulation: triple Fermi function fit adjusted to asymptotically approach 0.8 '
-		detailMessage +='at high Q per experiment.  Low-Q position efficiencies fixed to 0.065% per simulated annihilation photopeak efficiency.<br><br>'
-		detailMessage +='The following four configuration efficiencies are based on solid angle coverage of detectors:<br>'
-		detailMessage +='DESCANT: 27% efficient between 1 and 5 MeV; efficiency lower outside this range, and no value is reported here.<br>'
-		detailMessage +='SCEPTAR + ZDS: 65% efficient.<br>'
-		detailMessage +='SCEPTAR + PACES: 40% efficient.<br>'
-		detailMessage +='PACES + ZDS: 25% efficient.'
+		detailMessage = 'HPGe, LaBr3, SCEPTAR Simulations: E. Rand<sup>1</sup><br>'
+		detailMessage += 'Si(Li) Simulation:  T. Ma<sup>2, 3</sup>, D. Cross<sup>2</sup>, R. Dunlop<sup>1</sup>, W. Mills<sup>3</sup>, Z. -M. Wang<sup>2, 3</sup>, C. Andreoiu<sup>2</sup><br>'
+		detailMessage += 'Web App: W. Mills<sup>3</sup><br>'
+		detailMessage += '<sup>1</sup> University of Guelph, Guelph, ON, Canada, N1G 2W1<br>'
+		detailMessage += '<sup>2</sup> Simon Fraser University, Burnaby, BC, Canada, V5A 1S6<br>'
+		detailMessage += '<sup>3</sup> TRIUMF, 4004 Wesbrook Mall, Vancouver, BC, Canada, V6T 2A3<br><br>'
+		detailMessage += 'HPGe GEANT4 Simulation: 8th order polynomial fit including SCEPTAR and Delrin vacuum chamber.<br><br>';
+		detailMessage += 'LaBr3 GEANT4 Simulation: 8th order polynomial fit above 40 keV including SCEPTAR and Delrin vacuum chamber.<br><br>'
+		detailMessage += 'Si(Li) Simulation: Relative Efficiency curve shape based on formalism referenced in Radiation Detection & Measurement (G.F. Knoll, Wiley 2000).  '
+		detailMessage += 'Note that the Si(Li) simulations are known to differ from experiment at the 30% level.  '
+		detailMessage += 'An absolute normalization is applied per Masters Thesis of Ryan Dunlop, University of Guelph, 2012, "High-precision branching ratio measurement for the superallowed beta+ emitter 74Rb", based on the analysis of in-beam 80Rb decay.<br><br>'
+		detailMessage += 'SCEPTAR GEANT4 Simulation: triple Fermi function fit adjusted to asymptotically approach 0.8 '
+		detailMessage += 'at high Q per experiment.  Low-Q position efficiencies fixed to 0.065% per simulated annihilation photopeak efficiency.<br><br>'
+		detailMessage += 'The following four configuration efficiencies are based on solid angle coverage of detectors:<br>'
+		detailMessage += 'DESCANT: 27% efficient between 1 and 5 MeV; efficiency lower outside this range, and no value is reported here.<br>'
+		detailMessage += 'SCEPTAR + ZDS: 65% efficient.<br>'
+		detailMessage += 'SCEPTAR + PACES: 40% efficient.<br>'
+		detailMessage += 'PACES + ZDS: 25% efficient.'
 	//call the parameter dump
 	loadParameters();
 	loadLaBrParameters();
 	loadSCEPTARParameters();
-	//SiLi parameters taken from CITATION NEEDED
+	//SiLi parameters taken from presentation by D. Cross, simulations from Ma & Wang
 	//last parameter is an overall normalization to fix eff(603keV) = 0.0342, per
 	//Masters Thesis of Ryan Dunlop, University of Guelph, 2012, 
 	//High-precision branching ratio measurement for the superallowed beta+ emitter 74Rb
@@ -177,7 +184,7 @@ function setup(){
     for(i=0; i<nodes.length; i++ ){
     	nodes[i].onchange = validateNumber.bind(null, nodes[i].id);
     }
-
+	
 	//default to on for demo:
 	HPGeSwitch.onclick();
 	LaBr3Switch.onclick();
