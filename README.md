@@ -1,6 +1,8 @@
 efficiencyTracker
 =================
 
+![DOI Badge](https://zenodo.org/badge/3877/BillMills/efficiencyTracker.png)
+
 A widget to calculate gamma efficiencies for GRIFFIN.  
 
 Please see the help page at https://www.triumf.info/wiki/tigwiki/index.php/GRIFFIN_User%27s_Web_Toolkit
