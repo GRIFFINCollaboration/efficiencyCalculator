@@ -2,6 +2,7 @@ efficiencyTracker
 =================
 
 ![DOI Badge](https://zenodo.org/badge/3877/BillMills/efficiencyTracker.png)
+
 This DOI corresponds to commit f27c29eff1b9d361196f2bee3a91f88f73a369ab 
 
 A widget to calculate gamma efficiencies for GRIFFIN.  
