@@ -1,0 +1,106 @@
+/*general*/
+body{
+    background-color: #333333;
+    color: #FFFFFF;
+}
+
+input, select{
+    color: #000000;
+}
+
+div.sectionWrapper{
+    clear: both;
+    margin: 1em;
+}
+
+div.subsectionWrapper{
+    clear: both;
+}
+
+div.panel{
+    background-color: #222222;
+    border-radius: 1em;
+    margin: 1em 0em 1em 0em;
+    border: 2px solid #333333;
+    padding: 1em;
+    display: block;
+    overflow: auto;
+}
+
+ul.options {
+    list-style-type: none;
+    padding: 0px;
+}
+
+ul.options li{
+    float:left;
+    margin-right: 1em;
+    margin-bottom: 1em;
+}
+
+.rightspace{
+    margin-right: 1em !important;
+}
+
+.leftspace{
+    margin-left: 1em !important;
+}
+
+.topspace{
+    margin-top: 1em !important;
+}
+
+/*branding*/
+div.branding{
+    color: #FFFFFF;
+    clear: both;
+}
+
+div.header{
+    background-color: #4C4C4C;
+    padding: 2em;
+    border-bottom: 2px solid #000000;
+    margin-bottom: 1em;
+    padding-left: 2em;
+    overflow: auto;
+}
+
+div.header img{
+    width: 5em;
+}
+
+div.footer{
+    text-align: center;
+    font-size: 16px;
+    background-color: #4C4C4C;
+    padding: 2em;
+    border-top: 2px solid #000000;
+}
+
+/*plot control*/
+label.large{
+    border-radius: 1em;
+    padding: 1em;
+}
+
+input.small{
+    width: 5em;
+}
+
+div.UIchunk{
+    display: inline-block;
+    margin-left: 1em;
+}
+
+/*color coding*/
+.green {
+    background-color: #494;
+}
+
+.orange {
+    background-color: #e67e22;
+}
+
+.blue {
+    background-color: #2980b9;
+}

@@ -1,0 +1,475 @@
+<html>
+
+	<head>
+		<script type="text/javascript" src="dygraph-combined.js"></script>
+		<script type="text/javascript" src="dygraph-extra.js"></script>
+		<script type="text/javascript" src="main.js"></script>
+		<script type="text/javascript" src="plumbing.js"></script>
+		<script type="text/javascript" src="functions.js"></script>
+		<script type="text/javascript" src="widget.js"></script>
+		<script type="text/javascript" src="fitParams.js"></script>
+		<script type="text/javascript" src="fitParamsLaBr.js"></script>
+		<script type="text/javascript" src="fitParamsSCEPTAR.js"></script>
+		<script type="text/javascript" src="browserDetect.js"></script>
+		<script type='text/javascript' src='brick-0.9.1.js'></script>
+		<script type='text/javascript' src='branding.js'></script>
+
+		<link rel="stylesheet" type="text/css" href="efficiencyWidget.css" />
+		<link rel='stylesheet' type='text/css' href='brick-0.9.1.css'>
+	</head>
+
+	<body>
+		<!--Fonts//////////////////////////////////////////////////////////////-->
+		<script type="text/javascript">
+	        //load the webfonts, and block the page until they're ready or failed - otherwise lots of rendering bugs happen!
+	        WebFontConfig = { google: { families: [ 'Raleway' ] },
+		        loading: function(){
+		            //set the spinner going:
+		            //drawSpinner('spinner', 'Requesting Styles');
+	  	        },
+		        active: function() {
+		            //loadParameters();  //plugs in some defaults
+		            //loadJSONP(window.Gatekeeper, "main"); //waits to fire main() until all the JSONPs have reported up or down
+		        },
+		        inactive: function() {
+		            //loadParameters();
+		            //loadJSONP(window.Gatekeeper, "main");
+		        }
+	        };
+	        //thx paul:
+	        (function() {
+	        	var wf = document.createElement('script');
+	        	wf.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+	        	wf.type = 'text/javascript';
+		        wf.async = 'true';
+		        var s = document.getElementsByTagName('script')[0];
+	    	    s.parentNode.insertBefore(wf, s);
+	      	})();
+    	</script>
+
+    	<div id='wrapper'>
+		    <!--Branding///////////////////////////////////////////////////////////-->
+			<div id='header'>
+				<img id='logo' width='92.5' height='111' src='img/GRIFFIN_Logo_White_small.png'></img>
+				<div id='title'>
+					<h1 id='headline'>GRIFFIN</h1>
+					<h2 id='subline'>TOOLKIT</h2>
+				</div>
+			</div>
+
+		    <!--Links///////////////////////////////////////////////////////////-->
+		    <div class='linkWrapper'>
+		    	<button id='details' class='standardButton'>Simulation Details</button>
+			    <button id='wikiLink' class='standardButton'>Wiki Help</button>
+			    <button id='yieldDB' class='standardButton'>TRIUMF Yield Database</button>
+			    <button id='ENSDF' class='standardButton'>ENSDF</button>
+			    <button id='BrIcc' class='standardButton'>BrIcc</button>
+			</div>
+
+			<!--x-deck contains two views: one for eff(E) for gammas, and one for eff(Q) for betas-->
+			<x-deck id='plots' selected-index='0'>
+				<x-card id='gamma'>
+				    <!--Graph///////////////////////////////////////////////////////////-->
+					<div id='graphDiv'></div>
+
+					<!--Control Panel///////////////////////////////////////////////////-->
+					<div id='controlPanel'>
+						<form id='plotOptions'>
+							<h2 id='controlTitle' class='widgetTitle'>Plot Options</h2>
+
+							<div id='enableHPGe' class='detectorSwitch'>HPGe</div>
+							<div id='enableLaBr3' class='detectorSwitch'>LaBr3</div>
+							<div id='enableSiLi' class='detectorSwitch'>Si(Li)</div>
+							<button id='toBetaPlots' class='standardButton' type='button'>To &#946 Plots</button>
+
+							<br><br>
+							<input id='xMin' class='widgetInput' type='number' value='10' min='0' step='any'></input>
+							<label id='xMinLabel' class='inputLabel' for='xMin'>< E <</label>
+							<input id='xMax' class='widgetInput' type='number' value='3000' step='any'></input>
+							<label id='xMaxLabel' class='inputLabel' for='xMax' step='any'>keV</label>
+							<select id='xScale'>
+								<option value='lin'>Linear</option>
+								<option value='log'>Log</option>
+							</select>				
+
+							<br><br>
+							<input id='yMin' class='widgetInput' type='number' value='null' min='0' step='any'></input>
+							<label id='yMinLabel' class='inputLabel' for='yMin'>< Effic. <</label>
+							<input id='yMax' class='widgetInput' type='number' value='null' step='any'></input>
+							<select id='yScale'>
+								<option value='false'>Linear</option>
+								<option value='true'>Log</option>
+							</select>
+
+							<br><br>
+							<div id='HPGeControl' class='optionalParameters'>
+								<br>
+								<label id='HPGeDistanceSwitchLabel', class='inputLabel', for='HPGeDistanceSwitch'>HPGe Distance</label>
+								<select id='HPGeDistanceSwitch'>
+									<option value='11.0'>11.0</option>
+									<option value='14.5'>14.5</option>
+								</select>
+								<label id='HPGeDistanceSwitchLabel', class='inputLabel', for='HPGeDistanceSwitch'>cm</label>
+
+								<br><br>
+								<label id='nHPGeSwitchLabel', class='inputLabel', for='nHPGeSwitch'>No. HPGe</label>
+								<select id='nHPGeSwitch'>
+									<option value='8'>8</option>
+									<option value='12'>12</option>
+									<option value='16'>16</option>
+								</select>
+
+								<br><br>
+								<label id='delrinLabel' class='inputLabel' for='delrinSwitch'>Delrin Absorbers: </label>
+								<select id='delrinSwitch'>
+									<option value='0'>None</option>
+									<option value='10'>10 mm</option>
+									<option value='20'>20 mm</option>
+								</select>
+
+								<br><br>
+								<label id='summingSchemeLabel' class='inputLabel' for='summingScheme'>HPGe Addback: </label>
+								<select id='summingScheme'>
+									<option value='crystal'>Per Crystal</option>
+									<option value='clover'>Per Clover</option>
+									<option value='array'>Full Array</option>
+								</select>
+
+							</div>
+							<br>
+							<p id='lookAtBeta'>Set SCEPTAR's parameters in the &#946 plots widget &#x2192</p>
+
+							<br>
+							<a id='savePlot' download='efficiencyPlot.png'>Save Plot</a>
+							<input id='filename', type='text' value='efficiencyPlot.png'></input>
+
+                            <br>
+                            <a id='downloadGammaCSV' download='efficiencyData.csv'>Download CSV</a>
+                            <input id='CSVfilename', type='text' value='efficiencyData.csv'></input>
+							
+						</form>
+					</div>
+				</x-card>
+
+				<x-card id='beta'>
+				    <!--Graph///////////////////////////////////////////////////////////-->
+					<div id='betaGraphDiv'></div>
+
+					<!--Control Panel///////////////////////////////////////////////////-->
+					<div id='betaControlPanel'>
+						<form id='betaPlotOptions'>
+							<h2 id='betaControlTitle' class='widgetTitle'>Plot Options</h2>
+
+							<div id='enableSCEPTAR' class='detectorSwitch'>SCEPTAR</div>
+							<button id='toGammaPlots' class='standardButton' type='button'>To &#947 Plots</button>
+
+							<br><br>
+							<input id='betaxMin' class='widgetInput' type='number' value='10' min='0' step='any'></input>
+							<label id='betaxMinLabel' class='inputLabel' for='betaxMin'>< Q <</label>
+							<input id='betaxMax' class='widgetInput' type='number' value='3000' step='any'></input>
+							<label id='betaxMaxLabel' class='inputLabel' for='betaxMax' step='any'>keV</label>
+							<select id='betaxScale'>
+								<option value='lin'>Linear</option>
+								<option value='log'>Log</option>
+							</select>				
+
+							<br><br>
+							<input id='betayMin' class='widgetInput' type='number' value='null' min='0' step='any'></input>
+							<label id='betayMinLabel' class='inputLabel' for='betayMin'>< Effic. <</label>
+							<input id='betayMax' class='widgetInput' type='number' value='null' step='any'></input>
+							<select id='betayScale'>
+								<option value='false'>Linear</option>
+								<option value='true'>Log</option>
+							</select>
+
+							<br><br>
+
+							<div id='SCEPTARControl' class='optionalParameters'>
+								<br>
+								<label id='leptonLabel' class='inputLabel' for='lepton'>&#946 Decay: </label>
+								<select id='lepton'>
+									<option value='-1'>&#946-</option>
+									<option value='1'>&#946+</option>
+								</select>
+
+								<label id='parentZLabel' class='inputLabel' for='parentZ'>&#946 Parent Z: </label>
+								<select id='parentZ'>
+									<option value='1'>1</option>
+									<option value='5'>5</option>
+									<option value='10'>10</option>
+									<option value='25'>25</option>
+									<option value='50'>50</option>
+									<option value='75'>75</option>
+									<option value='100'>100</option>
+								</select>
+								<br><br>
+
+								<label id='betaThresholdLabel' class='inputLabel', for='betaThreshold'>SCEPTAR Threhsold: </label>
+								<select id='betaThreshold'>
+									<option value='0'>0</option>
+									<option value='25'>25</option>
+									<option value='50'>50</option>
+									<option value='75'>75</option>
+									<option value='100'>100</option>
+								</select>
+								<label id='betaThresholdUnit' class='inputLabel', for='betaThreshold'> keV</label>
+							</div>
+							<br>
+							<p id='lookAtGamma'>&#x2190 Set the HPGe's parameters in the &#947 plots widget.</p>
+
+							<br>
+							<a id='saveBetaPlot' download='efficiencyPlot.png'>Save Plot</a>
+							<input id='betaFilename', type='text' value='efficiencyPlot.png'></input>
+
+                            <br>
+                            <a id='downloadBetaCSV' download='betaEfficiencyData.csv'>Download CSV</a>
+                            <input id='betaCSVfilename', type='text' value='betaEfficiencyData.csv'></input>
+						</form>
+					</div>
+				</x-card>
+			</x-deck>
+
+			<!--Widgets///////////////////////////////////////////////////////////-->
+			<div class='widgetWrapper'>
+				<div id='singlesWidget' class='widget'>
+					<form id='singlesForm'>
+						<h2 id='singlesWidgetTitle' class='widgetTitle'>Singles</h2>
+						<div class='leftDiv'>
+							<select id='singlesDetectors'>
+								<option value='HPGe'>HPGe</option>
+								<option value='LaBr3'>LaBr3</option>
+								<option value='SiLi'>Si(Li)</option>
+								<option value='SCEPTAR'>SCEPTAR</option>
+							</select>
+							<label id='singlesDetectorsLabel' class='inputLabel' for='singlesDetectors'>at</label>
+							<input id='singlesInputEnergy' class='widgetInput' type='number' value='100' min='0' step='any'></input>
+							<label id='singlesEnergyLabel' class='inputLabel' for='singlesInputEnergy'>keV and</label>
+							<input id='singlesBR' class='widgetInput' type='number' value='1' min='0' max='1' step='any'></input>
+							<label id='singlesBRLabel' class='inputLabel' for='singlesBR'>BR,</label>
+							<br>
+							<label id='singlesIntensityLabelb' class='inputLabel' for='singlesIntensity'>w/ beam intensity</label>
+							<input id='singlesIntensity' class='widgetInput' type='number' value='1E6' min='0' step='any'></input>
+							<label id='singlesIntensityLabel' class='inputLabel' for='singlesIntensity'>pps,</label>
+							<br>
+							<label id='singlesDutyCycleLabel' class='inputLabel' for='singlesDutyCycle'>and duty cycle </label>
+							<input id='singlesDutyCycle' class='widgetInput' type='number' value='100' min='0' max='100' step='any'></input>
+							<label id='singlesDutyCycleLabelB' class='inputLabel' for='singlesDutyCycle'>%:</label>
+						</div>
+						<br>
+						<label id='singlesEfficiencyLabel' class='inputLabel' for='singlesEfficiency'>Efficiency: </label>
+						<div id='singlesEfficiency' class='widgetResult'>0.0</div>
+						<br>
+						<label id='singlesRateLabel' class='inputLabel' for='singlesRate'>Detected Events: </label>
+						<div id='singlesRate' class='widgetResult'>0.0</div>
+						<select id='singlesPeriod'>
+							<option value='1'>per second</option>
+							<option value='3600'>per hour</option>
+							<option value='43200'>per 12 hours</option>
+						</select>
+						<br>
+						<label id='nSinglesLabelb' class='inputLabel' for='nSingles'>Or </label>
+						<input id='nSingles' class='widgetInput' type='number' value='1E6' min='0' step='any'></input>
+						<label id='nSinglesLabel' class='inputLabel' for='nSingles'>counts will accrue in</label>
+						<div id='nSinglesTime' class='widgetResult'>0s</div>
+					</form>
+				</div>
+
+				<div id='coincidenceWidget' class='widget'>
+					<form id='coincForm'>
+						<h2 id='coincWidgetTitle' class='widgetTitle'>Coincidences</h2>
+						<div class='leftDiv'>
+							<select id='coincDetectorsA'>
+								<option value='HPGe'>HPGe</option>
+								<option value='LaBr3'>LaBr3</option>
+								<option value='SiLi'>Si(Li)</option>
+								<option value='SCEPTAR'>SCEPTAR</option>
+							</select>
+							<label id='coincDetectorsAlabel' class='inputLabel' for='coincDetectorsA'>at</label>
+							<input id='coincEnergy1' class='widgetInput' type='number' value='100' min='0' step='any'></input>
+							<label id='coincEnergyLabel1' class='inputLabel' for='coincEnergy1'>keV and </label>
+							<input id='coincBR1' class='widgetInput' type='number' value='1' min='0' max='1' step='any'></input>
+							<label id='coincBRLabel1' class='inputLabel' for='coincBR1'>BR + </label>
+							<br>
+							<select id='coincDetectorsB'>
+								<option value='HPGe'>HPGe</option>
+								<option value='LaBr3'>LaBr3</option>
+								<option value='SiLi'>Si(Li)</option>
+								<option value='SCEPTAR'>SCEPTAR</option>
+							</select>
+							<label id='coincDetectorsBlabel' class='inputLabel' for='coincDetectorsB'>at</label>
+							<input id='coincEnergy2' class='widgetInput' type='number' value='100' min='0' step='any'></input>
+							<label id='coincEnergyLabel2' class='inputLabel' for='coincEnergy2'>keV and </label>
+							<input id='coincBR2' class='widgetInput' type='number' value='1' min='0' max='1' step='any'></input>
+							<label id='coincBRLabel2' class='inputLabel' for='coincBR2'>BR,</label>
+							<br>
+							<label id='coincIntensityLabelb' class='inputLabel' for='coincIntensity'>with beam intensity</label>
+							<input id='coincIntensity' class='widgetInput' type='number' value='1E6' min='0' step='any'></input>
+							<label id='coincIntensityLabel' class='inputLabel' for='coincIntensity'>pps,</label>
+							<br>
+							<label id='coincDutyCycleLabel' class='inputLabel' for='coincDutyCycle'>and duty cycle </label>
+							<input id='coincDutyCycle' class='widgetInput' type='number' value='100' min='0' max='100' step='any'></input>
+							<label id='coincDutyCycleLabelB' class='inputLabel' for='coincDutyCycle'>%:</label>
+						</div>
+						<br>
+						<label id='coincEfficiencyLabel' class='inputLabel' for='coincEfficiency'>Efficiency: </label>
+						<div id='coincEfficiency' class='splitDetector'>0.0</div>
+						<br>
+						<label id='coincRateLabel', class='inputLabel' for='coincRate'>Detected Events: </label>
+						<div id='coincRate' class='splitDetector'>0</div>
+						<select id='coincPeriod'>
+							<option value='1'>per second</option>
+							<option value='3600'>per hour</option>
+							<option value='43200'>per 12 hours</option>
+						</select>				
+						<br>
+						<label id='nCoincLabelb' class='inputLabel' for='nCoinc'>Or</label>
+						<input id='nCoinc' class='widgetInput' type='number' value='1E6' min='0' step='any'></input>
+						<label id='nCoincLabel' class='inputLabel' for='nCoinc'>counts will accrue in</label>
+						<div id='nCoincTime' class='splitDetector'>0s</div>	
+					</form>	
+				</div>
+
+				<div id='triplesWidget' class='widget'>
+					<form id='triplesForm'>
+						<h2 id='triplesWidgetTitle' class='widgetTitle'>Triples</h2>
+						<div class='leftDiv'>
+							<select id='triplesDetectorsA'>
+								<option value='HPGe'>HPGe</option>
+								<option value='LaBr3'>LaBr3</option>
+								<option value='SiLi'>Si(Li)</option>
+								<option value='SCEPTAR'>&#946 Tag (SCEPTAR)</option>
+								<option value='DESCANT'>DESCANT</option>
+								<option value='SCEPTARZDS'>&#946 Tag (SCEPTAR + ZDS)</option>
+								<option value='SCEPTARPACES'>&#946 Tag (SCEPTAR + Si(Li))</option>
+								<option value='PACESZDS'>&#946 Tag (Si(Li) + ZDS)</option>
+							</select>
+							<label id='triplesDetectorsAlabel' class='inputLabel' for='triplesDetectorsA'>at</label>
+							<input id='triplesEnergy1' class='widgetInput' type='number' value='100' min='0' step='any'></input>
+							<label id='triplesEnergyLabel1' class='inputLabel' for='triplesEnergy1'>keV and </label>
+							<input id='triplesBR1' class='widgetInput' type='number' value='1' min='0' max='1' step='any'></input>
+							<label id='triplesBRLabel1' class='inputLabel' for='triplesBR1'>BR + </label>
+							<br>
+							<select id='triplesDetectorsB'>
+								<option value='HPGe'>HPGe</option>
+								<option value='LaBr3'>LaBr3</option>
+								<option value='SiLi'>Si(Li)</option>
+								<option value='SCEPTAR'>&#946 Tag (SCEPTAR)</option>
+								<option value='DESCANT'>DESCANT</option>
+								<option value='SCEPTARZDS'>&#946 Tag (SCEPTAR + ZDS)</option>
+								<option value='SCEPTARPACES'>&#946 Tag (SCEPTAR + Si(Li))</option>
+								<option value='PACESZDS'>&#946 Tag (Si(Li) + ZDS)</option>
+							</select>
+							<label id='triplesDetectorsBlabel' class='inputLabel' for='triplesDetectorsB'>at</label>
+							<input id='triplesEnergy2' class='widgetInput' type='number' value='100' min='0' step='any'></input>
+							<label id='triplesEnergyLabel2' class='inputLabel' for='triplesEnergy2'>keV and </label>
+							<input id='triplesBR2' class='widgetInput' type='number' value='1' min='0' max='1' step='any'></input>
+							<label id='triplesBRLabel2' class='inputLabel' for='triplesBR2'>BR + </label>
+							<br>
+							<select id='triplesDetectorsC'>
+								<option value='HPGe'>HPGe</option>
+								<option value='LaBr3'>LaBr3</option>
+								<option value='SiLi'>Si(Li)</option>
+								<option value='SCEPTAR'>&#946 Tag (SCEPTAR)</option>
+								<option value='DESCANT'>DESCANT</option>
+								<option value='SCEPTARZDS'>&#946 Tag (SCEPTAR + ZDS)</option>
+								<option value='SCEPTARPACES'>&#946 Tag (SCEPTAR + Si(Li))</option>
+								<option value='PACESZDS'>&#946 Tag (Si(Li) + ZDS)</option>
+							</select>
+							<label id='triplesDetectorsClabel' class='inputLabel' for='triplesDetectorsC'>at</label>
+							<input id='triplesEnergy3' class='widgetInput' type='number' value='100' min='0' step='any'></input>
+							<label id='triplesEnergyLabel3' class='inputLabel' for='triplesEnergy3'>keV and </label>
+							<input id='triplesBR3' class='widgetInput' type='number' value='1' min='0' max='1' step='any'></input>
+							<label id='triplesBRLabel3' class='inputLabel' for='triplesBR3'>BR,</label>
+							<br>
+							<label id='triplesIntensityLabelb' class='inputLabel' for='triplesIntensity'>with beam intensity</label>
+							<input id='triplesIntensity' class='widgetInput' type='number' value='1E6' min='0' step='any'></input>
+							<label id='triplesIntensityLabel' class='inputLabel' for='triplesIntensity'>pps, </label>
+							
+							<label id='triplesDutyCycleLabel' class='inputLabel' for='triplesDutyCycle'>and duty cycle </label>
+							<input id='triplesDutyCycle' class='widgetInput' type='number' value='100' min='0' max='100' step='any'></input>
+							<label id='triplesDutyCycleLabelB' class='inputLabel' for='triplesDutyCycle'>%:</label>
+						</div>
+						<br>
+						<label id='triplesEfficiencyLabel' class='inputLabel' for='triplesEfficiency'>Efficiency: </label>
+						<div id='triplesEfficiency' class='splitDetector'>0.0</div>
+						<br>
+						<label id='triplesRateLabel', class='inputLabel' for='triplesRate'>Detected Events: </label>
+						<div id='triplesRate' class='splitDetector'>0</div>
+						<select id='triplesPeriod'>
+							<option value='1'>per second</option>
+							<option value='3600'>per hour</option>
+							<option value='43200'>per 12 hours</option>
+						</select>				
+						<br>
+						<label id='nTriplesLabelb' class='inputLabel' for='nTriples'>Or</label>
+						<input id='nTriples' class='widgetInput' type='number' value='1E6' min='0' step='any'></input>
+						<label id='nTriplesLabel' class='inputLabel' for='nTriples'>counts will accrue in</label>
+						<div id='nTriplesTime' class='splitDetector'>0s</div>	
+					</form>	
+				</div>
+			</div>
+
+
+
+			<!--Footer//////////////////////////////////////////////////////////-->
+			<div id='push'></div>
+
+		</div>
+
+		<div id='footer'>
+			<div class='textBlock'>
+				<h3>Built in Vancouver by the GRIFFIN Collaboration</h3>
+
+				<p>
+					Code available on <a href='https://github.com/GRIFFINCollaboration'>Github</a>
+					<br>
+					Copyright &#169 2014 GRIFFIN Collaboration
+					<br>
+					All code freely available under MIT license.
+					<br>
+					<img src='https://zenodo.org/badge/3877/BillMills/efficiencyTracker.png'></img>
+				</p>
+
+				<table>
+					<tr>
+						<td>
+							<a class='imgLink' href='https://github.com/GRIFFINCollaboration'>
+								<img id='gitLogo' width='72' height='72' src='img/GitHub-Mark-Light-64px.png'></img>
+							</a>
+						</td>
+						<td>
+							<a class='imgLink' href='http://www.triumf.ca/griffin'>
+								<img id='griffLogo' width='65' height='78' src='img/GRIFFIN_Logo_White_small.png'></img>
+							</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<canvas id='footerImage' width='550' height='300'></canvas>
+		</div>
+
+		<img id='pngDump'></img>
+
+		<script type='text/javascript'>
+			document.addEventListener('DOMComponentsLoaded', function(){
+				if(BrowserDetect.browser != 'Chrome' && BrowserDetect.browser != 'Firefox'){
+					confirm('Time for a new browser!', 'The GRIFFIN Web App Project only supports <a href="https://www.google.com/intl/en/chrome/browser/">Chrome</a> and <a href="http://www.mozilla.org/en-US/firefox/new/">Firefox</a>.')
+				}
+
+				//set up branding
+				footerImage('footerImage', 2, '#444444');
+
+				//kern title nicely
+				var headlineWidth = document.getElementById('headline').offsetWidth,
+					sublineWidth  = document.getElementById('subline').offsetWidth,
+					sublineKern   = (headlineWidth - sublineWidth) / 6;
+				document.getElementById('subline').style.letterSpacing = sublineKern;
+			
+				setup();
+
+			});
+		</script>
+	</body>
+
+</html>
