@@ -2,6 +2,7 @@
 body{
     background-color: #333333;
     color: #FFFFFF;
+    font-size: 16px;
 }
 
 input, select{
@@ -80,7 +81,7 @@ div.footer{
 /*plot control*/
 label.large{
     border-radius: 1em;
-    padding: 1em;
+    padding: 0.5em;
 }
 
 input.small{

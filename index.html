@@ -3,8 +3,10 @@
         <script src="scripts/jquery1-11-3.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <script src="scripts/bootstrap3-3-5.min.js"></script>
+        <script src="scripts/smooth-scroll.js"></script>
 
         <link rel="stylesheet" type="text/css" href="css/efficiencyCalculator.css"/>
+        <script src="scripts/efficiencyTracker.js"></script>
 	</head>
 
 	<body>
@@ -22,7 +24,7 @@
 		<!--navigation-->
 		<div class='sectionWrapper'>
 			<ul class='options'>
-			  	<li><a class='btn btn-info btn-lg' href="#">Simulation Details</a></li>
+			  	<li><a data-scroll class='btn btn-info btn-lg' href="#simulationDetails">Simulation Details</a></li>
 			  	<li><a class='btn btn-info btn-lg' href="https://www.triumf.info/wiki/tigwiki/index.php/GRIFFIN_User's_Web_Toolkit">Wiki Help</a></li>
 			  	<li><a class='btn btn-info btn-lg' href="http://mis.triumf.ca/science/planning/yield/beam">TRIUMF Yield Database</a></li>
 			  	<li><a class='btn btn-info btn-lg' href="http://www.nndc.bnl.gov/ensdf/">ENSDF</a></li>
@@ -35,7 +37,7 @@
 			<div id='gammaPlot' class='col-md-9'></div>
 
 			<div id='gammaPlotControls' class='col-md-3 panel'>
-				<h2 id="controlTitle">Plot Options</h2>
+				<h2 id="controlTitle">Gamma Plot Options</h2>
 				<ul class='options'>
 					<li>
 						<input id="enableHPGe" type='checkbox' value='hpge' checked></input>
@@ -110,6 +112,94 @@
 						<option value='10'>10 mm</option>
 						<option vlaue='20'>20</option>
 					</select>
+				</div>
+
+				<hr></hr>
+
+				<div class='subsectionWrapper'>
+					<button class='btn btn-success btn-lg'>Save Plot</button>
+					<input id='saveGammaPlot' type='text' value='efficiencyPlot.png'></input>
+				</div>
+				<div class='subsectionWrapper topspace'>
+					<button class='btn btn-success btn-lg'>Save CSV</button>
+					<input id='saveGammaCSV' type='text' value='efficiencyPlot.csv'></input>
+				</div>
+			</div>
+		</div>
+
+		<!--beta efficiency plot + control-->
+		<div class='sectionWrapper'>
+			<div id='gammaPlot' class='col-md-9'></div>
+
+			<div id='gammaPlotControls' class='col-md-3 panel'>
+				<h2>Beta Plot Options</h2>
+
+				<div class='subsectionWrapper'>
+					<div class='UIchunk'>
+						<label for='minQ'>Min Q (keV)</label>
+						<input id='minQ' class='small' type='number' value='10' min='0' step='any'></input>
+					</div>
+					<div class='UIchunk'>
+						<label for='maxQ'>Max Q (keV)</label>
+						<input id='maxQ' class='small' type='number' value='3000' step='any'></input>
+					</div>
+					<div class='UIchunk'>
+						<span>Q Scale:</span>
+						<input id='linQ' type='radio' name='qScale' value='lin' checked></input>
+						<label for='linQ'>linear</label>
+						<input id='logQ' class='leftspace' type='radio' name='qScale' value='log'></input>
+						<label for='logQ'>log</label>
+					</div>
+				</div>
+				<div class='subsectionWrapper topspace'>
+					<div class='UIchunk'>
+						<label for='minQEffic'>Min Effic.</label>
+						<input id='minQEffic' class='small' type='number' value='0' min='0'></input>
+					</div>
+					<div class='UIchunk'>
+						<label for='maxQEffic'>Max Effic.</label>
+						<input id='maxQEffic' class='small' type='number' value='1' max='1'></input>
+					</div>
+					<div class='UIchunk'>
+						<span>Effic. Scale:</span>
+						<input id='linQEffic' type='radio' name='qefficScale' value='lin' checked></input>
+						<label for='linQEffic'>linear</label>
+						<input id='logQEffic' class='leftspace' type='radio' name='qefficScale' value='log'></input>
+						<label for='logQEffic'>log</label>
+					</div>
+				</div>
+
+				<hr></hr>
+
+				<div class='subsectionWrapper'>
+					<label for='decayMode'>Decay Mode: </label>
+					<select id='decayMode'>
+						<option value='1'>&beta;<sup>+</sup></option>
+						<option value='-1'>&beta;<sup>-</sup></option>
+					</select>
+				</div>
+				<div class='subsectionWrapper'>
+					<label for='parentZ'>&beta; parent Z: </label>
+					<select id='parentZ'>
+						<option value='1'>1</option>
+						<option value='5'>5</option>
+						<option vlaue='10'>10</option>
+						<option vlaue='25'>25</option>
+						<option vlaue='50'>50</option>
+						<option vlaue='75'>75</option>
+						<option vlaue='100'>100</option>
+					</select>
+				</div>
+				<div class='subsectionWrapper'>
+					<label for='scpThresh'>SCEPTAR threshold:</label>
+					<select id='scpThresh'>
+						<option value='0'>0</option>
+						<option value='25'>25</option>
+						<option vlaue='50'>50</option>
+						<option value='75'>75</option>
+						<option vlaue='100'>100</option>
+					</select>
+					<label for='scpThresh'> keV</label>
 				</div>
 
 				<hr></hr>
@@ -333,6 +423,45 @@
 				</div>
 			</div>
 		</div>
+
+		<!--Notes & references-->
+		<div id='simulationDetails' class='sectionWrapper panel'>
+			<div>
+				<h2>Simulation Details</h2>
+
+				<ul>
+					<li>HPGe GEANT4 Simulation: 8th order polynomial fit including SCEPTAR and Delrin vacuum chamber.</li>
+					<li>LaBr3 GEANT4 Simulation: 8th order polynomial fit above 40 keV including SCEPTAR and Delrin vacuum chamber.</li>
+					<li>Si(Li) Simulation: Relative Efficiency curve shape based on formalism referenced in Radiation Detection & Measurement (G.F. Knoll, Wiley 2000). Note that the Si(Li) simulations are known to differ from experiment at the 30% level. An absolute normalization is applied per Masters Thesis of Ryan Dunlop, University of Guelph, 2012, "High-precision branching ratio measurement for the superallowed &beta;<sup>+</sup> emitter <sup>74</sup>Rb", based on the analysis of in-beam <sup>80</sup>Rb decay.</li>
+					<li>SCEPTAR GEANT4 Simulation: triple Fermi function fit adjusted to asymptotically approach 0.8 at high Q per experiment.  Low-Q position efficiencies fixed to 0.065% per simulated annihilation photopeak efficiency.</li>
+					<li>
+						The following four configuration efficiencies are based on solid angle coverage of detectors:
+						<ul>
+							<li>DESCANT: 27% efficient between 1 and 5 MeV; efficiency lower outside this range, and no value is reported here.</li>
+							<li>SCEPTAR + ZDS: 65% efficient.</li>
+							<li>SCEPTAR + PACES: 40% efficient.</li>
+							<li>PACES + ZDS: 25% efficient.</li>
+						</ul>
+					</li>
+				</ul>
+
+				<h2>References</h2>
+				<ul>
+					<li>HPGe, LaBr3, SCEPTAR Simulations: E. Rand<sup>1</sup></li>
+					<li>Si(Li) Simulation:  T. Ma<sup>2, 3</sup>, D. Cross<sup>2</sup>, R. Dunlop<sup>1</sup>, W. Mills<sup>3</sup>, Z. -M. Wang<sup>2, 3</sup>, C. Andreoiu<sup>2</sup></li>
+					<li>Web App: W. Mills<sup>3</sup> <img src='https://zenodo.org/badge/3877/BillMills/efficiencyTracker.png'></img> (<a href='https://github.com/GRIFFINCollaboration/efficiencyTracker'>source</a>)</li>
+				</ul>
+				<ul class='list-unstyled'>
+					<li><sup>1</sup> University of Guelph, Guelph, ON, Canada, N1G 2W1</li>
+					<li><sup>2</sup> Simon Fraser University, Burnaby, BC, Canada, V5A 1S6</li>
+					<li><sup>3</sup> TRIUMF, 4004 Wesbrook Mall, Vancouver, BC, Canada, V6T 2A3</li>
+				</ul>
+			</div>
+		</div>
+
+		<script>
+			smoothScroll.init();
+		</script>
 
 	</body>
 </hmtl>
