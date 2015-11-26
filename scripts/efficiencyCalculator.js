@@ -2,8 +2,7 @@ function setup(){
     var i, nodes,
         HPGeSwitch = document.getElementById('enableHPGe'),
         LaBr3Switch = document.getElementById('enableLaBr3'),
-        SiLiSwitch = document.getElementById('enableSiLi'),
-        SCEPTARSwitch = document.getElementById('enableSCEPTAR')
+        SiLiSwitch = document.getElementById('enableSiLi');
 
     //call the parameter dump
     loadParameters();
@@ -85,75 +84,14 @@ function setup(){
     chooseGraphs();
     chooseBetaGraphs();
     //evaluate all widgets at defaults
-    // computeSingles();
-    // computeCoincidence();
-    // computeTriples();
+    computeSingles();
+    computeCoincidence();
+    computeTriples();
 }
 
-function toggleHPGeControls(){
-    //hide / show the hpge specific controls
-    if(document.getElementById('enableHPGe').checked){
-        document.getElementById('HPGeControl').style.height = 'auto';
-    } else{
-        document.getElementById('HPGeControl').style.height = 0;
-    }
-}
-
-//decide which plots to send to a call to deployGraph for gamma plots
-function chooseGraphs(){
-    var funcs = [],
-        titles = [],
-        colors = [],
-        min = parseFloat(document.getElementById('minE').value),
-        max = parseFloat(document.getElementById('maxE').value),
-        i;
-
-    //make sure specified plot maxima aren't silly:
-    document.getElementById('maxE').min = parseFloat(document.getElementById('minE').value);
-    document.getElementById('maxEffic').min = parseFloat(document.getElementById('minEffic').value);
-
-    //update plot data
-    constructFunctions()
-    if(document.getElementById('enableHPGe').checked){
-        funcs[funcs.length] = window.HPGeFunc;
-        titles[titles.length] = 'HPGe';
-        colors[colors.length] = colorCodes['HPGe'];
-    }
-    if(document.getElementById('enableLaBr3').checked){
-        funcs[funcs.length] = window.LaBrFunc;
-        titles[titles.length] = 'LaBr3';
-        colors[colors.length] = colorCodes['LaBr3'];
-    }
-    if(document.getElementById('enableSiLi').checked){
-        funcs[funcs.length] = window.SiLiFunc;
-        titles[titles.length] = 'Si(Li)';
-        colors[colors.length] = colorCodes['SiLi'];
-    }
-
-    deployGraph(funcs, titles, colors, min, max);
-}
-
-//as chooseGraphs but for beta plots
-function chooseBetaGraphs(){
-    var funcs = [],
-        titles = [],
-        colors = [],
-        min = parseFloat(document.getElementById('minQ').value),
-        max = parseFloat(document.getElementById('maxQ').value),
-        i;
-
-    //make sure specified plot maxima aren't silly:
-    document.getElementById('maxQ').min = parseFloat(document.getElementById('minQ').value);
-    document.getElementById('maxQEffic').min = parseFloat(document.getElementById('minQEffic').value);
-
-    //sceptar currently always enabled
-    constructFunctions()
-    funcs[funcs.length] = window.SCEPTARFunc;
-    titles[titles.length] = 'SCEPTAR';
-    colors[colors.length] = colorCodes['SCEPTAR'];
-    
-    deployBetaGraph(funcs, titles, colors, min, max);
-}
+////////////////////////////
+// efficiency functions
+////////////////////////////
 
 function constructFunctions(){
     //update the efficiency functions with the current state of the control pane
@@ -209,10 +147,6 @@ function constructSCEPTARPlotKey(){
 
         return plotKey;
 }
-
-////////////////////////////
-// efficiency functions
-////////////////////////////
 
 //an eighth order polynomial for logEff in logE with coef. param = [0th order, 1st order, ..., 8th order].
 //lo and hiParam are the 1-sigma extremes of the parameters
@@ -329,6 +263,62 @@ function chooseFunction(detector){
 ////////////////////////
 // dygraph drawing
 ////////////////////////
+
+//decide which plots to send to a call to deployGraph for gamma plots
+function chooseGraphs(){
+    var funcs = [],
+        titles = [],
+        colors = [],
+        min = parseFloat(document.getElementById('minE').value),
+        max = parseFloat(document.getElementById('maxE').value),
+        i;
+
+    //make sure specified plot maxima aren't silly:
+    document.getElementById('maxE').min = parseFloat(document.getElementById('minE').value);
+    document.getElementById('maxEffic').min = parseFloat(document.getElementById('minEffic').value);
+
+    //update plot data
+    constructFunctions()
+    if(document.getElementById('enableHPGe').checked){
+        funcs[funcs.length] = window.HPGeFunc;
+        titles[titles.length] = 'HPGe';
+        colors[colors.length] = colorCodes['HPGe'];
+    }
+    if(document.getElementById('enableLaBr3').checked){
+        funcs[funcs.length] = window.LaBrFunc;
+        titles[titles.length] = 'LaBr3';
+        colors[colors.length] = colorCodes['LaBr3'];
+    }
+    if(document.getElementById('enableSiLi').checked){
+        funcs[funcs.length] = window.SiLiFunc;
+        titles[titles.length] = 'Si(Li)';
+        colors[colors.length] = colorCodes['SiLi'];
+    }
+
+    deployGraph(funcs, titles, colors, min, max);
+}
+
+//as chooseGraphs but for beta plots
+function chooseBetaGraphs(){
+    var funcs = [],
+        titles = [],
+        colors = [],
+        min = parseFloat(document.getElementById('minQ').value),
+        max = parseFloat(document.getElementById('maxQ').value),
+        i;
+
+    //make sure specified plot maxima aren't silly:
+    document.getElementById('maxQ').min = parseFloat(document.getElementById('minQ').value);
+    document.getElementById('maxQEffic').min = parseFloat(document.getElementById('minQEffic').value);
+
+    //sceptar currently always enabled
+    constructFunctions()
+    funcs[funcs.length] = window.SCEPTARFunc;
+    titles[titles.length] = 'SCEPTAR';
+    colors[colors.length] = colorCodes['SCEPTAR'];
+    
+    deployBetaGraph(funcs, titles, colors, min, max);
+}
 
 //deploy graphs of [func]tions with [titles]
 function deployGraph(func, titles, colors, min, max){
@@ -608,8 +598,50 @@ function repaintBeta(dygraph){
 
 }
 
-function passClickToWidget(){
-    return 0;
+function passClickToWidget(event, energy){
+    var singlesForm = document.getElementById('singlesForm'),
+        coincWidget = document.getElementById('coincidenceWidget'),
+        triplesWidget = document.getElementById('triplesWidget'),
+        coincForm = document.getElementById('coincForm'),
+        triplesForm = document.getElementById('triplesForm'),
+        scale = checkedRadio('energyScale').value,
+        reportEnergy = (scale=='lin') ? energy.toFixed() : Math.exp(energy).toFixed(),
+        SCEPTARclick = event.target.parentNode.parentNode.id == 'betaPlot'; //swimming up through the dom dygraphs creates....
+
+    //singles
+    document.getElementById('singlesInputEnergy').value = reportEnergy;
+    if(SCEPTARclick)
+        document.getElementById('singlesDetectors').value = 'SCEPTAR';
+    singlesForm.onchange();
+
+    //coincidences
+    if(coincWidget.whichInput == 0){
+        document.getElementById('coincEnergy1').value = reportEnergy;
+        if(SCEPTARclick)
+            document.getElementById('coincDetectorsA').value = 'SCEPTAR';
+        coincWidget.whichInput = 1;
+    } else {
+        document.getElementById('coincEnergy2').value = reportEnergy;
+        if(SCEPTARclick)
+            document.getElementById('coincDetectorsB').value = 'SCEPTAR';
+        coincWidget.whichInput = 0;
+    }
+    coincForm.onchange();
+
+    //triple efficiency
+    if(triplesWidget.whichInput==0){
+        document.getElementById('triplesEnergy1').value = reportEnergy;
+        triplesForm.onchange();
+        triplesWidget.whichInput=1;
+    } else if(triplesWidget.whichInput==1){
+        document.getElementById('triplesEnergy2').value = reportEnergy;
+        triplesForm.onchange();
+        triplesWidget.whichInput=2;
+    } else if(triplesWidget.whichInput==2){
+        document.getElementById('triplesEnergy3').value = reportEnergy;
+        triplesForm.onchange();
+        triplesWidget.whichInput=0;
+    }
 }
 
 /////////////////////////////////////////////////////////
@@ -829,9 +861,18 @@ function computeTriples(){
     assignTriplesColor(['triplesEfficiency', 'triplesRate', 'nTriplesTime']);
 }
 
-////////////////////////
-// badge coloring
-////////////////////////
+//////////////////////
+// ui helpers
+//////////////////////
+
+function toggleHPGeControls(){
+    //hide / show the hpge specific controls
+    if(document.getElementById('enableHPGe').checked){
+        document.getElementById('HPGeControl').style.height = 'auto';
+    } else{
+        document.getElementById('HPGeControl').style.height = 0;
+    }
+}
 
 function assignSinglesColor(targets){
     var i,
