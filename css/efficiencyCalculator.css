@@ -2,7 +2,6 @@
 body{
     background-color: #333333;
     color: #FFFFFF;
-    font-size: 16px;
 }
 
 input, select{
@@ -51,6 +50,14 @@ ul.options li{
     margin-top: 1em !important;
 }
 
+input:invalid {
+  border: 2px solid red;
+}
+
+.hidden {
+    display:none;
+}
+
 /*branding*/
 div.branding{
     color: #FFFFFF;
@@ -81,7 +88,7 @@ div.footer{
 /*plot control*/
 label.large{
     border-radius: 1em;
-    padding: 0.5em;
+    padding: 1em;
 }
 
 input.small{
@@ -91,6 +98,16 @@ input.small{
 div.UIchunk{
     display: inline-block;
     margin-left: 1em;
+}
+
+div#HPGeControl{
+    overflow: hidden;
+}
+
+/*plots*/
+div.plotWrap{
+    height: 50vw;
+    padding: 1em;
 }
 
 /*color coding*/
@@ -104,4 +121,23 @@ div.UIchunk{
 
 .blue {
     background-color: #2980b9;
+}
+
+/*axes and labels*/
+.dygraph-axis-label{
+    color: #999999;
+    font-size: 120%;
+}
+
+.dygraph-legend{
+    /*background-color:#333333 !important;*/
+    background: transparent !important;
+    font-size:200% !important;
+    width: 7.5em !important;
+    left: auto !important;
+    right: 0px !important;
+}
+
+.dygraph-xlabel{
+    margin-top:5px;
 }

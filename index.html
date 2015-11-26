@@ -4,6 +4,12 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <script src="scripts/bootstrap3-3-5.min.js"></script>
         <script src="scripts/smooth-scroll.js"></script>
+        <script src="scripts/dygraph-combined.js"></script>
+        <script src="scripts/dygraph-extra.js"></script>
+
+        <script src="scripts/fitParams.js"></script>
+        <script src="scripts/fitParamsSCEPTAR.js"></script>
+        <script src="scripts/fitParamsLaBr.js"></script>
 
         <link rel="stylesheet" type="text/css" href="css/efficiencyCalculator.css"/>
         <script src="scripts/efficiencyTracker.js"></script>
@@ -34,184 +40,198 @@
 
 		<!--gamma efficiency plot + control-->
 		<div class='sectionWrapper'>
-			<div id='gammaPlot' class='col-md-9'></div>
+			<div id='gammaPlot' class='col-md-9 plotWrap'></div>
 
 			<div id='gammaPlotControls' class='col-md-3 panel'>
-				<h2 id="controlTitle">Gamma Plot Options</h2>
-				<ul class='options'>
-					<li>
-						<input id="enableHPGe" type='checkbox' value='hpge' checked></input>
-						<label for='enableHPGe' class='large green'>HPGe</label>
-					</li>
-					<li>
-						<input id="enableLaBr3" type='checkbox' value='labr' checked></input>
-						<label for="enableLaBr3" class='large orange'>LaBr<sub>3</sub></label>
-					</li>
-					<li>
-						<input id="enableSiLi" type='checkbox' value='sili' checked></input>
-						<label for="enableSiLi" class='large blue'>Si(Li)</label>
-					</li>
-				</ul>
+					<h2 id="controlTitle">Gamma Plot Options</h2>
 
-				<div class='subsectionWrapper'>
-					<div class='UIchunk'>
-						<label for='minE'>Min E (keV)</label>
-						<input id='minE' class='small' type='number' value='10' min='0' step='any'></input>
-					</div>
-					<div class='UIchunk'>
-						<label for='maxE'>Max E (keV)</label>
-						<input id='maxE' class='small' type='number' value='3000' step='any'></input>
-					</div>
-					<div class='UIchunk'>
-						<span>Energy Scale:</span>
-						<input id='linEnergy' type='radio' name='energyScale' value='lin' checked></input>
-						<label for='linEnergy'>linear</label>
-						<input id='logEnergy' class='leftspace' type='radio' name='energyScale' value='log'></input>
-						<label for='logEnergy'>log</label>
-					</div>
-				</div>
-				<div class='subsectionWrapper topspace'>
-					<div class='UIchunk'>
-						<label for='minEffic'>Min Effic.</label>
-						<input id='minEffic' class='small' type='number' value='0' min='0'></input>
-					</div>
-					<div class='UIchunk'>
-						<label for='maxEffic'>Max Effic.</label>
-						<input id='maxEffic' class='small' type='number' value='1' max='1'></input>
-					</div>
-					<div class='UIchunk'>
-						<span>Effic. Scale:</span>
-						<input id='linEffic' type='radio' name='efficScale' value='lin' checked></input>
-						<label for='linEffic'>linear</label>
-						<input id='logEffic' class='leftspace' type='radio' name='efficScale' value='log'></input>
-						<label for='logEffic'>log</label>
-					</div>
-				</div>
+				<form id='plotOptions'>
+					<ul class='options'>
+						<li>
+							<input id="enableHPGe" type='checkbox' value='hpge' checked></input>
+							<label for='enableHPGe' class='large green'>HPGe</label>
+						</li>
+						<li>
+							<input id="enableLaBr3" type='checkbox' value='labr' checked></input>
+							<label for="enableLaBr3" class='large orange'>LaBr<sub>3</sub></label>
+						</li>
+						<li>
+							<input id="enableSiLi" type='checkbox' value='sili' checked></input>
+							<label for="enableSiLi" class='large blue'>Si(Li)</label>
+						</li>
+					</ul>
 
-				<hr></hr>
+					<div class='subsectionWrapper'>
+						<div class='UIchunk'>
+							<label for='minE'>Min E (keV)</label>
+							<input id='minE' class='small' type='number' value='10' min='1' step='any'></input>
+						</div>
+						<div class='UIchunk'>
+							<label for='maxE'>Max E (keV)</label>
+							<input id='maxE' class='small' type='number' value='3000' step='any'></input>
+						</div>
+						<div class='UIchunk'>
+							<span>Energy Scale:</span>
+							<input id='linEnergy' type='radio' name='energyScale' value='lin' checked></input>
+							<label for='linEnergy'>linear</label>
+							<input id='logEnergy' class='leftspace' type='radio' name='energyScale' value='log'></input>
+							<label for='logEnergy'>log</label>
+						</div>
+					</div>
+					<div class='subsectionWrapper topspace'>
+						<div class='UIchunk'>
+							<label for='minEffic'>Min Effic.</label>
+							<input id='minEffic' class='small' type='number' value='0' min='0' step='any'></input>
+						</div>
+						<div class='UIchunk'>
+							<label for='maxEffic'>Max Effic.</label>
+							<input id='maxEffic' class='small' type='number' value='1' max='1' step='any'></input>
+						</div>
+						<div class='UIchunk'>
+							<span>Effic. Scale:</span>
+							<input id='linEffic' type='radio' name='efficScale' value='lin' checked></input>
+							<label for='linEffic'>linear</label>
+							<input id='logEffic' class='leftspace' type='radio' name='efficScale' value='log'></input>
+							<label for='logEffic'>log</label>
+						</div>
+					</div>
 
-				<div class='subsectionWrapper'>
-					<label for='hpgeDistance'>HPGe Distance</label>
-					<select id='hpgeDistance'>
-						<option value='11'>11.0 cm</option>
-						<option value='14.5'>14.5 cm</option>
-					</select>
-				</div>
-				<div class='subsectionWrapper'>
-					<label for='NhpgeDistance'>No. HPGe</label>
-					<select id='NhpgeDistance'>
-						<option value='8'>8</option>
-						<option value='12'>12</option>
-						<option vlaue='16'>16</option>
-					</select>
-				</div>
-				<div class='subsectionWrapper'>
-					<label for='absorbers'>Delrin Absorbers</label>
-					<select id='absorbers'>
-						<option value='0'>None</option>
-						<option value='10'>10 mm</option>
-						<option vlaue='20'>20</option>
-					</select>
-				</div>
+					<hr></hr>
 
-				<hr></hr>
+					<div id='HPGeControl'>
+						<div class='subsectionWrapper'>
+							<label for='HPGeDistanceSwitch'>HPGe Distance</label>
+							<select id='HPGeDistanceSwitch'>
+								<option value='11.0'>11.0 cm</option>
+								<option value='14.5'>14.5 cm</option>
+							</select>
+						</div>
+						<div class='subsectionWrapper'>
+							<label for='nHPGeSwitch'>No. HPGe</label>
+							<select id='nHPGeSwitch'>
+								<option value='8'>8</option>
+								<option value='12'>12</option>
+								<option vlaue='16'>16</option>
+							</select>
+						</div>
+						<div class='subsectionWrapper'>
+							<label for='delrinSwitch'>Delrin Absorbers</label>
+							<select id='delrinSwitch'>
+								<option value='0'>None</option>
+								<option value='10'>10 mm</option>
+								<option vlaue='20'>20</option>
+							</select>
+						</div>
+						<div class='subsectionWrapper'>
+							<label id='summingSchemeLabel' for='summingScheme'>HPGe Addback: </label>
+							<select id='summingScheme'>
+								<option value='crystal'>Per Crystal</option>
+								<option value='clover'>Per Clover</option>
+								<option value='array'>Full Array</option>
+							</select>
+						</div>
+						<hr></hr>
+					</div>
 
-				<div class='subsectionWrapper'>
-					<button class='btn btn-success btn-lg'>Save Plot</button>
-					<input id='saveGammaPlot' type='text' value='efficiencyPlot.png'></input>
-				</div>
-				<div class='subsectionWrapper topspace'>
-					<button class='btn btn-success btn-lg'>Save CSV</button>
-					<input id='saveGammaCSV' type='text' value='efficiencyPlot.csv'></input>
-				</div>
+					<div class='subsectionWrapper'>
+						<a id='saveGammaPlot' class='btn btn-success btn-lg'>Save Plot</a>
+						<input id='gammaPlotName' type='text' value='efficiencyPlot.png'></input>
+					</div>
+					<div class='subsectionWrapper topspace'>
+						<a id='saveGammaCSV' class='btn btn-success btn-lg'>Save CSV</a>
+						<input id='gammaCSVname' type='text' value='efficiencyPlot.csv'></input>
+					</div>
+				</form>
 			</div>
 		</div>
 
 		<!--beta efficiency plot + control-->
 		<div class='sectionWrapper'>
-			<div id='gammaPlot' class='col-md-9'></div>
+			<div id='betaPlot' class='col-md-9 plotWrap'></div>
 
 			<div id='gammaPlotControls' class='col-md-3 panel'>
 				<h2>Beta Plot Options</h2>
 
-				<div class='subsectionWrapper'>
-					<div class='UIchunk'>
-						<label for='minQ'>Min Q (keV)</label>
-						<input id='minQ' class='small' type='number' value='10' min='0' step='any'></input>
+				<form id='betaPlotOptions'>
+					<div class='subsectionWrapper'>
+						<div class='UIchunk'>
+							<label for='minQ'>Min Q (keV)</label>
+							<input id='minQ' class='small' type='number' value='10' min='1' step='any'></input>
+						</div>
+						<div class='UIchunk'>
+							<label for='maxQ'>Max Q (keV)</label>
+							<input id='maxQ' class='small' type='number' value='3000' step='any'></input>
+						</div>
+						<div class='UIchunk'>
+							<span>Q Scale:</span>
+							<input id='linQ' type='radio' name='qScale' value='lin' checked></input>
+							<label for='linQ'>linear</label>
+							<input id='logQ' class='leftspace' type='radio' name='qScale' value='log'></input>
+							<label for='logQ'>log</label>
+						</div>
 					</div>
-					<div class='UIchunk'>
-						<label for='maxQ'>Max Q (keV)</label>
-						<input id='maxQ' class='small' type='number' value='3000' step='any'></input>
+					<div class='subsectionWrapper topspace'>
+						<div class='UIchunk'>
+							<label for='minQEffic'>Min Effic.</label>
+							<input id='minQEffic' class='small' type='number' value='0' min='0' step='any'></input>
+						</div>
+						<div class='UIchunk'>
+							<label for='maxQEffic'>Max Effic.</label>
+							<input id='maxQEffic' class='small' type='number' value='1' max='1' step='any'></input>
+						</div>
+						<div class='UIchunk'>
+							<span>Effic. Scale:</span>
+							<input id='linQEffic' type='radio' name='qefficScale' value='lin' checked></input>
+							<label for='linQEffic'>linear</label>
+							<input id='logQEffic' class='leftspace' type='radio' name='qefficScale' value='log'></input>
+							<label for='logQEffic'>log</label>
+						</div>
 					</div>
-					<div class='UIchunk'>
-						<span>Q Scale:</span>
-						<input id='linQ' type='radio' name='qScale' value='lin' checked></input>
-						<label for='linQ'>linear</label>
-						<input id='logQ' class='leftspace' type='radio' name='qScale' value='log'></input>
-						<label for='logQ'>log</label>
-					</div>
-				</div>
-				<div class='subsectionWrapper topspace'>
-					<div class='UIchunk'>
-						<label for='minQEffic'>Min Effic.</label>
-						<input id='minQEffic' class='small' type='number' value='0' min='0'></input>
-					</div>
-					<div class='UIchunk'>
-						<label for='maxQEffic'>Max Effic.</label>
-						<input id='maxQEffic' class='small' type='number' value='1' max='1'></input>
-					</div>
-					<div class='UIchunk'>
-						<span>Effic. Scale:</span>
-						<input id='linQEffic' type='radio' name='qefficScale' value='lin' checked></input>
-						<label for='linQEffic'>linear</label>
-						<input id='logQEffic' class='leftspace' type='radio' name='qefficScale' value='log'></input>
-						<label for='logQEffic'>log</label>
-					</div>
-				</div>
 
-				<hr></hr>
+					<hr></hr>
 
-				<div class='subsectionWrapper'>
-					<label for='decayMode'>Decay Mode: </label>
-					<select id='decayMode'>
-						<option value='1'>&beta;<sup>+</sup></option>
-						<option value='-1'>&beta;<sup>-</sup></option>
-					</select>
-				</div>
-				<div class='subsectionWrapper'>
-					<label for='parentZ'>&beta; parent Z: </label>
-					<select id='parentZ'>
-						<option value='1'>1</option>
-						<option value='5'>5</option>
-						<option vlaue='10'>10</option>
-						<option vlaue='25'>25</option>
-						<option vlaue='50'>50</option>
-						<option vlaue='75'>75</option>
-						<option vlaue='100'>100</option>
-					</select>
-				</div>
-				<div class='subsectionWrapper'>
-					<label for='scpThresh'>SCEPTAR threshold:</label>
-					<select id='scpThresh'>
-						<option value='0'>0</option>
-						<option value='25'>25</option>
-						<option vlaue='50'>50</option>
-						<option value='75'>75</option>
-						<option vlaue='100'>100</option>
-					</select>
-					<label for='scpThresh'> keV</label>
-				</div>
+					<div class='subsectionWrapper'>
+						<label for='decayMode'>Decay Mode: </label>
+						<select id='decayMode'>
+							<option value='1'>&beta;<sup>+</sup></option>
+							<option value='-1'>&beta;<sup>-</sup></option>
+						</select>
+					</div>
+					<div class='subsectionWrapper'>
+						<label for='parentZ'>&beta; parent Z: </label>
+						<select id='parentZ'>
+							<option value='1'>1</option>
+							<option value='5'>5</option>
+							<option vlaue='10'>10</option>
+							<option vlaue='25'>25</option>
+							<option vlaue='50'>50</option>
+							<option vlaue='75'>75</option>
+							<option vlaue='100'>100</option>
+						</select>
+					</div>
+					<div class='subsectionWrapper'>
+						<label for='betaThreshold'>SCEPTAR threshold:</label>
+						<select id='betaThreshold'>
+							<option value='0'>0</option>
+							<option value='25'>25</option>
+							<option vlaue='50'>50</option>
+							<option value='75'>75</option>
+							<option vlaue='100'>100</option>
+						</select>
+						<label for='scpThresh'> keV</label>
+					</div>
 
-				<hr></hr>
+					<hr></hr>
 
-				<div class='subsectionWrapper'>
-					<button class='btn btn-success btn-lg'>Save Plot</button>
-					<input id='saveGammaPlot' type='text' value='efficiencyPlot.png'></input>
-				</div>
-				<div class='subsectionWrapper topspace'>
-					<button class='btn btn-success btn-lg'>Save CSV</button>
-					<input id='saveGammaCSV' type='text' value='efficiencyPlot.csv'></input>
-				</div>
+					<div class='subsectionWrapper'>
+						<a id='saveBetaPlot' class='btn btn-success btn-lg'>Save Plot</a>
+						<input id='betaPlotName' type='text' value='efficiencyPlot.png'></input>
+					</div>
+					<div class='subsectionWrapper topspace'>
+						<a id='saveBetaCSV' class='btn btn-success btn-lg'>Save CSV</a>
+						<input id='betaCSVname' type='text' value='efficiencyPlot.csv'></input>
+					</div>
+				</form>
 			</div>
 		</div>
 
@@ -220,207 +240,212 @@
 			<div class='col-md-4 panel'>
 				<h2 id="singlesWidgetTitle" class="widgetTitle">Singles</h2>
 
-				<div class='subsectionWrapper'>
-					<select id="singlesDetectors">
-						<option value="HPGe">HPGe</option>
-						<option value="LaBr3">LaBr3</option>
-						<option value="SiLi">Si(Li)</option>		
-						<option value="SCEPTAR">SCEPTAR</option>
-					</select>
-					<label id="singlesDetectorsLabel" for="singlesDetectors">at</label>
-					<input id="singlesInputEnergy" class='small' value="100" min="0" step="any" type="number">
-					<label id="singlesEnergyLabel" for="singlesInputEnergy">keV and</label>
-					<input id="singlesBR" class='small' value="1" min="0" max="1" step="any" type="number">
-					<label id="singlesBRLabel" for="singlesBR">BR,</label>
-				</div>
-				<div class='subsectionWrapper'>
-					<label id="singlesIntensityLabelb" for="singlesIntensity">w/ beam intensity</label>
-					<input id="singlesIntensity" class='small' value="1E6" min="0" step="any" type="number">
-					<label id="singlesIntensityLabel" for="singlesIntensity">pps,</label>
-				</div>
-				<div class='subsectionWrapper'>
-					<label id="singlesDutyCycleLabel" for="singlesDutyCycle">and duty cycle </label>
-					<input id="singlesDutyCycle" class='small' value="100" min="0" max="100" step="any" type="number">
-					<label id="singlesDutyCycleLabelB" for="singlesDutyCycle">%:</label>
-				</div>
-				<div class='subsectionWrapper'>		
-					<label id="singlesEfficiencyLabel" for="singlesEfficiency">Efficiency: </label>
-					<span id="singlesEfficiency">0.00</span>
-				</div>
-				<div class='subsectionWrapper'>						
-					<label id="singlesRateLabel" for="singlesRate">Detected Events: </label>
-					<span id="singlesRate">0.00</span>
-					<select id="singlesPeriod">
-						<option value="1">per second</option>
-						<option value="3600">per hour</option>
-						<option value="43200">per 12 hours</option>
-					</select>
-				</div>
-				<div class='subsectionWrapper'>	
-					<label id="nSinglesLabelb" for="nSingles">Or </label>
-					<input id="nSingles" class='small' value="1E6" min="0" step="any" type="number">
-					<label id="nSinglesLabel" for="nSingles">counts will accrue in</label>
-					<span id="nSinglesTime" class="widgetResult">0.00 s</span>
-				</div>
+				<form id='singlesForm'>
+					<div class='subsectionWrapper'>
+						<select id="singlesDetectors">
+							<option value="HPGe">HPGe</option>
+							<option value="LaBr3">LaBr3</option>
+							<option value="SiLi">Si(Li)</option>		
+							<option value="SCEPTAR">SCEPTAR</option>
+						</select>
+						<label id="singlesDetectorsLabel" for="singlesDetectors">at</label>
+						<input id="singlesInputEnergy" class='small' value="100" min="0" step="any" type="number">
+						<label id="singlesEnergyLabel" for="singlesInputEnergy">keV and</label>
+						<input id="singlesBR" class='small' value="1" min="0" max="1" step="any" type="number">
+						<label id="singlesBRLabel" for="singlesBR">BR,</label>
+					</div>
+					<div class='subsectionWrapper'>
+						<label id="singlesIntensityLabelb" for="singlesIntensity">w/ beam intensity</label>
+						<input id="singlesIntensity" class='small' value="1E6" min="0" step="any" type="number">
+						<label id="singlesIntensityLabel" for="singlesIntensity">pps,</label>
+					</div>
+					<div class='subsectionWrapper'>
+						<label id="singlesDutyCycleLabel" for="singlesDutyCycle">and duty cycle </label>
+						<input id="singlesDutyCycle" class='small' value="100" min="0" max="100" step="any" type="number">
+						<label id="singlesDutyCycleLabelB" for="singlesDutyCycle">%:</label>
+					</div>
+					<div class='subsectionWrapper'>		
+						<label id="singlesEfficiencyLabel" for="singlesEfficiency">Efficiency: </label>
+						<span id="singlesEfficiency">0.00</span>
+					</div>
+					<div class='subsectionWrapper'>						
+						<label id="singlesRateLabel" for="singlesRate">Detected Events: </label>
+						<span id="singlesRate">0.00</span>
+						<select id="singlesPeriod">
+							<option value="1">per second</option>
+							<option value="3600">per hour</option>
+							<option value="43200">per 12 hours</option>
+						</select>
+					</div>
+					<div class='subsectionWrapper'>	
+						<label id="nSinglesLabelb" for="nSingles">Or </label>
+						<input id="nSingles" class='small' value="1E6" min="0" step="any" type="number">
+						<label id="nSinglesLabel" for="nSingles">counts will accrue in</label>
+						<span id="nSinglesTime" class="widgetResult">0.00 s</span>
+					</div>
+				</form>
 			</div>
 
-			<div class='col-md-4 panel'>
+			<div id='coincidenceWidget' class='col-md-4 panel'>
 				<h2 id="coincWidgetTitle">Coincidences</h2>
 
-				<div class='subsectionWrapper'>
-					<select id="coincDetectorsA">
-						<option value="HPGe">HPGe</option>
-						<option value="LaBr3">LaBr3</option>
-						<option value="SiLi">Si(Li)</option>
-						<option value="SCEPTAR">SCEPTAR</option>
-					</select>
-					<label id="coincDetectorsAlabel" for="coincDetectorsA">at</label>
-					<input id="coincEnergy1" class='small' value="100" min="0" step="any" type="number">
-					<label id="coincEnergyLabel1" for="coincEnergy1">keV and </label>
-					<input id="coincBR1" class='small' value="1" min="0" max="1" step="any" type="number">
-					<label id="coincBRLabel1" for="coincBR1">BR + </label>
-				</div>
+				<form id='coincForm'>
+					<div class='subsectionWrapper'>
+						<select id="coincDetectorsA">
+							<option value="HPGe">HPGe</option>
+							<option value="LaBr3">LaBr3</option>
+							<option value="SiLi">Si(Li)</option>
+							<option value="SCEPTAR">SCEPTAR</option>
+						</select>
+						<label id="coincDetectorsAlabel" for="coincDetectorsA">at</label>
+						<input id="coincEnergy1" class='small' value="100" min="0" step="any" type="number">
+						<label id="coincEnergyLabel1" for="coincEnergy1">keV and </label>
+						<input id="coincBR1" class='small' value="1" min="0" max="1" step="any" type="number">
+						<label id="coincBRLabel1" for="coincBR1">BR + </label>
+					</div>
+						
+					<div class='subsectionWrapper'>		
+						<select id="coincDetectorsB">
+							<option value="HPGe">HPGe</option>
+							<option value="LaBr3">LaBr3</option>
+							<option value="SiLi">Si(Li)</option>
+							<option value="SCEPTAR">SCEPTAR</option>
+						</select>
+						<label id="coincDetectorsBlabel" for="coincDetectorsB">at</label>
+						<input id="coincEnergy2" class='small' value="100" min="0" step="any" type="number">
+						<label id="coincEnergyLabel2" for="coincEnergy2">keV and </label>
+						<input id="coincBR2" class='small' value="1" min="0" max="1" step="any" type="number">
+						<label id="coincBRLabel2" for="coincBR2">BR,</label>
+					</div>
 					
-				<div class='subsectionWrapper'>		
-					<select id="coincDetectorsB">
-						<option value="HPGe">HPGe</option>
-						<option value="LaBr3">LaBr3</option>
-						<option value="SiLi">Si(Li)</option>
-						<option value="SCEPTAR">SCEPTAR</option>
-					</select>
-					<label id="coincDetectorsBlabel" for="coincDetectorsB">at</label>
-					<input id="coincEnergy2" class='small' value="100" min="0" step="any" type="number">
-					<label id="coincEnergyLabel2" for="coincEnergy2">keV and </label>
-					<input id="coincBR2" class='small' value="1" min="0" max="1" step="any" type="number">
-					<label id="coincBRLabel2" for="coincBR2">BR,</label>
-				</div>
-				
-				<div class='subsectionWrapper'>	
-					<label id="coincIntensityLabelb" for="coincIntensity">with beam intensity</label>
-					<input id="coincIntensity" class='small' value="1E6" min="0" step="any" type="number">
-					<label id="coincIntensityLabel" class="inputLabel" for="coincIntensity">pps,</label>
-				</div>
+					<div class='subsectionWrapper'>	
+						<label id="coincIntensityLabelb" for="coincIntensity">with beam intensity</label>
+						<input id="coincIntensity" class='small' value="1E6" min="0" step="any" type="number">
+						<label id="coincIntensityLabel" class="inputLabel" for="coincIntensity">pps,</label>
+					</div>
+						
+					<div class='subsectionWrapper'>	
+						<label id="coincDutyCycleLabel" for="coincDutyCycle">and duty cycle </label>
+						<input id="coincDutyCycle" class='small' value="100" min="0" max="100" step="any" type="number">
+						<label id="coincDutyCycleLabelB" for="coincDutyCycle">%:</label>
+					</div>
+						
+					<div class='subsectionWrapper'>	
+						<label id="coincEfficiencyLabel" for="coincEfficiency">Efficiency: </label>
+						<span id="coincEfficiency">0.00</span>
+					</div>
+						
+					<div class='subsectionWrapper'>	
+						<label id="coincRateLabel" for="coincRate">Detected Events: </label>
+						<span id="coincRate">0.00</span>
+						<select id="coincPeriod">
+							<option value="1">per second</option>
+							<option value="3600">per hour</option>
+							<option value="43200">per 12 hours</option>
+						</select>
+						</div>				
 					
-				<div class='subsectionWrapper'>	
-					<label id="coincDutyCycleLabel" for="coincDutyCycle">and duty cycle </label>
-					<input id="coincDutyCycle" class='small' value="100" min="0" max="100" step="any" type="number">
-					<label id="coincDutyCycleLabelB" for="coincDutyCycle">%:</label>
-				</div>
-					
-				<div class='subsectionWrapper'>	
-					<label id="coincEfficiencyLabel" for="coincEfficiency">Efficiency: </label>
-					<span id="coincEfficiency">0.00</span>
-				</div>
-					
-				<div class='subsectionWrapper'>	
-					<label id="coincRateLabel" for="coincRate">Detected Events: </label>
-					<span id="coincRate">0.00</span>
-					<select id="coincPeriod">
-						<option value="1">per second</option>
-						<option value="3600">per hour</option>
-						<option value="43200">per 12 hours</option>
-					</select>
-					</div>				
-				
-				<div class='subsectionWrapper'>		
-					<label id="nCoincLabelb" for="nCoinc">Or</label>
-					<input id="nCoinc" class='small' class="widgetInput" value="1E6" min="0" step="any" type="number">
-					<label id="nCoincLabel" class="inputLabel" for="nCoinc">counts will accrue in</label>
-					<span id="nCoincTime">0.00 s</span>
-				</div>	
-					
+					<div class='subsectionWrapper'>		
+						<label id="nCoincLabelb" for="nCoinc">Or</label>
+						<input id="nCoinc" class='small' class="widgetInput" value="1E6" min="0" step="any" type="number">
+						<label id="nCoincLabel" class="inputLabel" for="nCoinc">counts will accrue in</label>
+						<span id="nCoincTime">0.00 s</span>
+					</div>
+				</form>	
 			</div>
 
-			<div class='col-md-4 panel'>
+			<div id='triplesWidget' class='col-md-4 panel'>
 				<h2 id="triplesWidgetTitle">Triples</h2>
 
-				<div class='subsectionWrapper'>
-					<select id="triplesDetectorsA">
-						<option value="HPGe">HPGe</option>
-						<option value="LaBr3">LaBr3</option>
-						<option value="SiLi">Si(Li)</option>
-						<option value="SCEPTAR">β Tag (SCEPTAR)</option>
-						<option value="DESCANT">DESCANT</option>
-						<option value="SCEPTARZDS">β Tag (SCEPTAR + ZDS)</option>
-						<option value="SCEPTARPACES">β Tag (SCEPTAR + Si(Li))</option>
-						<option value="PACESZDS">β Tag (Si(Li) + ZDS)</option>
-					</select>
-					<label id="triplesDetectorsAlabel" for="triplesDetectorsA">at</label>
-					<input id="triplesEnergy1" class="small" value="100" min="0" step="any" type="number">
-					<label id="triplesEnergyLabel1" for="triplesEnergy1">keV and </label>
-					<input id="triplesBR1" class="small" value="1" min="0" max="1" step="any" type="number">
-					<label id="triplesBRLabel1" class="inputLabel" for="triplesBR1">BR + </label>
-				</br>
+				<form id='triplesForm'>
+					<div class='subsectionWrapper'>
+						<select id="triplesDetectorsA">
+							<option value="HPGe">HPGe</option>
+							<option value="LaBr3">LaBr3</option>
+							<option value="SiLi">Si(Li)</option>
+							<option value="SCEPTAR">&beta; Tag (SCEPTAR)</option>
+							<option value="DESCANT">DESCANT</option>
+							<option value="SCEPTARZDS">&beta; Tag (SCEPTAR + ZDS)</option>
+							<option value="SCEPTARPACES">&beta; Tag (SCEPTAR + Si(Li))</option>
+							<option value="PACESZDS">&beta; Tag (Si(Li) + ZDS)</option>
+						</select>
+						<label id="triplesDetectorsAlabel" for="triplesDetectorsA">at</label>
+						<input id="triplesEnergy1" class="small" value="100" min="0" step="any" type="number">
+						<label id="triplesEnergyLabel1" for="triplesEnergy1">keV and </label>
+						<input id="triplesBR1" class="small" value="1" min="0" max="1" step="any" type="number">
+						<label id="triplesBRLabel1" class="inputLabel" for="triplesBR1">BR + </label>
+					</br>
 
-				<div class='subsectionWrapper'>
-					<select id="triplesDetectorsB">
-						<option value="HPGe">HPGe</option>
-						<option value="LaBr3">LaBr3</option>
-						<option value="SiLi">Si(Li)</option>
-						<option value="SCEPTAR">β Tag (SCEPTAR)</option>
-						<option value="DESCANT">DESCANT</option>
-						<option value="SCEPTARZDS">β Tag (SCEPTAR + ZDS)</option>
-						<option value="SCEPTARPACES">β Tag (SCEPTAR + Si(Li))</option>
-						<option value="PACESZDS">β Tag (Si(Li) + ZDS)</option>
-					</select>
-					<label id="triplesDetectorsBlabel" for="triplesDetectorsB">at</label>
-					<input id="triplesEnergy2" class="small" value="100" min="0" step="any" type="number">
-					<label id="triplesEnergyLabel2" for="triplesEnergy2">keV and </label>
-					<input id="triplesBR2" class="small" value="1" min="0" max="1" step="any" type="number">
-					<label id="triplesBRLabel2" for="triplesBR2">BR + </label>
-				</div>
+					<div class='subsectionWrapper'>
+						<select id="triplesDetectorsB">
+							<option value="HPGe">HPGe</option>
+							<option value="LaBr3">LaBr3</option>
+							<option value="SiLi">Si(Li)</option>
+							<option value="SCEPTAR">&beta; Tag (SCEPTAR)</option>
+							<option value="DESCANT">DESCANT</option>
+							<option value="SCEPTARZDS">&beta; Tag (SCEPTAR + ZDS)</option>
+							<option value="SCEPTARPACES">&beta; Tag (SCEPTAR + Si(Li))</option>
+							<option value="PACESZDS">&beta; Tag (Si(Li) + ZDS)</option>
+						</select>
+						<label id="triplesDetectorsBlabel" for="triplesDetectorsB">at</label>
+						<input id="triplesEnergy2" class="small" value="100" min="0" step="any" type="number">
+						<label id="triplesEnergyLabel2" for="triplesEnergy2">keV and </label>
+						<input id="triplesBR2" class="small" value="1" min="0" max="1" step="any" type="number">
+						<label id="triplesBRLabel2" for="triplesBR2">BR + </label>
+					</div>
 
-				<div class='subsectionWrapper'>
-					<select id="triplesDetectorsC">
-						<option value="HPGe">HPGe</option>
-						<option value="LaBr3">LaBr3</option>
-						<option value="SiLi">Si(Li)</option>
-						<option value="SCEPTAR">β Tag (SCEPTAR)</option>
-						<option value="DESCANT">DESCANT</option>
-						<option value="SCEPTARZDS">β Tag (SCEPTAR + ZDS)</option>
-						<option value="SCEPTARPACES">β Tag (SCEPTAR + Si(Li))</option>
-						<option value="PACESZDS">β Tag (Si(Li) + ZDS)</option>
-					</select>
-					<label id="triplesDetectorsClabel" for="triplesDetectorsC">at</label>
-					<input id="triplesEnergy3" class="small" value="100" min="0" step="any" type="number">
-					<label id="triplesEnergyLabel3" for="triplesEnergy3">keV and </label>
-					<input id="triplesBR3" class="small" value="1" min="0" max="1" step="any" type="number">
-					<label id="triplesBRLabel3" for="triplesBR3">BR,</label>
-				</div>
+					<div class='subsectionWrapper'>
+						<select id="triplesDetectorsC">
+							<option value="HPGe">HPGe</option>
+							<option value="LaBr3">LaBr3</option>
+							<option value="SiLi">Si(Li)</option>
+							<option value="SCEPTAR">&beta; Tag (SCEPTAR)</option>
+							<option value="DESCANT">DESCANT</option>
+							<option value="SCEPTARZDS">&beta; Tag (SCEPTAR + ZDS)</option>
+							<option value="SCEPTARPACES">&beta; Tag (SCEPTAR + Si(Li))</option>
+							<option value="PACESZDS">&beta; Tag (Si(Li) + ZDS)</option>
+						</select>
+						<label id="triplesDetectorsClabel" for="triplesDetectorsC">at</label>
+						<input id="triplesEnergy3" class="small" value="100" min="0" step="any" type="number">
+						<label id="triplesEnergyLabel3" for="triplesEnergy3">keV and </label>
+						<input id="triplesBR3" class="small" value="1" min="0" max="1" step="any" type="number">
+						<label id="triplesBRLabel3" for="triplesBR3">BR,</label>
+					</div>
 
-				<div class='subsectionWrapper'>		
-					<label id="triplesIntensityLabelb" for="triplesIntensity">with beam intensity</label>
-					<input id="triplesIntensity" class="small" value="1E6" min="0" step="any" type="number">
-					<label id="triplesIntensityLabel" for="triplesIntensity">pps, </label>
-				</div>
+					<div class='subsectionWrapper'>		
+						<label id="triplesIntensityLabelb" for="triplesIntensity">with beam intensity</label>
+						<input id="triplesIntensity" class="small" value="1E6" min="0" step="any" type="number">
+						<label id="triplesIntensityLabel" for="triplesIntensity">pps, </label>
+					</div>
 
-				<div class='subsectionWrapper'>
-					<label id="triplesDutyCycleLabel" for="triplesDutyCycle">and duty cycle </label>
-					<input id="triplesDutyCycle" class="small" value="100" min="0" max="100" step="any" type="number">
-					<label id="triplesDutyCycleLabelB" for="triplesDutyCycle">%:</label>
-				</div>
+					<div class='subsectionWrapper'>
+						<label id="triplesDutyCycleLabel" for="triplesDutyCycle">and duty cycle </label>
+						<input id="triplesDutyCycle" class="small" value="100" min="0" max="100" step="any" type="number">
+						<label id="triplesDutyCycleLabelB" for="triplesDutyCycle">%:</label>
+					</div>
 
-				<div class='subsectionWrapper'>
-					<label id="triplesEfficiencyLabel" for="triplesEfficiency">Efficiency: </label>
-					<span id="triplesEfficiency">0.00</span>
-				</div>
+					<div class='subsectionWrapper'>
+						<label id="triplesEfficiencyLabel" for="triplesEfficiency">Efficiency: </label>
+						<span id="triplesEfficiency">0.00</span>
+					</div>
 
-				<div class='subsectionWrapper'>
-					<label id="triplesRateLabel" for="triplesRate">Detected Events: </label>
-					<span id="triplesRate">0.00</span>
-					<select id="triplesPeriod">
-						<option value="1">per second</option>
-						<option value="3600">per hour</option>
-						<option value="43200">per 12 hours</option>
-					</select>				
-				</div>
+					<div class='subsectionWrapper'>
+						<label id="triplesRateLabel" for="triplesRate">Detected Events: </label>
+						<span id="triplesRate">0.00</span>
+						<select id="triplesPeriod">
+							<option value="1">per second</option>
+							<option value="3600">per hour</option>
+							<option value="43200">per 12 hours</option>
+						</select>				
+					</div>
 
-				<div class='subsectionWrapper'>
-					<label id="nTriplesLabelb" for="nTriples">Or</label>
-					<input id="nTriples" class="small" value="1E6" min="0" step="any" type="number">
-					<label id="nTriplesLabel" for="nTriples">counts will accrue in</label>
-					<span id="nTriplesTime">0.00 s</span>	
-				</div>
+					<div class='subsectionWrapper'>
+						<label id="nTriplesLabelb" for="nTriples">Or</label>
+						<input id="nTriples" class="small" value="1E6" min="0" step="any" type="number">
+						<label id="nTriplesLabel" for="nTriples">counts will accrue in</label>
+						<span id="nTriplesTime">0.00 s</span>	
+					</div>
+				</form>
 			</div>
 		</div>
 
@@ -459,8 +484,15 @@
 			</div>
 		</div>
 
+		<img class='hidden' id='gammaPNG'></img>
+		<img class='hidden' id='betaPNG'></img>
+
 		<script>
+			//smooth scrolling guts
 			smoothScroll.init();
+
+			//kick off dygraph + ui setup
+			setup();
 		</script>
 
 	</body>
