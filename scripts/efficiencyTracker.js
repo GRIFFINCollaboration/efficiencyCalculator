@@ -333,14 +333,12 @@ function chooseFunction(detector){
 //deploy graphs of [func]tions with [titles]
 function deployGraph(func, titles, colors, min, max){
     var i, j, logx, deltaLow, deltaHigh, eff, textBlob,
-        scale = checkedRadio('energyScale'); 
+        scale = checkedRadio('energyScale').value; 
         isLog = (scale == 'lin') ? '' : 'Log ',
         CSV = isLog + 'Energy[keV]',
         data = isLog + 'Energy[keV]',
         nPoints = 1000,
-        yScale = checkedRadio('efficScale') == 'log';
-        if(yScale=='true') yScale = true;
-        else yScale = false;
+        yScale = checkedRadio('efficScale').value == 'log';
         //don't let the user switch to log scale with a 0 min
         if(yScale && parseFloat(document.getElementById('minEffic').value)==0 )
             document.getElementById('minEffic').value = 0.001;
@@ -448,15 +446,13 @@ function deployGraph(func, titles, colors, min, max){
 //deploy graphs of [func]tions with [titles] for beta plots
 function deployBetaGraph(func, titles, colors, min, max){
     var i, j, logx, deltaLow, deltaHigh, eff, textBlob,
-        scale = checkedRadio('qScale'),
+        scale = checkedRadio('qScale').value,
         isLog = (scale == 'lin') ? '' : 'Log ',
         data = isLog + 'Q [keV]',
         CSV = isLog + 'Q [keV]',
         nPoints = 1000,
 
-        yScale = checkedRadio('qefficScale');
-        if(yScale=='true') yScale = true;
-        else yScale = false;
+        yScale = checkedRadio('qefficScale').value == 'log';
         //don't let the user switch to log scale with a 0 min
         if(yScale && parseFloat(document.getElementById('minQEffic').value)==0 )
             document.getElementById('minQEffic').value = 0.001;
@@ -566,7 +562,7 @@ function repaint(dygraph){
         xMax = document.getElementById('maxE'),
         yMin = document.getElementById('minEffic'),
         yMax = document.getElementById('maxEffic'),
-        scale = checkedRadio('energyScale');
+        scale = checkedRadio('energyScale').value;
 
     prepImageSave(dygraph, 'saveGammaPlot', 'gammaPNG');
 
@@ -592,7 +588,7 @@ function repaintBeta(dygraph){
         xMax = document.getElementById('maxQ'),
         yMin = document.getElementById('minQEffic'),
         yMax = document.getElementById('maxQEffic'),
-        scale = checkedRadio('qScale');
+        scale = checkedRadio('qScale').value;
 
     prepImageSave(dygraph, 'saveBetaPlot', 'betaPNG');
 
