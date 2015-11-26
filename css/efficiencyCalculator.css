@@ -139,9 +139,8 @@ div.plotWrap{
     /*background-color:#333333 !important;*/
     background: transparent !important;
     font-size:200% !important;
-    width: 7.5em !important;
     left: auto !important;
-    right: 0px !important;
+    right: 20px !important;
 }
 
 .dygraph-xlabel{

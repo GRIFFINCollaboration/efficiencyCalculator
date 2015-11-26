@@ -395,7 +395,7 @@ function deployGraph(func, titles, colors, min, max){
         title: 'Simulated Efficiency v. Energy',
         xlabel: 'Energy [keV]',
         ylabel: 'Efficiency',
-        sigFigs: 2,
+        sigFigs: 3,
         strokeWidth: 4,
         colors: colors,
         highlightCircleSize: 6,
@@ -509,7 +509,7 @@ function deployBetaGraph(func, titles, colors, min, max){
         title: 'Simulated Efficiency v. Q',
         xlabel: 'Q [keV]',
         ylabel: 'Efficiency',
-        sigFigs: 2,
+        sigFigs: 3,
         strokeWidth: 4,
         colors: colors,
         highlightCircleSize: 6,
@@ -573,8 +573,8 @@ function repaint(dygraph){
         xMin.value = Math.exp(g.xAxisRange()[0]).toFixed();
         xMax.value = Math.exp(g.xAxisRange()[1]).toFixed();
     }
-    yMin.value = g.yAxisRange()[0].toFixed(2);
-    yMax.value = g.yAxisRange()[1].toFixed(2);
+    yMin.value = g.yAxisRange()[0].toFixed(3);
+    yMax.value = g.yAxisRange()[1].toFixed(3);
 
     computeSingles();
     computeCoincidence();
@@ -599,8 +599,8 @@ function repaintBeta(dygraph){
         xMin.value = Math.exp(b.xAxisRange()[0]).toFixed();
         xMax.value = Math.exp(b.xAxisRange()[1]).toFixed();
     }
-    yMin.value = b.yAxisRange()[0].toFixed(2);
-    yMax.value = b.yAxisRange()[1].toFixed(2);
+    yMin.value = b.yAxisRange()[0].toFixed(3);
+    yMax.value = b.yAxisRange()[1].toFixed(3);
 
     computeSingles();
     computeCoincidence();
@@ -633,16 +633,16 @@ function computeSingles(){
     efficiency = parseFloat(efficiency.slice(efficiency.indexOf(';')+1, efficiency.lastIndexOf(';') ));
 
     //write efficiency to widget
-    document.getElementById('singlesEfficiency').innerHTML = (efficiency > 0.1) ? efficiency.toFixed(2) : sciNot(efficiency, 1);
+    document.getElementById('singlesEfficiency').innerHTML = (efficiency > 0.1) ? efficiency.toFixed(3) : sciNot(efficiency, 2);
 
     //rate
-    document.getElementById('singlesRate').innerHTML = sciNot(intensity*DC*BR*efficiency*period, 2);
+    document.getElementById('singlesRate').innerHTML = sciNot(intensity*DC*BR*efficiency*period, 3);
 
     //time to accrue:
     nSeconds = nCounts/(intensity*DC*BR*efficiency);
     unit = chooseTimeUnit(nSeconds);
     if(intensity*DC*BR*efficiency != 0)
-        document.getElementById('nSinglesTime').innerHTML = sciNot(nSeconds/unit[0], 2)+' '+unit[1];
+        document.getElementById('nSinglesTime').innerHTML = sciNot(nSeconds/unit[0], 3)+' '+unit[1];
     else 
         document.getElementById('nSinglesTime').innerHTML = String.fromCharCode(0x221E);
 
@@ -688,16 +688,16 @@ function computeCoincidence(){
 
     //compute efficiency
     efficiency = eff1*eff2*countingFactor;
-    document.getElementById('coincEfficiency').innerHTML = (efficiency > 0.1) ? efficiency.toFixed(2) : sciNot(efficiency, 1);
+    document.getElementById('coincEfficiency').innerHTML = (efficiency > 0.1) ? efficiency.toFixed(3) : sciNot(efficiency, 2);
 
     //compute and report rate
-    document.getElementById('coincRate').innerHTML = sciNot(intensity*DC*BR1*BR2*efficiency*period, 2);
+    document.getElementById('coincRate').innerHTML = sciNot(intensity*DC*BR1*BR2*efficiency*period, 3);
 
     //time to accrue:
     nSeconds = nCounts/(intensity*DC*BR1*BR2*efficiency);
     unit = chooseTimeUnit(nSeconds);
     if(intensity*DC*BR1*BR2*efficiency != 0)
-        document.getElementById('nCoincTime').innerHTML = sciNot(nSeconds/unit[0], 2)+' '+unit[1];
+        document.getElementById('nCoincTime').innerHTML = sciNot(nSeconds/unit[0], 3)+' '+unit[1];
     else
         document.getElementById('nCoincTime').innerHTML = String.fromCharCode(0x221E);
 
@@ -812,16 +812,16 @@ function computeTriples(){
 
     //compute efficiency
     efficiency = eff1*eff2*eff3*countingFactor;
-    document.getElementById('triplesEfficiency').innerHTML = (efficiency > 0.1) ? efficiency.toFixed(2) : sciNot(efficiency, 1);
+    document.getElementById('triplesEfficiency').innerHTML = (efficiency > 0.1) ? efficiency.toFixed(3) : sciNot(efficiency, 2);
 
     //compute and report rate
-    document.getElementById('triplesRate').innerHTML = sciNot(intensity*DC*BR1*BR2*BR3*efficiency*period, 2);
+    document.getElementById('triplesRate').innerHTML = sciNot(intensity*DC*BR1*BR2*BR3*efficiency*period, 3);
 
     //time to accrue:
     nSeconds = nCounts/(intensity*DC*BR1*BR2*BR3*efficiency);
     unit = chooseTimeUnit(nSeconds);
     if(intensity*DC*BR1*BR2*BR3*efficiency != 0)
-        document.getElementById('nTriplesTime').innerHTML = sciNot(nSeconds/unit[0], 2)+' '+unit[1];
+        document.getElementById('nTriplesTime').innerHTML = sciNot(nSeconds/unit[0], 3)+' '+unit[1];
     else
         document.getElementById('nTriplesTime').innerHTML = String.fromCharCode(0x221E);
 
