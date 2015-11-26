@@ -78,11 +78,17 @@ div.header img{
 }
 
 div.footer{
-    text-align: center;
     font-size: 16px;
     background-color: #4C4C4C;
     padding: 2em;
     border-top: 2px solid #000000;
+    display:inline-block;
+    width: 100%;
+}
+
+div.footer a{
+    color: #FFFFFF;
+    text-decoration: underline;
 }
 
 /*plot control*/
@@ -159,4 +165,9 @@ span.reporting{
 div.report{
     font-size: 16px;
     margin-top:1em;
+}
+
+/*references*/
+div#simulationDetails{
+    margin: 0 1em 1em 1em;
 }
