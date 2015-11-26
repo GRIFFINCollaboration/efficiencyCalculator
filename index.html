@@ -4,7 +4,8 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <script src="scripts/bootstrap3-3-5.min.js"></script>
         <script src="scripts/smooth-scroll.js"></script>
-        <script src="scripts/dygraph-combined.js"></script>
+        <!--script src="scripts/dygraph-combined.js"></script-->
+        <script src="scripts/dygraphs.1.1.1.min.js"></script>
         <script src="scripts/dygraph-extra.js"></script>
 
         <script src="scripts/fitParams.js"></script>
@@ -119,7 +120,7 @@
 							<select id='delrinSwitch'>
 								<option value='0'>None</option>
 								<option value='10'>10 mm</option>
-								<option vlaue='20'>20</option>
+								<option value='20'>20 mm</option>
 							</select>
 						</div>
 						<div class='subsectionWrapper'>
@@ -237,7 +238,7 @@
 
 		<!--coincidence counting-->
 		<div class='sectionWrapper'>
-			<div class='col-md-4 panel'>
+			<div class='col-lg-4 panel'>
 				<h2 id="singlesWidgetTitle" class="widgetTitle">Singles</h2>
 
 				<form id='singlesForm'>
@@ -256,7 +257,7 @@
 					</div>
 					<div class='subsectionWrapper'>
 						<label id="singlesIntensityLabelb" for="singlesIntensity">w/ beam intensity</label>
-						<input id="singlesIntensity" class='small' value="1E6" min="0" step="any" type="number">
+						<input id="singlesIntensity" class='mid' value="1E6" min="0" step="any" type="number">
 						<label id="singlesIntensityLabel" for="singlesIntensity">pps,</label>
 					</div>
 					<div class='subsectionWrapper'>
@@ -264,29 +265,32 @@
 						<input id="singlesDutyCycle" class='small' value="100" min="0" max="100" step="any" type="number">
 						<label id="singlesDutyCycleLabelB" for="singlesDutyCycle">%:</label>
 					</div>
-					<div class='subsectionWrapper'>		
-						<label id="singlesEfficiencyLabel" for="singlesEfficiency">Efficiency: </label>
-						<span id="singlesEfficiency">0.00</span>
-					</div>
-					<div class='subsectionWrapper'>						
-						<label id="singlesRateLabel" for="singlesRate">Detected Events: </label>
-						<span id="singlesRate">0.00</span>
-						<select id="singlesPeriod">
-							<option value="1">per second</option>
-							<option value="3600">per hour</option>
-							<option value="43200">per 12 hours</option>
-						</select>
-					</div>
-					<div class='subsectionWrapper'>	
-						<label id="nSinglesLabelb" for="nSingles">Or </label>
-						<input id="nSingles" class='small' value="1E6" min="0" step="any" type="number">
-						<label id="nSinglesLabel" for="nSingles">counts will accrue in</label>
-						<span id="nSinglesTime" class="widgetResult">0.00 s</span>
+
+					<div class='report'>
+						<div class='subsectionWrapper'>		
+							<label id="singlesEfficiencyLabel" for="singlesEfficiency">Efficiency: </label>
+							<span class='reporting' id="singlesEfficiency">0.00</span>
+						</div>
+						<div class='subsectionWrapper'>						
+							<label id="singlesRateLabel" for="singlesRate">Detected Events: </label>
+							<span class='reporting' id="singlesRate">0.00</span>
+							<select id="singlesPeriod">
+								<option value="1">per second</option>
+								<option value="3600">per hour</option>
+								<option value="43200">per 12 hours</option>
+							</select>
+						</div>
+						<div class='subsectionWrapper'>	
+							<label id="nSinglesLabelb" for="nSingles">Or </label>
+							<input id="nSingles" class='mid' value="1E6" min="0" step="any" type="number">
+							<label id="nSinglesLabel" for="nSingles">counts will accrue in</label>
+							<span class='reporting' id="nSinglesTime" class="widgetResult">0.00 s</span>
+						</div>
 					</div>
 				</form>
 			</div>
 
-			<div id='coincidenceWidget' class='col-md-4 panel'>
+			<div id='coincidenceWidget' class='col-lg-4 panel'>
 				<h2 id="coincWidgetTitle">Coincidences</h2>
 
 				<form id='coincForm'>
@@ -320,7 +324,7 @@
 					
 					<div class='subsectionWrapper'>	
 						<label id="coincIntensityLabelb" for="coincIntensity">with beam intensity</label>
-						<input id="coincIntensity" class='small' value="1E6" min="0" step="any" type="number">
+						<input id="coincIntensity" class='mid' value="1E6" min="0" step="any" type="number">
 						<label id="coincIntensityLabel" class="inputLabel" for="coincIntensity">pps,</label>
 					</div>
 						
@@ -329,32 +333,33 @@
 						<input id="coincDutyCycle" class='small' value="100" min="0" max="100" step="any" type="number">
 						<label id="coincDutyCycleLabelB" for="coincDutyCycle">%:</label>
 					</div>
+					<div class='report'>
+						<div class='subsectionWrapper'>	
+							<label id="coincEfficiencyLabel" for="coincEfficiency">Efficiency: </label>
+							<span class='reporting' id="coincEfficiency">0.00</span>
+						</div>
+							
+						<div class='subsectionWrapper'>	
+							<label id="coincRateLabel" for="coincRate">Detected Events: </label>
+							<span class='reporting' id="coincRate">0.00</span>
+							<select id="coincPeriod">
+								<option value="1">per second</option>
+								<option value="3600">per hour</option>
+								<option value="43200">per 12 hours</option>
+							</select>
+							</div>				
 						
-					<div class='subsectionWrapper'>	
-						<label id="coincEfficiencyLabel" for="coincEfficiency">Efficiency: </label>
-						<span id="coincEfficiency">0.00</span>
-					</div>
-						
-					<div class='subsectionWrapper'>	
-						<label id="coincRateLabel" for="coincRate">Detected Events: </label>
-						<span id="coincRate">0.00</span>
-						<select id="coincPeriod">
-							<option value="1">per second</option>
-							<option value="3600">per hour</option>
-							<option value="43200">per 12 hours</option>
-						</select>
-						</div>				
-					
-					<div class='subsectionWrapper'>		
-						<label id="nCoincLabelb" for="nCoinc">Or</label>
-						<input id="nCoinc" class='small' class="widgetInput" value="1E6" min="0" step="any" type="number">
-						<label id="nCoincLabel" class="inputLabel" for="nCoinc">counts will accrue in</label>
-						<span id="nCoincTime">0.00 s</span>
+						<div class='subsectionWrapper'>		
+							<label id="nCoincLabelb" for="nCoinc">Or</label>
+							<input id="nCoinc" class='mid' value="1E6" min="0" step="any" type="number">
+							<label id="nCoincLabel" class="inputLabel" for="nCoinc">counts will accrue in</label>
+							<span class='reporting' id="nCoincTime">0.00 s</span>
+						</div>
 					</div>
 				</form>	
 			</div>
 
-			<div id='triplesWidget' class='col-md-4 panel'>
+			<div id='triplesWidget' class='col-lg-4 panel'>
 				<h2 id="triplesWidgetTitle">Triples</h2>
 
 				<form id='triplesForm'>
@@ -414,7 +419,7 @@
 
 					<div class='subsectionWrapper'>		
 						<label id="triplesIntensityLabelb" for="triplesIntensity">with beam intensity</label>
-						<input id="triplesIntensity" class="small" value="1E6" min="0" step="any" type="number">
+						<input id="triplesIntensity" class='mid' value="1E6" min="0" step="any" type="number">
 						<label id="triplesIntensityLabel" for="triplesIntensity">pps, </label>
 					</div>
 
@@ -423,27 +428,28 @@
 						<input id="triplesDutyCycle" class="small" value="100" min="0" max="100" step="any" type="number">
 						<label id="triplesDutyCycleLabelB" for="triplesDutyCycle">%:</label>
 					</div>
+					<div class='report'>
+						<div class='subsectionWrapper'>
+							<label id="triplesEfficiencyLabel" for="triplesEfficiency">Efficiency: </label>
+							<span class='reporting' id="triplesEfficiency">0.00</span>
+						</div>
 
-					<div class='subsectionWrapper'>
-						<label id="triplesEfficiencyLabel" for="triplesEfficiency">Efficiency: </label>
-						<span id="triplesEfficiency">0.00</span>
-					</div>
+						<div class='subsectionWrapper'>
+							<label id="triplesRateLabel" for="triplesRate">Detected Events: </label>
+							<span class='reporting' id="triplesRate">0.00</span>
+							<select id="triplesPeriod">
+								<option value="1">per second</option>
+								<option value="3600">per hour</option>
+								<option value="43200">per 12 hours</option>
+							</select>				
+						</div>
 
-					<div class='subsectionWrapper'>
-						<label id="triplesRateLabel" for="triplesRate">Detected Events: </label>
-						<span id="triplesRate">0.00</span>
-						<select id="triplesPeriod">
-							<option value="1">per second</option>
-							<option value="3600">per hour</option>
-							<option value="43200">per 12 hours</option>
-						</select>				
-					</div>
-
-					<div class='subsectionWrapper'>
-						<label id="nTriplesLabelb" for="nTriples">Or</label>
-						<input id="nTriples" class="small" value="1E6" min="0" step="any" type="number">
-						<label id="nTriplesLabel" for="nTriples">counts will accrue in</label>
-						<span id="nTriplesTime">0.00 s</span>	
+						<div class='subsectionWrapper'>
+							<label id="nTriplesLabelb" for="nTriples">Or</label>
+							<input id="nTriples" class='mid' value="1E6" min="0" step="any" type="number">
+							<label id="nTriplesLabel" for="nTriples">counts will accrue in</label>
+							<span class='reporting' id="nTriplesTime">0.00 s</span>	
+						</div>
 					</div>
 				</form>
 			</div>

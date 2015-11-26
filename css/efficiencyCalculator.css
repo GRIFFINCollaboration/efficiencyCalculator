@@ -95,6 +95,10 @@ input.small{
     width: 5em;
 }
 
+input.mid{
+    width: 9em;
+}
+
 div.UIchunk{
     display: inline-block;
     margin-left: 1em;
@@ -102,12 +106,6 @@ div.UIchunk{
 
 div#HPGeControl{
     overflow: hidden;
-}
-
-/*plots*/
-div.plotWrap{
-    height: 50vw;
-    padding: 1em;
 }
 
 /*color coding*/
@@ -123,7 +121,15 @@ div.plotWrap{
     background-color: #2980b9;
 }
 
-/*axes and labels*/
+/*plots*/
+div.plotWrap{
+    height: 50vw;
+    padding: 1em;
+    margin-bottom: 2em;
+    margin-left: -1em;
+    margin-right: 1em;
+}
+
 .dygraph-axis-label{
     color: #999999;
     font-size: 120%;
@@ -140,4 +146,18 @@ div.plotWrap{
 
 .dygraph-xlabel{
     margin-top:5px;
+}
+
+/*calculators*/
+span.reporting{
+    border-radius: 1em;
+    padding: 1em;
+    white-space:nowrap;
+    margin: 0 0 1em 0;
+    display: inline-block;
+}
+
+div.report{
+    font-size: 16px;
+    margin-top:1em;
 }

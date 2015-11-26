@@ -409,7 +409,6 @@ function deployGraph(func, titles, colors, min, max){
         titleHeight: 30,
         xLabelHeight: 24,
         yLabelWidth: 24,
-        yAxisLabelWidth: 75,
         axes:{
             x: {
                 valueFormatter: function(number, opts, dygraph){
@@ -431,7 +430,9 @@ function deployGraph(func, titles, colors, min, max){
                         return number.toExponential(1)
                     } else
                         return number.toFixed(2);
-                }               
+                },
+
+                axisLabelWidth: 75               
             }
         }
     });
@@ -524,7 +525,6 @@ function deployBetaGraph(func, titles, colors, min, max){
         titleHeight: 30,
         xLabelHeight: 24,
         yLabelWidth: 24,
-        yAxisLabelWidth: 75,
         axes:{
             x: {
                 valueFormatter: function(number, opts, dygraph){
@@ -546,7 +546,8 @@ function deployBetaGraph(func, titles, colors, min, max){
                         return number.toExponential(1)
                     } else
                         return number.toFixed(2);
-                }               
+                },
+                axisLabelWidth: 75           
             }
         }
     });
