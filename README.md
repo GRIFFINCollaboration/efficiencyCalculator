@@ -4,7 +4,7 @@ Release History:
 
 version | DOI
 --------|------
-1.2     | 10.5281.zenodo.9887
+1.2     | 10.5281/zenodo.9887
 
 # Efficiency Calculator
 
