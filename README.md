@@ -1,11 +1,9 @@
-Current Release: [![DOI](https://zenodo.org/badge/3877/GRIFFINCollaboration/efficiencyCalculator.svg)](https://zenodo.org/badge/latestdoi/3877/GRIFFINCollaboration/efficiencyCalculator)
-
 Release History:
 
 version | DOI
 --------|------
-1.3.1   | 10.5281/zenodo.35023
-1.2     | 10.5281/zenodo.9887
+1.3.1   | [![DOI](https://zenodo.org/badge/3877/GRIFFINCollaboration/beamCompanionExplorer.svg)](https://zenodo.org/badge/latestdoi/3877/GRIFFINCollaboration/beamCompanionExplorer)
+1.2     | [![DOI](https://zenodo.org/badge/3877/BillMills/efficiencyTracker.svg)](https://zenodo.org/badge/latestdoi/3877/BillMills/efficiencyTracker)
 
 # Efficiency Calculator
 
