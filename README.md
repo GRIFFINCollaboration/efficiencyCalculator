@@ -30,6 +30,6 @@ Contributions are very welcome! If you have an idea, question or comment, please
 
 ## Citation & Deployment
 
-If you use a result from the Efficiency Calculator, **be sure to site it using the correct DOI**. This will allow you to go back and reproduce your results later, with the same version of the Calculator you used originally. To find the correct DOI, look in the footer of the app.
+If you use a result from this project, **be sure to site it using the correct DOI**. This will allow you to go back and reproduce your results later, with the same version of the Calculator you used originally. To find the correct DOI, look in the footer of the app.
 
-If you push changes to the Efficiency Calculator onto GRIFFIN's live toolkit, **be sure to update the DOI in the footer**. To get a new DOI, simply [make a new release via GitHub](https://help.github.com/articles/creating-releases/). The DOI badge at the top of this README will automatically update with the new number; copy it into the footer before deploying live. 
+If you push changes to this project onto GRIFFIN's live toolkit, **be sure to update the DOI in the footer and in the table at the top of this file**. To get a new DOI, simply [make a new release via GitHub](https://help.github.com/articles/creating-releases/), then [visit Zenodo](https://zenodo.org/account/settings/github/), sign in with your GitHub credentials, and find this project in the list on that page; clicking on the badge will give you a bunch of options to cut and paste into the appropriate places. Add the markdown one to this document, and the HTML one to the footer.
