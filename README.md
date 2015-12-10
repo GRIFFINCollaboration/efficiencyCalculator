@@ -25,7 +25,7 @@ This project uses [Dygraphs](http://dygraphs.com/) for plotting, and [Twitter Bo
 
 Contributions are very welcome! If you have an idea, question or comment, please open an issue. If you would like to make a change to the Efficiency Calculator, please follow these steps:
  - start by opening an issue or empty PR to discuss your ideas
- - please limit individual PRs to less than 500 lines.
+ - please limit individual PRs to less than 500 lines (Why? See figure 1 [here](https://smartbear.com/SmartBear/media/pdfs/11_Best_Practices_for_Peer_Code_Review.pdf).).
  - please encapsulate all new behavior wherever possible in functions of 50 lines or less each.
 
 ## Citation & Deployment
