@@ -2,8 +2,8 @@ Release History:
 
 version | DOI
 --------|------
-1.3.1   | [![DOI](https://zenodo.org/badge/3877/GRIFFINCollaboration/beamCompanionExplorer.svg)](https://zenodo.org/badge/latestdoi/3877/GRIFFINCollaboration/beamCompanionExplorer)
-1.2     | [![DOI](https://zenodo.org/badge/3877/BillMills/efficiencyTracker.svg)](https://zenodo.org/badge/latestdoi/3877/BillMills/efficiencyTracker)
+1.3.1   | [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.35023.svg)](http://dx.doi.org/10.5281/zenodo.35023)
+1.2.1   | [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.9887.svg)](http://dx.doi.org/10.5281/zenodo.9887)
 
 # Efficiency Calculator
 
@@ -25,11 +25,11 @@ This project uses [Dygraphs](http://dygraphs.com/) for plotting, and [Twitter Bo
 
 Contributions are very welcome! If you have an idea, question or comment, please open an issue. If you would like to make a change to the Efficiency Calculator, please follow these steps:
  - start by opening an issue or empty PR to discuss your ideas
- - please limit individual PRs to less than 500 lines.
+ - please limit individual PRs to less than 500 lines (Why? See figure 1 [here](https://smartbear.com/SmartBear/media/pdfs/11_Best_Practices_for_Peer_Code_Review.pdf)).
  - please encapsulate all new behavior wherever possible in functions of 50 lines or less each.
 
 ## Citation & Deployment
 
-If you use a result from the Efficiency Calculator, **be sure to site it using the correct DOI**. This will allow you to go back and reproduce your results later, with the same version of the Calculator you used originally. To find the correct DOI, look in the footer of the app.
+If you use a result from this project, **be sure to site it using the correct DOI**. This will allow you to go back and reproduce your results later, with the same software version you used originally. To find the correct DOI, look in the footer of the app.
 
-If you push changes to the Efficiency Calculator onto GRIFFIN's live toolkit, **be sure to update the DOI in the footer**. To get a new DOI, simply [make a new release via GitHub](https://help.github.com/articles/creating-releases/). The DOI badge at the top of this README will automatically update with the new number; copy it into the footer before deploying live. 
+If you push changes to this project onto GRIFFIN's live toolkit, **be sure to update the DOI in the footer and in the table at the top of this file**. To get a new DOI, simply [make a new release via GitHub](https://help.github.com/articles/creating-releases/), then [visit Zenodo](https://zenodo.org/account/settings/github/), sign in with your GitHub credentials, and find this project in the list on that page; clicking on the badge will give you a bunch of options to cut and paste into the appropriate places. Add the markdown one to this document, and the HTML one to the footer.
