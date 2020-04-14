@@ -58,12 +58,86 @@ function setup(){
         document.getElementById('saveBetaCSV').download = this.value;
     }
 
-    //default No. HPGe to 12:
-    document.getElementById('nHPGeSwitch').value = 12;
+// Options for Num of Clovers are dependent on chamber configuration
+var NumCloverOptions={
+    "USEDSEnodescant":["12,15,16","12,15,16"],
+    "USSDSSnodescant":["12,15,16","12,15,16"],
+    "USPDSEnodescant":["12,15","12,15"],
+    "USEDSEdescant":["11,12","11,12"],
+    "USSDSSdescant":["11,12","11,12"],
+    "USPDSEdescant":["11","11"]
+};
+
+    // Set the Options for Num of Clovers based on value for Chamber
+    document.getElementById('chamberScheme').onchange = function(){
+	var key = document.getElementById('chamberScheme').value;
+	var vals = [];
+	var valNames = [];
+
+	// Grab the set of options for Num of Clovers based on choice of Array configuration
+	vals = NumCloverOptions[key][0].split(",");
+	valNames = NumCloverOptions[key][1].split(",");
+	// Clear existing options
+	document.getElementById('nHPGeSwitch').options.length = 0;
+	// Set new set of options
+        vals.forEach(function(item,index) {
+	    var thisOption = document.createElement("option");
+	    thisOption.text = valNames[index];
+	    thisOption.value = item;
+	    document.getElementById('nHPGeSwitch').add(thisOption);
+	});
+	// select the last option as the default
+	document.getElementById('nHPGeSwitch').options.selectedIndex = document.getElementById('nHPGeSwitch').options.length-1;
+} 
+    
+// Options for Shields are dependent on Distance
+var ShieldOptions={
+    "11.0":["noshields,sideshields","No shields,Side and back shields"],
+    "14.5":["noshields,sideshields,fullshields","No shields,Side and back only,Full shields"]
+};
+
+    // Set the Options for Shields based on value for Distance
+    document.getElementById('HPGeDistanceSwitch').onchange = function(){
+	var key = document.getElementById('HPGeDistanceSwitch').value;
+	var vals = [];
+	var valNames = [];
+
+	// Grab the set of options for Shields based on choice of Distance
+	vals = ShieldOptions[key][0].split(",");
+	valNames = ShieldOptions[key][1].split(",");
+	// Clear existing options
+	document.getElementById('shieldsScheme').options.length = 0;
+	// Set new set of options
+        vals.forEach(function(item,index) {
+	    var thisOption = document.createElement("option");
+	    thisOption.text = valNames[index];
+	    thisOption.value = item;
+	    document.getElementById('shieldsScheme').add(thisOption);
+	});
+	// select the last option as the default
+	document.getElementById('shieldsScheme').options.selectedIndex = document.getElementById('shieldsScheme').options.length-1;
+} 
+    
+    
+    //default No. HPGe to 16:
+    document.getElementById('nHPGeSwitch').value = 16;
+
+    //default HPGe distance to 14.5:
+    document.getElementById('HPGeDistanceSwitch').value = 14.5;
 
     //default summing to per clover:
     document.getElementById('summingScheme').value = 'clover';
 
+    //default shields configuration to full:
+    document.getElementById('shieldsScheme').value = 'fullshields';
+
+    //default chamber configuration to SCEPTAR:
+    document.getElementById('chamberScheme').value = 'USSDSSnodescant';
+
+    //default delrin thickness to zero:
+    document.getElementById('delrinSwitch').value = 0;
+
+    
     //repaint the plot when anything in the form changes:
     document.getElementById('plotOptions').onchange = chooseGraphs;
     document.getElementById('betaPlotOptions').onchange = chooseBetaGraphs;
@@ -95,7 +169,7 @@ function setup(){
 
 function constructFunctions(){
     //update the efficiency functions with the current state of the control pane
-    var HPGeString = constructPlotKey(), 
+    var HPGeString = constructPlotKey(),
         LaBrString = constructLaBrPlotKey(), 
         SiLiString = constructSiLiPlotKey(), 
         SCEPTARString = constructSCEPTARPlotKey();
@@ -110,21 +184,57 @@ function constructFunctions(){
 //HPGeCoef holds the coefficients for all HPGe fits in a key value store
 //where the key is the string concatenation of all the control panel values in 
 //the order:
-//summing scheme + nDetectors + HPGe Distance + Delrin thickness
-//so 'clover1214.520' is 12 detectors at 14.5cm with 20mm delrin and per-clover summing.
-//HPGeCoef['clover811.00'] = [-8.0309801002962706e+02, 1.1187177193972436e+03, -6.7413427087340233e+02, 2.2869743662093572e+02, -4.7716717011091916e+01, 6.2669769394841666e+00, -5.0603869584892447e-01, 2.2979902406689505e-02, -4.4966824986778788e-04];
+//summing scheme + chamber arrangement + shields scheme + nDetectors + HPGe Distance + Delrin thickness
+//so 'cloverUSEDSEnodescantfullshields1214.520' is 12 detectors at 14.5cm with 20mm delrin, full BGO shields and per-clover summing with an empty chamber and no descant.
+//HPGeCoef['crystalUSSDSSnodescantnoshields1611.00'] = [-2.073762404,-0.6236115083 , 0.0177262309 ,-0.0888048161 ,-0.0399939387 , 0.0195879118 , 0.0054905134 ,-0.0017446712 ,-0.0004583284 ];
 //HPGeMinCoef and HPGeMaxCoef are packed the same way as HPGeCoef, but hold the 1-sigma extrema for the coefficients:
 function constructPlotKey(){
     var summingOptions = document.getElementById('summingScheme'),
         summing = summingOptions.options[summingOptions.selectedIndex].value,
+        chamberOptions = document.getElementById('chamberScheme'),
+        chamber = chamberOptions.options[chamberOptions.selectedIndex].value,
+        shieldsOptions = document.getElementById('shieldsScheme'),
+        shields = shieldsOptions.options[shieldsOptions.selectedIndex].value,
         nHPGeOptions = document.getElementById('nHPGeSwitch'),
         nHPGe = nHPGeOptions.options[nHPGeOptions.selectedIndex].value,
         HPGeDistanceOptions = document.getElementById('HPGeDistanceSwitch'),
         HPGeDistance = HPGeDistanceOptions.options[HPGeDistanceOptions.selectedIndex].value,
         absorberOptions = document.getElementById('delrinSwitch'),
         absorber = absorberOptions.options[absorberOptions.selectedIndex].value,
-        plotKey = summing + nHPGe + HPGeDistance + absorber;
+        plotKey = summing + chamber + shields + nHPGe + HPGeDistance + absorber;
+        //console.log(plotKey);
         return plotKey;
+}
+function constructHPGeLongString(){
+    var summingOptions = document.getElementById('summingScheme'),
+        summing = summingOptions.options[summingOptions.selectedIndex].value,
+        chamberOptions = document.getElementById('chamberScheme'),
+        chamber = chamberOptions.options[chamberOptions.selectedIndex].value,
+        shieldsOptions = document.getElementById('shieldsScheme'),
+        shields = shieldsOptions.options[shieldsOptions.selectedIndex].value,
+        nHPGeOptions = document.getElementById('nHPGeSwitch'),
+        nHPGe = nHPGeOptions.options[nHPGeOptions.selectedIndex].value,
+        HPGeDistanceOptions = document.getElementById('HPGeDistanceSwitch'),
+        HPGeDistance = HPGeDistanceOptions.options[HPGeDistanceOptions.selectedIndex].value,
+        absorberOptions = document.getElementById('delrinSwitch'),
+        absorber = absorberOptions.options[absorberOptions.selectedIndex].value,
+        plotKey = summing + chamber + shields + nHPGe + HPGeDistance + absorber,
+        longString;
+        longString = nHPGe;
+	if(shields == "noshields"){ longString += " naked Clovers at " + HPGeDistance + "cm with "; }
+	     else{ longString += " Compton-suppressed Clovers at " + HPGeDistance + "cm with "; }
+        if(parseInt(absorber)==0){ longString += "no delrin absorber"; }
+             else{ longString += absorber + "mm delrin absorber"; }
+    switch(chamber){
+    case("USEDSEnodescant"): longString += " around an empty chamber."; break;
+    case("USSDSSnodescant"): longString += " around full sceptar."; break;
+    case("USPDSEnodescant"): longString += " around PACES and ZDS."; break;
+    case("USEDSEdescant"): longString += " coupled with DESCANT and an empty chamber."; break;
+    case("USSDSSdescant"): longString += " coupled with DESCANT around full sceptar."; break;
+    case("USPDSEdescant"): longString += " coupled with DESCANT, PACES and ZDS."; break;
+        }
+        //console.log(plotKey,", ",longString);
+        return longString;
 }
 
 //LaBr's only option is summing per detector or over the whole array, and we're not interested in the array option.
@@ -156,14 +266,18 @@ function HPGeEfficiency(param, loParam, hiParam, logE){
         logEff = 0,
         loDelta = 0,
         hiDelta = 0,
-        eff;
+        eff,
+	logEn;
 
+    //Convert MeV to keV
+    logEn = logE - 6.907755279;
+    
     if(logE < Math.log(5)) return '0;0;0';
 
     for(i=0; i<9; i++){
-        logEff += param[i]*Math.pow(logE,i);
-        //loDelta += Math.pow((param[i] - loParam[i])*Math.pow(logE,i), 2);
-        //hiDelta += Math.pow((hiParam[i] - param[i])*Math.pow(logE,i), 2);
+        logEff += param[i]*Math.pow(logEn,i);
+        //loDelta += Math.pow((param[i] - loParam[i])*Math.pow(logEn,i), 2);
+        //hiDelta += Math.pow((hiParam[i] - param[i])*Math.pow(logEn,i), 2);
     }
     //loDelta = Math.sqrt(loDelta);  //leave these errors out until we have a better grasp of what they should be.
     //hiDelta = Math.sqrt(hiDelta);
@@ -238,11 +352,11 @@ function SCEPTARauxEfficiency(detector, logE){
     if(detector == 'SCEPTAR')
         return '0.8;0.8;0.8';
     else if(detector == 'SCEPTARZDS')
-        return '0.65;0.65;0.65';
+        return '0.8;0.8;0.8';
     else if(detector == 'SCEPTARPACES')
         return '0.4;0.4;0.4';
     else if(detector == 'PACESZDS')
-        return '0.25;0.25;0.25';
+        return '0.4;0.4;0.4';
 }
 
 function chooseFunction(detector){
@@ -667,6 +781,10 @@ function computeSingles(){
     //write efficiency to widget
     document.getElementById('singlesEfficiency').innerHTML = (efficiency > 0.1) ? efficiency.toFixed(3) : sciNot(efficiency, 2);
 
+    // State obviously what this efficiency has been calculated for
+    var HPGeLongString = constructHPGeLongString();
+    document.getElementById('singlesWidgetEffLabel').innerHTML = "Using HPGe efficiency for " + HPGeLongString;
+    
     //rate
     document.getElementById('singlesRate').innerHTML = sciNot(intensity*DC*BR*efficiency*period, 3);
 
@@ -724,6 +842,10 @@ function computeCoincidence(){
 
     //compute and report rate
     document.getElementById('coincRate').innerHTML = sciNot(intensity*DC*BR1*BR2*efficiency*period, 3);
+
+    // State obviously what this efficiency has been calculated for
+    var HPGeLongString = constructHPGeLongString();
+    document.getElementById('coincWidgetEffLabel').innerHTML = "Using HPGe efficiency for " + HPGeLongString;
 
     //time to accrue:
     nSeconds = nCounts/(intensity*DC*BR1*BR2*efficiency);
@@ -848,6 +970,10 @@ function computeTriples(){
 
     //compute and report rate
     document.getElementById('triplesRate').innerHTML = sciNot(intensity*DC*BR1*BR2*BR3*efficiency*period, 3);
+
+    // State obviously what this efficiency has been calculated for
+    var HPGeLongString = constructHPGeLongString();
+    document.getElementById('triplesWidgetEffLabel').innerHTML = "Using HPGe efficiency for " + HPGeLongString;
 
     //time to accrue:
     nSeconds = nCounts/(intensity*DC*BR1*BR2*BR3*efficiency);

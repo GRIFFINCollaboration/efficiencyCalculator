@@ -100,6 +100,26 @@
 
 					<div id='HPGeControl'>
 						<div class='subsectionWrapper'>
+							<label for='chamberScheme'>Array configuration:</label>
+							<select id='chamberScheme'>
+								<option value='USEDSEnodescant'>Empty chamber</option>
+								<option value='USSDSSnodescant'>US SCEPTAR + DS SCEPTAR</option>
+								<option value='USPDSEnodescant'>US PACES + DS ZDS</option>
+								<option value='USEDSEdescant'>Empty chamber with DESCANT</option>
+								<option value='USSDSSdescant'>US SCEPTAR + DS SCEPTAR with DESCANT</option>
+								<option value='USPDSEdescant'>US PACES + DS ZDS with DESCANT</option>
+							</select>
+						</div>
+						<div class='subsectionWrapper'>
+							<label for='nHPGeSwitch'>No. HPGe</label>
+							<select id='nHPGeSwitch'>
+								<option value='11'>11</option>
+								<option value='12'>12</option>
+								<option value='15'>15</option>
+								<option vlaue='16'>16</option>
+							</select>
+						</div>
+						<div class='subsectionWrapper'>
 							<label for='HPGeDistanceSwitch'>HPGe Distance</label>
 							<select id='HPGeDistanceSwitch'>
 								<option value='11.0'>11.0 cm</option>
@@ -107,11 +127,18 @@
 							</select>
 						</div>
 						<div class='subsectionWrapper'>
-							<label for='nHPGeSwitch'>No. HPGe</label>
-							<select id='nHPGeSwitch'>
-								<option value='8'>8</option>
-								<option value='12'>12</option>
-								<option vlaue='16'>16</option>
+							<label id='summingSchemeLabel' for='summingScheme'>HPGe Addback: </label>
+							<select id='summingScheme'>
+								<option value='crystal'>Single crystals</option>
+								<option value='clover'>Clover Addback</option>
+							</select>
+						</div>
+						<div class='subsectionWrapper'>
+							<label id='shieldsSchemeLabel' for='shieldsScheme'>BGO Shields: </label>
+							<select id='shieldsScheme'>
+								<option value='noshields'>No shields</option>
+								<option value='sideshields'>Side and back only</option>
+								<option value='fullshields'>Full shields</option>
 							</select>
 						</div>
 						<div class='subsectionWrapper'>
@@ -120,14 +147,6 @@
 								<option value='0'>None</option>
 								<option value='10'>10 mm</option>
 								<option value='20'>20 mm</option>
-							</select>
-						</div>
-						<div class='subsectionWrapper'>
-							<label id='summingSchemeLabel' for='summingScheme'>HPGe Addback: </label>
-							<select id='summingScheme'>
-								<option value='crystal'>Per Crystal</option>
-								<option value='clover'>Per Clover</option>
-								<option value='array'>Full Array</option>
 							</select>
 						</div>
 						<hr></hr>
@@ -239,7 +258,8 @@
 		<div class='sectionWrapper'>
 			<div class='col-lg-4 panel'>
 				<h2 id="singlesWidgetTitle" class="widgetTitle">Singles</h2>
-
+				<div id="singlesWidgetEffLabel" class='subsectionWrapper'></div>
+					
 				<form id='singlesForm'>
 					<div class='subsectionWrapper'>
 						<select id="singlesDetectors">
@@ -291,6 +311,7 @@
 
 			<div id='coincidenceWidget' class='col-lg-4 panel'>
 				<h2 id="coincWidgetTitle">Coincidences</h2>
+				<div id="coincWidgetEffLabel" class='subsectionWrapper'></div>
 
 				<form id='coincForm'>
 					<div class='subsectionWrapper'>
@@ -360,6 +381,7 @@
 
 			<div id='triplesWidget' class='col-lg-4 panel'>
 				<h2 id="triplesWidgetTitle">Triples</h2>
+				<div id="triplesWidgetEffLabel" class='subsectionWrapper'></div>
 
 				<form id='triplesForm'>
 					<div class='subsectionWrapper'>
@@ -461,7 +483,7 @@
 				<h2>Simulation Details</h2>
 
 				<ul>
-					<li>HPGe GEANT4 Simulation: 8th order polynomial fit including SCEPTAR and Delrin vacuum chamber.</li>
+					<li>HPGe GEANT4 Simulation: 8th order polynomial fit including selected vacuum chamber.</li>
 					<li>LaBr3 GEANT4 Simulation: 8th order polynomial fit above 40 keV including SCEPTAR and Delrin vacuum chamber.</li>
 					<li>Si(Li) Simulation: Relative Efficiency curve shape based on formalism referenced in Radiation Detection & Measurement (G.F. Knoll, Wiley 2000). Note that the Si(Li) simulations are known to differ from experiment at the 30% level. An absolute normalization is applied per Masters Thesis of Ryan Dunlop, University of Guelph, 2012, "High-precision branching ratio measurement for the superallowed &beta;<sup>+</sup> emitter <sup>74</sup>Rb", based on the analysis of in-beam <sup>80</sup>Rb decay.</li>
 					<li>SCEPTAR GEANT4 Simulation: triple Fermi function fit adjusted to asymptotically approach 0.8 at high Q per experiment.  Low-Q position efficiencies fixed to 0.065% per simulated annihilation photopeak efficiency.</li>
@@ -469,18 +491,20 @@
 						The following four configuration efficiencies are based on solid angle coverage of detectors:
 						<ul>
 							<li>DESCANT: 27% efficient between 1 and 5 MeV; efficiency lower outside this range, and no value is reported here.</li>
-							<li>SCEPTAR + ZDS: 65% efficient.</li>
-							<li>SCEPTAR + PACES: 40% efficient.</li>
-							<li>PACES + ZDS: 25% efficient.</li>
+							<li>SCEPTAR + ZDS: 80% efficient for beta tag.</li>
+							<li>SCEPTAR + PACES: 40% efficient for beta tag.</li>
+							<li>PACES + ZDS: 40% efficient for beta tag.</li>
 						</ul>
 					</li>
 				</ul>
 
 				<h2>References</h2>
 				<ul>
-					<li>HPGe, LaBr3, SCEPTAR Simulations: E. Rand<sup>1</sup></li>
+                                        <li>For more details of the GRIFFIN spectrometer see the <a href='https://doi.org/10.1016/j.nima.2018.11.115'>NIM Article</a> and (<a href='https://griffin.triumf.ca'>GRIFFIN website</a>)</li>
+					<li>HPGe Simulations: Originally developed by E. Rand<sup>1</sup>, different configurations simulated by A. Ibrahim<sup>1</sup> and M. Stuck<sup>1</sup> with oversight from C. Svensson<sup>1</sup></li>
+					<li>LaBr3, SCEPTAR Simulations: E. Rand<sup>1</sup></li>
 					<li>Si(Li) Simulation:  T. Ma<sup>2, 3</sup>, D. Cross<sup>2</sup>, R. Dunlop<sup>1</sup>, W. Mills<sup>3</sup>, Z. -M. Wang<sup>2, 3</sup>, C. Andreoiu<sup>2</sup></li>
-					<li>Web App: W. Mills<sup>3</sup> (<a href='https://github.com/GRIFFINCollaboration/efficiencyTracker'>source</a>)</li>
+					<li>Web App: Built by W. Mills<sup>3</sup> (<a href='https://github.com/GRIFFINCollaboration/efficiencyCalculator'>source</a>), and maintained by A. Garnsworthy<sup>3</sup></li>
 				</ul>
 				<ul class='list-unstyled'>
 					<li><sup>1</sup> University of Guelph, Guelph, ON, Canada, N1G 2W1</li>
