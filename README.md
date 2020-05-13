@@ -2,6 +2,7 @@ Release History:
 
 version | DOI
 --------|------
+1.4   | [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.597971.svg)](http://dx.doi.org/10.5281/zenodo.3752130)
 1.3.1   | [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.35023.svg)](http://dx.doi.org/10.5281/zenodo.35023)
 1.2.1   | [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.9887.svg)](http://dx.doi.org/10.5281/zenodo.9887)
 
