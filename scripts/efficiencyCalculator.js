@@ -12,8 +12,11 @@ function setup(){
     //last parameter is an overall normalization to fix eff(603keV) = 0.0342, per
     //Masters Thesis of Ryan Dunlop, University of Guelph, 2012, 
     //High-precision branching ratio measurement for the superallowed beta+ emitter 74Rb
+    //////////
+    //Change in Aug 2020. The absolute efficiency of PACES has been measured consistently to be ~2% in 2018/2019 beamtimes.
     SiLiCoef = {};
-    SiLiCoef['detector'] = [71.131, 7.97308, -0.474268, -0.00120224, 1.40317, .0342/104.30174050118521];
+    //SiLiCoef['detector'] = [71.131, 7.97308, -0.474268, -0.00120224, 1.40317, .0342/104.30174050118521];
+    SiLiCoef['detector'] = [71.131, 7.97308, -0.474268, -0.00120224, 1.40317, .02/104.30174050118521];
 
     //Set up color codes
     colorCodes = {};
