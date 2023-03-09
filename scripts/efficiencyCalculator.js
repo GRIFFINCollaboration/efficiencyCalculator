@@ -65,7 +65,7 @@ function setup(){
 var NumCloverOptions={
     "USEDSEnodescant":["12,15,16","12,15,16"],
     "USSDSSnodescant":["12,15,16","12,15,16"],
-    "USPDSEnodescant":["12,15","12,15"],
+    "USPDSEnodescant":["15","15"],
     "USEDSEdescant":["11,12","11,12"],
     "USSDSSdescant":["11,12","11,12"],
     "USPDSEdescant":["11","11"]
